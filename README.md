@@ -1,16 +1,8 @@
 # BrainSimII
-Neural Simulator for AGI research and development
-
-I appreciate your interest in this project and hope your experience will be positive. There are many ways to participate at all levels of AI ability. As a first-timer, you can download a release, try things out, report any bugs, and make a few suggestions. At the other end of the spectrum, you can dive into the code, create modules and training sets. and more.
-
-**Brain Simulator II** is a free, open-source software project aimed at creating Artificial General Intelligence (AGI). Many important features set it apart from other Artificial Intelligence software:
-1.	*The AGI Strategy.* With the primary assumption that no one knows specifically how to create AGI, the Brain Simulator implements an experimental platform with a general AGI model which is easy to revise. Several spiking neuron models based on biological neurons combine with software “Modules” to create any desired functionality for rapid experimentation. 
-2.	*The User Interface.* The graphical display of neurons and Modules lets users explore and modify the internal workings of the Network in real time. 
-3.	*The Powerful Spiking Neuron Engine.* Tested with a billion neurons, the Brain Simulator can process up to 2.5 billion synapses per second on a desktop computer. Networks can also be distributed across a LAN with estimates of neocortex equivalence with only 160 servers.
-4.	*Software Modules and Applications.* To speed AGI development, over 50 Modules perform a variety of AI tasks. Combined with the Neuron Engine, applications already demonstrate vision, mobility, internal modelling, and planning.
-	
-The **Brain Simulator** implements an artificial entity named “Sallie” who lives in a simulated world and can integrate input from multiple senses. She can recognize objects with binocular vision and associate them with words she hears, plan a sequence of actions, and manipulate objects to achieve a goal. As she advances to understanding her world, interfaces already exist for cameras, microphones, and robotic control to bring AGI to life.
-
-
-Again, thanks for your interest!
-Charlie Simon, originator of the Brain Simulator
+神经模拟器AGI研究和开发我感谢您对这个项目的兴趣，希望您的经验将是积极的。有许多方式可以参与到AI能力的各个级别。作为一个新手，你可以下载一个版本，尝试一些东西，报告任何错误，并提出一些建议。在另一端，您可以深入代码，创建模块和培训集。以及更多。
+Brain Simulator II是一个免费的开源软件项目，旨在创建人工通用智能（AGI）。许多重要的特性使它区别于其他人工智能软件：AGI策略。在没有人知道如何创建AGI的主要假设下，大脑模拟器使用易于修改的通用AGI模型实现了一个实验平台。一些基于生物神经元的尖峰神经元模型与软件“模块”相结合，以创建快速实验所需的任何功能。
+用户界面。神经元和模块的图形显示允许用户实时探索和修改网络的内部工作。
+强大的尖峰神经元引擎。通过对10亿个神经元的测试，大脑模拟器可以在台式计算机上每秒处理多达25亿个突触。网络也可以分布在局域网上，估计新皮层等效性仅为160台服务器。
+软件模块和应用程序。为了加速AGI开发，超过50个模块执行各种人工智能任务。结合神经元引擎，应用程序已经展示了视觉、移动性、内部建模和规划。
+大脑模拟器实现了一个名为“萨利”的人工实体，它生活在一个模拟世界中，可以整合来自多种感官的输入。她可以用双目视觉识别物体，并将它们与她听到的单词联系起来，计划一系列动作，并操纵物体以实现目标。随着她对自己世界的理解不断深入，摄像机、麦克风和机器人控制的界面已经存在，将AGI带入生活。
+再次感谢您的关注！查理·西蒙，大脑模拟器的创始人
