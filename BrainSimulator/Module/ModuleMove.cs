@@ -65,7 +65,7 @@ namespace BrainSimulator.Modules
             if (mv.Width == 1)
             {
                 mv.Width = MinWidth;
-                mv.FirstNeuron -= MainWindow.此神经元数组.行数;
+                mv.FirstNeuron -= MainWindow.此神经元数组.rows;
             }
             mv.GetNeuronAt(1, 2).Model = 神经元.模型类型.FloatValue;
             mv.GetNeuronAt(1, 0).标签名 = "^^";

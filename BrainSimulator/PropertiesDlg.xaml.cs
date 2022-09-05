@@ -22,15 +22,15 @@ namespace BrainSimulator
 
             txtFileName.Text = MainWindow.currentFileName;
             txtFileName.ToolTip = MainWindow.currentFileName;
-            txtRows.Text = MainWindow.此神经元数组.行数.ToString("N0");
-            txtColumns.Text = (MainWindow.此神经元数组.数组大小 / MainWindow.此神经元数组.行数).ToString("N0");
-            txtNeurons.Text = MainWindow.此神经元数组.数组大小.ToString("N0");
+            txtRows.Text = MainWindow.此神经元数组.rows.ToString("N0");
+            txtColumns.Text = (MainWindow.此神经元数组.arraySize / MainWindow.此神经元数组.rows).ToString("N0");
+            txtNeurons.Text = MainWindow.此神经元数组.arraySize.ToString("N0");
             if (MainWindow.useServers)
             {
-                神经元客户端.GetServerList();
+                神经元客户端.获取服务列表();
                 Thread.Sleep(1000);
-                txtNeuronsInUse.Text = 神经元客户端.serverList.Sum(x => x.neuronsInUse).ToString("N0");
-                txtSynapses.Text = 神经元客户端.serverList.Sum(x => x.totalSynapses).ToString("N0");
+                txtNeuronsInUse.Text = 神经元客户端.服务列表.Sum(x => x.neuronsInUse).ToString("N0");
+                txtSynapses.Text = 神经元客户端.服务列表.Sum(x => x.totalSynapses).ToString("N0");
             }
             else
             {
@@ -46,8 +46,8 @@ namespace BrainSimulator
             MainWindow.暂停引擎();
             int.TryParse(txtColumns.Text, out int newCols);
             int.TryParse(txtRows.Text, out int newRows);
-            int oldCols = MainWindow.此神经元数组.数组大小 / MainWindow.此神经元数组.行数;
-            int oldRows = MainWindow.此神经元数组.行数;
+            int oldCols = MainWindow.此神经元数组.arraySize / MainWindow.此神经元数组.rows;
+            int oldRows = MainWindow.此神经元数组.rows;
             if (newCols < oldCols || newRows < oldRows)
             {
                 MessageBox.Show("只能让神经元阵列变大.");
@@ -60,9 +60,9 @@ namespace BrainSimulator
                 MainWindow.神经元数组视图.theSelection.selectedRectangles.Add(rr);
                 MainWindow.神经元数组视图.CopyNeurons();
                 MainWindow.神经元数组视图.ClearSelection();
-                MainWindow.此神经元数组 = new 神经元数组();
+                MainWindow.此神经元数组 = new NeuronArray();
                 MainWindow.此神经元数组.初始化(newRows * newCols, newRows);
-                MainWindow.此神经元数组.行数 = newRows;
+                MainWindow.此神经元数组.rows = newRows;
                 MainWindow.神经元数组视图.targetNeuronIndex = 0;
                 MainWindow.神经元数组视图.PasteNeurons();
                 MainWindow.此神经元数组.ShowSynapses = true;

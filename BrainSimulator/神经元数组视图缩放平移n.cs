@@ -50,8 +50,8 @@ namespace BrainSimulator
             //without this the scrollbar thumbbars flicker
             if (scrolling) return; //to get rid of this, we'll need to take the display translation transformation into account
 
-            神经元数组 theNeuronArray = MainWindow.此神经元数组;
-            double totalWidth = theNeuronArray.数组大小 / theNeuronArray.行数 * dp.神经元图示大小;
+            NeuronArray theNeuronArray = MainWindow.此神经元数组;
+            double totalWidth = theNeuronArray.arraySize / theNeuronArray.rows * dp.神经元图示大小;
             double visibleWidth = theCanvas.ActualWidth;
             scrollBarH.Minimum = -visibleWidth + 3 * dp.神经元图示大小;
             scrollBarH.Maximum = totalWidth - 3 * dp.神经元图示大小;
@@ -61,7 +61,7 @@ namespace BrainSimulator
             scrollBarH.LargeChange = visibleWidth;
             scrollBarHOldValue = scrollBarH.Value;
 
-            double totalHeight = theNeuronArray.行数 * dp.神经元图示大小;
+            double totalHeight = theNeuronArray.rows * dp.神经元图示大小;
             double visibleHeight = theCanvas.ActualHeight;
             scrollBarV.Minimum = -visibleHeight + 3 * dp.神经元图示大小;
             scrollBarV.Maximum = totalHeight - 3 * dp.神经元图示大小;
@@ -173,7 +173,7 @@ namespace BrainSimulator
             var currentN = Math.Log10(currentValue);
             currentN += change / 20.0;
             currentValue = (float)Math.Pow(10, currentN);
-            double size = Math.Min(ActualHeight() / (double)MainWindow.此神经元数组.行数, ActualWidth() / (double)MainWindow.此神经元数组.Cols);
+            double size = Math.Min(ActualHeight() / (double)MainWindow.此神经元数组.rows, ActualWidth() / (double)MainWindow.此神经元数组.Cols);
             if (currentValue < size/2) 
                 currentValue = (float)size/2;
             if (currentValue > 300)

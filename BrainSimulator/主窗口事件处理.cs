@@ -19,7 +19,7 @@ namespace BrainSimulator
     /// </summary>
     public partial class MainWindow : Window
     {
-        private void DisplayUpdate_TimerTick(object sender, EventArgs e)
+        private void 计时器触发显示更新(object sender, EventArgs e)
         {
             更新显示 = true;
 
@@ -29,14 +29,14 @@ namespace BrainSimulator
             //which is important for debugging so the zoom/pan will work on the first try
             if ((Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift)) && !shiftPressed && mouseInWindow)
             {
-                Debug.WriteLine("Left Shift Pressed in display timer");
+                Debug.WriteLine("在显示计时器中按下左 Shift");
                 shiftPressed = true;
                 此神经元数组视图.theCanvas.Cursor = Cursors.Hand;
                 Activate();
             }
             else if ((Keyboard.IsKeyUp(Key.LeftShift) && Keyboard.IsKeyUp(Key.RightShift)) && shiftPressed && mouseInWindow)
             {
-                Debug.WriteLine("Left Shift released in display timer");
+                Debug.WriteLine("在显示计时器中释放左 Shift");
                 shiftPressed = false;
             }
         }
@@ -55,7 +55,7 @@ namespace BrainSimulator
                 if (Mouse.LeftButton != MouseButtonState.Pressed)
                     此神经元数组视图.theCanvas.Cursor = Cursors.Cross;
             }
-            设置KB状态();
+            设置键盘状态();
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
@@ -91,7 +91,7 @@ namespace BrainSimulator
             }
             if (e.Key == Key.F1)
             {
-                MenuItemHelp_Click(null, null);
+                菜单帮助按钮_Click(null, null);
             }
             if (ctrlPressed && e.Key == Key.O)
             {
@@ -133,7 +133,7 @@ namespace BrainSimulator
                     此神经元数组视图.更新();
                 }
             }
-            设置KB状态();
+            设置键盘状态();
         }
 
         private void buttonSave_Click(object sender, RoutedEventArgs e)
@@ -205,7 +205,7 @@ namespace BrainSimulator
                 OpenFileDialog openFileDialog1 = new OpenFileDialog
                 {
                     Filter = "XML Network Files|*.xml",
-                    Title = "Select a Brain Simulator File",
+                    Title = "选择大脑模拟器文件",
                 };
                 // Show the Dialog.  
                 // If the user clicked OK in the dialog and  
@@ -232,7 +232,7 @@ namespace BrainSimulator
             SaveFileDialog saveFileDialog1 = new SaveFileDialog
             {
                 Filter = "XML Network Files|*.xml",
-                Title = "Select a Brain Simulator File"
+                Title = "选择大脑模拟器文件"
             };
 
             // Show the Dialog.  
@@ -271,7 +271,7 @@ namespace BrainSimulator
                     currentFileName = "";
                     SetCurrentFileNameToProperties();
                     设置标题栏();
-                    if (此神经元数组.网络节点 != "")
+                    if (此神经元数组.networkNotes != "")
                         MenuItemNotes_Click(null, null);
                 }
                 Update();
@@ -321,13 +321,13 @@ namespace BrainSimulator
         private void Button_EngineSpeedUpClick(object sender, RoutedEventArgs e)
         {
             slider.Value += 1;
-            slider_ValueChanged(slider, null);
+            速度滑块更改时(slider, null);
         }
 
         private void Button_EngineSpeedDnClick(object sender, RoutedEventArgs e)
         {
             slider.Value -= 1;
-            slider_ValueChanged(slider, null);
+            速度滑块更改时(slider, null);
         }
 
         private void SetSliderPosition(int interval)
@@ -348,7 +348,7 @@ namespace BrainSimulator
 
 
         //Set the engine speed
-        private void slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private void 速度滑块更改时(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             Slider s = sender as Slider;
             int value = (int)s.Value;
@@ -367,7 +367,7 @@ namespace BrainSimulator
                 interval = 0;
             引擎延迟 = interval;
             if (此神经元数组 != null)
-                此神经元数组.引擎运行速度 = interval;
+                此神经元数组.EngineSpeed = interval;
             if (!引擎线程.IsAlive)
                 引擎线程.Start();
             EngineSpeed.Text = slider.Value.ToString();
@@ -397,7 +397,7 @@ namespace BrainSimulator
                 }
                 catch (Exception e1)
                 {
-                    MessageBox.Show("Window Clopsing Failed, Message: " + e1.Message);
+                    MessageBox.Show("窗口关闭失败，消息: " + e1.Message);
                 }
             }
 
@@ -463,7 +463,14 @@ namespace BrainSimulator
         }
 
         //this reloads the file which was being used on the previous run of the program
+        //这将重新加载上次运行程序时使用的文件
         //or creates a new one
+        //或者创建一个新的
+        /// <summary>
+        /// 当窗口加载完毕后触发该功能,来加载网络
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Window_ContentRendered(object sender, EventArgs e)
         {
             progressDialog = new ProgressDialog();
@@ -500,7 +507,7 @@ namespace BrainSimulator
                 catch (Exception e1)
                 {
                     e1.GetType();
-                    MessageBox.Show("Error encountered in file load: " + e1.Message);
+                    MessageBox.Show("文件加载时遇到错误: " + e1.Message);
                     创建空网络();
                 }
             }
@@ -538,12 +545,12 @@ namespace BrainSimulator
                     暂停引擎();
                     此神经元数组视图.更新神经元颜色();
                     引擎是否暂停 = true;
-                    此神经元数组.引擎是否暂停 = true;
+                    此神经元数组.EngineIsPaused = true;
                 }
                 else
                 {
                     SetPlayPauseButtonImage(false);
-                    此神经元数组.引擎是否暂停 = false;
+                    此神经元数组.EngineIsPaused = false;
                     引擎是否暂停 = false;
                     恢复引擎();
                 }
@@ -567,10 +574,10 @@ namespace BrainSimulator
         {
             if (此神经元数组 != null)
             {
-                if (!此神经元数组.引擎是否暂停)
+                if (!此神经元数组.EngineIsPaused)
                 {
                     SetPlayPauseButtonImage(true);
-                    此神经元数组.引擎是否暂停 = true;
+                    此神经元数组.EngineIsPaused = true;
                     暂停引擎();
                     此神经元数组视图.更新神经元颜色();
                 }
@@ -613,7 +620,7 @@ namespace BrainSimulator
                 此神经元数组视图.Dp.神经元图示大小 = 62;
             else
             {
-                double size = Math.Min(此神经元数组视图.ActualHeight() / (double)(此神经元数组.行数), 此神经元数组视图.ActualWidth() / (double)(此神经元数组.Cols));
+                double size = Math.Min(此神经元数组视图.ActualHeight() / (double)(此神经元数组.rows), 此神经元数组视图.ActualWidth() / (double)(此神经元数组.Cols));
                 此神经元数组视图.Dp.神经元图示大小 = (float)size;
             }
             Update();
@@ -674,7 +681,7 @@ namespace BrainSimulator
             }
             catch
             {
-                MessageBox.Show("Properties could not be displayed");
+                MessageBox.Show("无法显示属性");
             }
         }
 
@@ -700,7 +707,7 @@ namespace BrainSimulator
             }
             catch
             {
-                MessageBox.Show("Notes could not be displayed");
+                MessageBox.Show("无法显示注释");
             }
         }
 
@@ -713,7 +720,7 @@ namespace BrainSimulator
         [DllImport("User32.dll")]
         private static extern bool SetForegroundWindow(IntPtr hWnd);
 
-        private void MenuItemHelp_Click(object sender, RoutedEventArgs e)
+        private void 菜单帮助按钮_Click(object sender, RoutedEventArgs e)
         {
             Uri theUri = new Uri("https://futureAI.guru/help/getting started.htm");
 
@@ -732,7 +739,7 @@ namespace BrainSimulator
                 }
                 catch (Exception e1)
                 {
-                    MessageBox.Show("Opening Help Item Failed, Message: " + e1.Message);
+                    MessageBox.Show("打开帮助项失败，消息: " + e1.Message);
                 }
             }
 
@@ -781,7 +788,7 @@ namespace BrainSimulator
             }
             catch (Exception e1)
             {
-                MessageBox.Show("Opening Help Failed, Message: " + e1.Message);
+                MessageBox.Show("打开帮助失败，消息: " + e1.Message);
             }
         }
 
@@ -841,7 +848,7 @@ namespace BrainSimulator
         private void MenuItem_SelectAll(object sender, RoutedEventArgs e)
         {
             神经元数组视图.ClearSelection();
-            选择矩阵 rr = new 选择矩阵(0, 此神经元数组.Cols, 此神经元数组.行数);
+            选择矩阵 rr = new 选择矩阵(0, 此神经元数组.Cols, 此神经元数组.rows);
             神经元数组视图.theSelection.selectedRectangles.Add(rr);
             Update();
         }
@@ -871,7 +878,7 @@ namespace BrainSimulator
         }
         private void MenuCheckForUpdates_Click(object sender, RoutedEventArgs e)
         {
-            CheckForVersionUpdate(true);
+            检查版本更新(true);
         }
         private void MenuItemModuleInfo_Click(object sender, RoutedEventArgs e)
         {

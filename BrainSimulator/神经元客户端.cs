@@ -41,7 +41,7 @@ namespace BrainSimulator
 
             Task.Run(() =>
             {
-                ReceiveFromServer();
+                从服务器接收();
             });
 
         }
@@ -53,18 +53,24 @@ namespace BrainSimulator
             public int firstNeuron;
             public int lastNeuron;
             public bool busy = false;
+            /// <summary>
+            /// 多少代
+            /// </summary>
             public long generation;
             public int firedCount;
             public long totalSynapses;
             public int neuronsInUse;
         }
-        public static List<Server> serverList;
-        public static void GetServerList()
+        public static List<Server> 服务列表;
+        public static void 获取服务列表()
         {
-            serverList = new List<Server>();
-            Broadcast("GetServerInfo");
+            服务列表 = new List<Server>();
+            广播("GetServerInfo");
         }
-
+        /// <summary>
+        /// 获取系统精确时间作为文件时间
+        /// </summary>
+        /// <param name="filetime"></param>
         [DllImport("Kernel32.dll", CallingConvention = CallingConvention.Winapi)]
         private static extern void GetSystemTimePreciseAsFileTime(out long filetime);
         static long returnTime;
@@ -74,13 +80,13 @@ namespace BrainSimulator
             //run the test
             returnTime = 0;
             GetSystemTimePreciseAsFileTime(out long startTime);
-            SendToServer(targetIp,"Ping " + payload);
+            向服务器发送消息(targetIp,"Ping " + payload);
             while (returnTime == 0) Thread.Sleep(1);
             long elapsed = returnTime - startTime;
             return elapsed;
         }
 
-        public static string CreatePayload(int payloadSize)
+        public static string 创建有效载荷(int payloadSize)
         {
             //create the payload
             string payload1 = "0123456789";
@@ -91,35 +97,35 @@ namespace BrainSimulator
             return payload;
         }
 
-        public static void InitServers(int synapsesPerNeuron,int arraySize)
+        public static void 初始化服务器(int synapsesPerNeuron,int arraySize)
         {
             string message = "InitServers "+synapsesPerNeuron + " " + arraySize + " ";
-            for (int i = 0; i < serverList.Count; i++)
+            for (int i = 0; i < 服务列表.Count; i++)
             {
-                message += serverList[i].ipAddress + " " + serverList[i].firstNeuron + " " + serverList[i].lastNeuron + " ";
+                message += 服务列表[i].ipAddress + " " + 服务列表[i].firstNeuron + " " + 服务列表[i].lastNeuron + " ";
             }
-            Broadcast(message);
-            WaitForDoneOnAllServers();
+            广播(message);
+            在所有服务器上等待完成();
         }
-        public static void MarkServersBusy()
+        public static void 标记服务器忙()
         {
-            for (int i = 0; i < serverList.Count; i++)
-                serverList[i].busy = true;
+            for (int i = 0; i < 服务列表.Count; i++)
+                服务列表[i].busy = true;
         }
         public static void Fire()
         {
-            MarkServersBusy();
-            Broadcast("Fire");
-            WaitForDoneOnAllServers();
-            MarkServersBusy();
-            Broadcast("Transfer");
-            WaitForDoneOnAllServers();
+            标记服务器忙();
+            广播("Fire");
+            在所有服务器上等待完成();
+            标记服务器忙();
+            广播("Transfer");
+            在所有服务器上等待完成();
         }
         static 神经元 tempNeuron = null;
         public static 神经元 获取神经元(int id)
         {
             tempNeuron = null;
-            Broadcast("GetNeuron " + id);
+            广播("GetNeuron " + id);
             while (tempNeuron == null) 
                 Thread.Sleep(1);
             return tempNeuron;
@@ -133,21 +139,21 @@ namespace BrainSimulator
             int remaining = count;
 
             int i;
-            for (i = 0; i < serverList.Count; i++)
-                if (start >= serverList[i].firstNeuron && start < serverList[i].lastNeuron) break;
+            for (i = 0; i < 服务列表.Count; i++)
+                if (start >= 服务列表[i].firstNeuron && start < 服务列表[i].lastNeuron) break;
             int accumNeurons = 0;
-            while (i < serverList.Count && start + count > serverList[i].lastNeuron) //handle split across multiple servers
+            while (i < 服务列表.Count && start + count > 服务列表[i].lastNeuron) //handle split across multiple servers
             {
-                int firstCount = serverList[i].lastNeuron - start;
-                Broadcast("GetNeurons " + start + " " + firstCount);
+                int firstCount = 服务列表[i].lastNeuron - start;
+                广播("GetNeurons " + start + " " + firstCount);
                 remaining -= firstCount;
                 accumNeurons += firstCount;
-                start = serverList[i].lastNeuron;
+                start = 服务列表[i].lastNeuron;
                 while (tempNeurons.Count < accumNeurons) Thread.Sleep(1);
                 i++;
             }
 
-            Broadcast("GetNeurons " + start + " " + remaining);
+            广播("GetNeurons " + start + " " + remaining);
             while (tempNeurons.Count < count) 
                 Thread.Sleep(1);
             tempNeurons.Sort((t1, t2) => t1.id.CompareTo(t2.id)); //the neurons may be returned in different order
@@ -162,34 +168,34 @@ namespace BrainSimulator
             command += n.最后更改 + " ";
             command += n.leakRate泄露速度 + " ";
             command += n.突触延迟 + " ";
-            Broadcast(command);
+            广播(command);
         }
 
-        static private int GetServerIndex(int neuronID)
+        static private int 获取服务索引(int neuronID)
         {
-            for (int i = 0; i < serverList.Count; i++)
-                if (neuronID >= serverList[i].firstNeuron && neuronID < serverList[i].lastNeuron) return i;
+            for (int i = 0; i < 服务列表.Count; i++)
+                if (neuronID >= 服务列表[i].firstNeuron && neuronID < 服务列表[i].lastNeuron) return i;
             return -1;
         }
-        public static void AddSynapse(int src, int dest, float weight, 突触.modelType model, bool noBackPtr)
+        public static void 添加突触(int src, int dest, float weight, 突触.modelType model, bool noBackPtr)
         {
             string command = "AddSynapse ";
             command += src + " ";
             command += dest + " ";
             command += weight + " ";
             command += (int)model + " ";
-            int srcServer = GetServerIndex(src);
-            SendToServer(serverList[srcServer].ipAddress, command);
-            int destServer = GetServerIndex(dest);
+            int srcServer = 获取服务索引(src);
+            向服务器发送消息(服务列表[srcServer].ipAddress, command);
+            int destServer = 获取服务索引(dest);
             if (srcServer != destServer)
-                SendToServer(serverList[destServer].ipAddress, command);
+                向服务器发送消息(服务列表[destServer].ipAddress, command);
         }
-        public static void DeleteSynapse(int src, int dest)
+        public static void 删除突触(int src, int dest)
         {
             string command = "DeleteSynapse ";
             command += src + " ";
             command += dest + " ";
-            Broadcast(command);
+            广播(command);
         }
 
         static List<突触> tempSynapses = null;
@@ -197,25 +203,25 @@ namespace BrainSimulator
         {
             tempSynapses = null;
             string command = "GetSynapses " + id;
-            Broadcast(command);
+            广播(command);
             while (tempSynapses == null) Thread.Sleep(1);
             return tempSynapses;
         }
-        public static List<突触> GetSynapsesFrom(int id)
+        public static List<突触> 获取突触(int id)
         {
             tempSynapses = null;
             string command = "GetSynapsesFrom " + id;
-            Broadcast(command);
+            广播(command);
             while (tempSynapses == null) Thread.Sleep(1);
             return tempSynapses;
         }
 
-        public static void WaitForDoneOnAllServers()
+        public static void 在所有服务器上等待完成()
         {
-            while (serverList.FindIndex(x => x.busy == true) != -1) Thread.Sleep(1);
+            while (服务列表.FindIndex(x => x.busy == true) != -1) Thread.Sleep(1);
         }
 
-        static void ProcessIncomingMessages(string message)
+        static void 处理输入消息(string message)
         {
             string[] commands = message.Trim().Split(' ');
             string command = commands[0];
@@ -227,7 +233,7 @@ namespace BrainSimulator
                     break;
 
                 case "ServerInfo":
-                    int index = serverList.FindIndex(x => x.name == commands[2]);
+                    int index = 服务列表.FindIndex(x => x.name == commands[2]);
                     if (index == -1)
                     {
                         Server s = new Server();
@@ -237,18 +243,18 @@ namespace BrainSimulator
                         int.TryParse(commands[4], out s.lastNeuron);
                         if (commands.Length > 5) int.TryParse(commands[5], out s.neuronsInUse);
                         if (commands.Length > 6) long.TryParse(commands[6], out s.totalSynapses);
-                        serverList.Add(s);
-                        index = serverList.Count - 1;
+                        服务列表.Add(s);
+                        index = 服务列表.Count - 1;
                     }
                     break;
 
                 case "Done":
-                    index = serverList.FindIndex(x => x.name == commands[1]);
+                    index = 服务列表.FindIndex(x => x.name == commands[1]);
                     if (index != -1)
                     {
-                        serverList[index].busy = false;
-                        long.TryParse(commands[2], out serverList[index].generation);
-                        int.TryParse(commands[3], out serverList[index].firedCount);
+                        服务列表[index].busy = false;
+                        long.TryParse(commands[2], out 服务列表[index].generation);
+                        int.TryParse(commands[3], out 服务列表[index].firedCount);
                     }
                     break;
 
@@ -313,7 +319,7 @@ namespace BrainSimulator
             }
         }
         //TODO: neuron labels cannot contain '...' or '_'
-        public static void ReceiveFromServer()
+        public static void 从服务器接收()
         {
             while (true)
             {
@@ -326,7 +332,7 @@ namespace BrainSimulator
                     recvBuffer = serverClient.Receive(ref from);
                     string nextPart = Encoding.UTF8.GetString(recvBuffer);
                     if (nextPart.IndexOf("...") == -1)
-                        ProcessIncomingMessages(nextPart);
+                        处理输入消息(nextPart);
                     else
                     {
                         int posOfSpace = nextPart.IndexOf(' ');
@@ -336,17 +342,17 @@ namespace BrainSimulator
                 }
                 //Debug.WriteLine("Receive from server: "+incomingMessage);
                 incomingMessage = incomingMessage.Replace("...", "");
-                ProcessIncomingMessages(incomingMessage);
+                处理输入消息(incomingMessage);
             }
         }
-        public static void Broadcast(string message)
+        public static void 广播(string message)
         {
             //Debug.WriteLine("Broadcast: " + message);
             byte[] datagram = Encoding.UTF8.GetBytes(message);
             IPEndPoint ipEnd = new IPEndPoint(broadCastAddress, clientServerPort);
             clientServer.SendAsync(datagram, datagram.Length, ipEnd);
         }
-        public static void SendToServer(IPAddress serverIp, string message)
+        public static void 向服务器发送消息(IPAddress serverIp, string message)
         {
             //Debug.WriteLine("Send to server: " + ip + ": " + message);
             byte[] datagram = Encoding.UTF8.GetBytes(message);

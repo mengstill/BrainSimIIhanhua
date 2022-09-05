@@ -17,9 +17,10 @@ using System.Xml;
 namespace NeuronServer
 {
     //Multiple ports are used so a server can reside on same machine as client
-    //PORTS: server->server 49001  every server listens and sends
-    //       client->server 49002  client broadcasts and sends, server listens
-    //       server->client 49003  server sends, client listens
+    //使用多个端口，因此服务器可以与客户端驻留在同一台机器上
+    //PORTS: server->server 49001  every server listens and sends每个服务器都监听并发送
+    //       client->server 49002  client broadcasts and sends, server listens客户端广播和发送，服务器监听
+    //       server->client 49003  server sends, client listens服务器发送，客户端监听
     class Program
     {
 
@@ -61,7 +62,7 @@ namespace NeuronServer
             clientServer.Client.ReceiveBufferSize = 100000000;
 
             Console.SetCursorPosition(0, 0);
-            Console.WriteLine("Neuron Server Started");
+            Console.WriteLine("神经元服务器启动");
 
 
             //set up lists for moving averages

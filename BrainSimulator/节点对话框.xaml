@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BrainSimulator"
         mc:Ignorable="d"
-        Title="Network Notes" Height="412.5" Width="753.5">
+        Title="网络笔记" Height="412.5" Width="753.5">
     <Grid>
         <Grid.Resources>
             <Style TargetType="{x:Type Button}" x:Key="formatTextStyle">

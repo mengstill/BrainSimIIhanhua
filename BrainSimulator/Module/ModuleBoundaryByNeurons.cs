@@ -55,7 +55,7 @@ namespace BrainSimulator.Modules
             mv.Height = naSource.Height;
 
             if (col + mv.Width >= theNeuronArray.Cols ||
-                row + mv.Height >= theNeuronArray.行数)
+                row + mv.Height >= theNeuronArray.rows)
             {
                 MessageBox.Show(mv.Label + " would exceed neuron array boundaries.");
                 return;

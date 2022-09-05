@@ -12,29 +12,50 @@ using System.Xml.Serialization;
 
 namespace BrainSimulator
 {
-    public partial class 神经元数组 : 神经元处理
+    /// <summary>
+    /// 神经元数组
+    /// </summary>
+    public partial class NeuronArray : 神经元处理
     {
-        public string 网络节点 = "";
-        public bool 隐藏节点 = false;
+        /// <summary>
+        /// 网络节点
+        /// </summary>
+        public string networkNotes = "";
+        /// <summary>
+        /// 隐藏节点
+        /// </summary>
+        public bool hideNotes = false;
         public long Generation = 0;
-        public int 引擎运行速度 = 250;
-        public bool 引擎是否暂停 = false;
-        public int 数组大小;
-        public int 行数;
+        /// <summary>
+        /// 引擎速度
+        /// </summary>
+        public int EngineSpeed = 250;
+        /// <summary>
+        /// 引擎是否暂停
+        /// </summary>
+        public bool EngineIsPaused = false;
+        /// <summary>
+        /// 数组大小
+        /// </summary>
+        public int arraySize;
+        /// <summary>
+        /// 行数
+        /// </summary>
+        public int rows;
 
         public int lastFireCount = 0;
         internal List<模块视图> 模块 = new List<模块视图>();
         public 显示参数 displayParams;
 
-        //these have nothing to do with the NeuronArray but are here so it will be saved and restored with the network
-        //这些与 NeuronArray 无关，但在此处，因此将通过网络保存和恢复
+        //these have nothing to do with the 神经元数组 but are here so it will be saved and restored with the network
+        //这些与 神经元数组 无关，但在此处，因此将通过网络保存和恢复
         private bool showSynapses = false;
         public bool ShowSynapses
         {
             get => showSynapses;
             set => showSynapses = value;
         }
-        public int Cols { get => 数组大小 / 行数; }
+        public int Cols { get => arraySize / rows; }
         private bool loadComplete = false;
         [XmlIgnore]
         public bool 加载完成 { get => loadComplete; set => loadComplete = value; }
@@ -93,20 +114,20 @@ namespace BrainSimulator
         public int RefractoryDelay
         { get => refractoryDelay; set { refractoryDelay = value; SetRefractoryDelay(refractoryDelay); } }
 
-        public void 初始化(int count, int inRows, bool clipBoard = false)
+        public void 初始化(int count, int in行数, bool clipBoard = false)
         {
-            行数 = inRows;
-            数组大小 = count;
+            rows = in行数;
+            arraySize = count;
             清理标签缓存();
             if (!MainWindow.useServers || clipBoard)
                 base.Initialize(count);
             else
             {
-                神经元客户端.InitServers(0, count);
+                神经元客户端.初始化服务器(0, count);
             }
         }
 
-        public 神经元数组()
+        public NeuronArray()
         {
         }
 
@@ -137,8 +158,8 @@ namespace BrainSimulator
         {
             if (MainWindow.useServers)
             {
-                useCount = 神经元客户端.serverList.Sum(x => x.neuronsInUse);
-                synapseCount = 神经元客户端.serverList.Sum(x => x.totalSynapses);
+                useCount = 神经元客户端.服务列表.Sum(x => x.neuronsInUse);
+                synapseCount = 神经元客户端.服务列表.Sum(x => x.totalSynapses);
             }
             else
             {
@@ -146,16 +167,18 @@ namespace BrainSimulator
                 useCount = GetTotalNeuronsInUse();
             }
         }
-
+        /// <summary>
+        /// 脉冲,此处网络运行
+        /// </summary>
         public new void Fire()
         {
             if (MainWindow.useServers)
             {
                 神经元客户端.Fire();
                 lastFireCount = 0;
-                for (int i = 0; i < 神经元客户端.serverList.Count; i++)
-                    lastFireCount += 神经元客户端.serverList[i].firedCount;
-                Generation = 神经元客户端.serverList[0].generation;
+                for (int i = 0; i < 神经元客户端.服务列表.Count; i++)
+                    lastFireCount += 神经元客户端.服务列表[i].firedCount;
+                Generation = 神经元客户端.服务列表[0].generation;
             }
             else
             {
@@ -163,27 +186,27 @@ namespace BrainSimulator
                 Generation = GetGeneration();
                 lastFireCount = GetFiredCount();
             }
-            HandleProgrammedActions();
+            处理程序动作();
             神经冲动历史.更新神经脉冲历史();
         }
         public void 添加突触(int src, int dest, float weight, 突触.modelType model, bool noBackPtr)
         {
             if (MainWindow.useServers && this == MainWindow.此神经元数组)
-                神经元客户端.AddSynapse(src, dest, weight, model, noBackPtr);
+                神经元客户端.添加突触(src, dest, weight, model, noBackPtr);
             else
                 base.AddSynapse(src, dest, weight, (int)model, noBackPtr);
         }
         new public void DeleteSynapse(int src, int dest)
         {
             if (MainWindow.useServers && this == MainWindow.此神经元数组)
-                神经元客户端.DeleteSynapse(src, dest);
+                神经元客户端.删除突触(src, dest);
             else
                 base.DeleteSynapse(src, dest);
         }
 
         //fires all the modules
         //触发所有模块
-        private void HandleProgrammedActions()
+        private void 处理程序动作()
         {
             int badModule = -1;
             string message = "";
@@ -261,7 +284,7 @@ namespace BrainSimulator
 
         public int 获取神经元索引(int x, int y)
         {
-            return x * 行数 + y;
+            return x * rows + y;
         }
 
         public 神经元 GetNeuron(int x, int y)
@@ -271,8 +294,8 @@ namespace BrainSimulator
 
         public void 获取神经元位置(int index, out int x, out int y)
         {
-            x = index / 行数;
-            y = index % 行数;
+            x = index / rows;
+            y = index % rows;
         }
 
     }

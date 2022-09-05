@@ -10,13 +10,17 @@ using System.Diagnostics;
 namespace BrainSimulator
 {
     /// <summary>
-    /// Interaction logic for FiringHistorWindow.xaml
+    /// FiringHistorWindow.xaml的交互逻辑
+    /// 脉冲历史窗口
     /// </summary>
     public partial class FiringHistoryWindow : Window
     {
         DispatcherTimer dt;
         bool FirstTime;
         int refractoryPeriod = 1;
+        /// <summary>
+        /// 创建脉冲历史窗口
+        /// </summary>
         public FiringHistoryWindow()
         {
             InitializeComponent();

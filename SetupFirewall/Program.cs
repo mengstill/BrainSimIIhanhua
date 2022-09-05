@@ -32,11 +32,11 @@ namespace SetupFirewall
 
         static void Main(string[] args)
         {
-            if (!Confirm("This program will modify your firewall rules to enable using the Brain Simulator II with the NeuronServer")) return;
+            if (!Confirm("该程序将修改您的防火墙规则以启用将 Brain Simulator II 与 NeuronServer 一起使用")) return;
 
             if (!IsAdministrator())
             {
-                if (!Confirm("Administrative privelage is needed")) return;
+                if (!Confirm("需要管理员权限")) return;
 
 
                 var proc = new ProcessStartInfo();
@@ -51,7 +51,7 @@ namespace SetupFirewall
                 }
                 catch (Exception)
                 {
-                    Console.WriteLine("Failed to elevate.");
+                    Console.WriteLine("提升失败.");
                     return;
                 }
                 return;
@@ -61,7 +61,7 @@ namespace SetupFirewall
             INetFwPolicy2 firewallPolicy = (INetFwPolicy2)Activator.CreateInstance(
                 Type.GetTypeFromProgID("HNetCfg.FwPolicy2"));
 
-            if (Confirm("If the rules already exist, delete them? "))
+            if (Confirm("如果规则已经存在，删除它们? "))
             {
 
                 INetFwRule theRule;
@@ -74,7 +74,7 @@ namespace SetupFirewall
                         while (theRule != null)
                         {
                             firewallPolicy.Rules.Remove(theName[i]);
-                            Console.WriteLine("Deleted rule: " + theName[i]);
+                            Console.WriteLine("已删除的规则: " + theName[i]);
                             theRule = firewallPolicy.Rules.Item(theName[i]);
                         }
                     }
@@ -85,7 +85,7 @@ namespace SetupFirewall
                 }
             }
 
-            if (!Confirm("Creating new rules")) return;
+            if (!Confirm("创建新规则")) return;
             string filePath = System.Reflection.Assembly.GetExecutingAssembly().Location;
             string directory = System.IO.Path.GetDirectoryName(filePath);
 
@@ -110,12 +110,12 @@ namespace SetupFirewall
 
                 }
 
-                Console.Write("Success...  press any key");
+                Console.Write("成功...按任意键");
                 Console.ReadKey();
             }
             catch (Exception e)
             {
-                Console.Write("Failed because: " + e.Message + "press any key");
+                Console.Write("失败是因为: " + e.Message + "按任意键");
                 Console.ReadKey();
             }
         }

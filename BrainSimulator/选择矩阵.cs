@@ -16,7 +16,7 @@ namespace BrainSimulator
 
         int width;
         int height;
-        public int 行数 { get { return MainWindow.此神经元数组.行数; } }
+        public int 行数 { get { return MainWindow.此神经元数组.rows; } }
 
 
         public int 首个选中的神经元 { get => firstSelectedNeuron; set => firstSelectedNeuron = value; }
@@ -35,7 +35,7 @@ namespace BrainSimulator
 
         public int 获取神经元索引(int x,int y)
         {
-            return firstSelectedNeuron + x * (MainWindow.此神经元数组.行数) + y;
+            return firstSelectedNeuron + x * (MainWindow.此神经元数组.rows) + y;
         }
 
         public IEnumerable<int> 矩阵中的神经元()
@@ -45,7 +45,7 @@ namespace BrainSimulator
             {
                 int row = i % height;
                 int col = i / height;
-                int target = firstSelectedNeuron + row + MainWindow.此神经元数组.行数 * col;
+                int target = firstSelectedNeuron + row + MainWindow.此神经元数组.rows * col;
                 yield return target;
             }
         }

@@ -272,7 +272,7 @@ namespace BrainSimulator
                 if (theShapeType == shapeType.Neuron)
                 {
                     神经元 n = null;
-                    if (mouseDownNeuronIndex >= 0 && mouseDownNeuronIndex < MainWindow.此神经元数组.数组大小)
+                    if (mouseDownNeuronIndex >= 0 && mouseDownNeuronIndex < MainWindow.此神经元数组.arraySize)
                         n = MainWindow.此神经元数组.获取神经元(mouseDownNeuronIndex) as 神经元;
 
                     int clickCount = e.ClickCount;
@@ -488,7 +488,7 @@ namespace BrainSimulator
         {
             if (p1.X < dp.DisplayOffset.X) p1.X = dp.DisplayOffset.X;
             if (p1.Y < dp.DisplayOffset.Y) p1.Y = dp.DisplayOffset.Y;
-            float width = dp.神经元图示大小 * MainWindow.此神经元数组.数组大小 / dp.神经元行数 - 1;
+            float width = dp.神经元图示大小 * MainWindow.此神经元数组.arraySize / dp.神经元行数 - 1;
             float height = dp.神经元图示大小 * dp.神经元行数 - 1;
             if (p1.X > dp.DisplayOffset.X + width) p1.X = dp.DisplayOffset.X + width;
             if (p1.Y > dp.DisplayOffset.Y + height) p1.Y = dp.DisplayOffset.Y + height;

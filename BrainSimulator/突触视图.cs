@@ -241,7 +241,7 @@ namespace BrainSimulator
                 //is numeric?
                 if (int.TryParse(tb.Text, out int newID))
                 {
-                    if (newID < 0 || newID >= MainWindow.此神经元数组.数组大小)
+                    if (newID < 0 || newID >= MainWindow.此神经元数组.arraySize)
                         tb.Background = new SolidColorBrush(Colors.Pink);
                     else
                         tb.Background = new SolidColorBrush(Colors.LightGreen);
@@ -391,8 +391,8 @@ namespace BrainSimulator
                         }
                     }
                 }
-                if (newSourceID < 0 || newSourceID >= MainWindow.此神经元数组.数组大小 ||
-                    newTargetID < 0 || newTargetID >= MainWindow.此神经元数组.数组大小
+                if (newSourceID < 0 || newSourceID >= MainWindow.此神经元数组.arraySize ||
+                    newTargetID < 0 || newTargetID >= MainWindow.此神经元数组.arraySize
                     )
                 {
                     MessageBox.Show("Neuron outside array boundary!");

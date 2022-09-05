@@ -31,7 +31,7 @@ namespace BrainSimulator
     public partial class MainWindow : Window
     {
         static HttpClient theHttpClient = new HttpClient { Timeout = TimeSpan.FromSeconds(2), };
-        private async static void CheckForVersionUpdate(bool alwaysShow = false)
+        private async static void 检查版本更新(bool alwaysShow = false)
         {
             if (!alwaysShow && !Properties.Settings.Default.CheckForUpdates) return;
 

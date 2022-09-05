@@ -201,7 +201,7 @@ namespace BrainSimulator
                                         tb.Background = new SolidColorBrush(Colors.Pink);
                                     else
                                     {
-                                        if (height + row > MainWindow.此神经元数组.行数)
+                                        if (height + row > MainWindow.此神经元数组.rows)
                                             tb.Background = new SolidColorBrush(Colors.Pink);
                                         else
                                             tb.Background = new SolidColorBrush(Colors.LightGreen);
@@ -312,9 +312,9 @@ namespace BrainSimulator
                     width = MainWindow.此神经元数组.Cols - col;
                     dimsChanged = true;
                 }
-                if (height + row > MainWindow.此神经元数组.行数)
+                if (height + row > MainWindow.此神经元数组.rows)
                 {
-                    height = MainWindow.此神经元数组.行数 - row;
+                    height = MainWindow.此神经元数组.rows - row;
                     dimsChanged = true;
                 }
                 if (dimsChanged)

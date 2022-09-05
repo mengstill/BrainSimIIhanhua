@@ -68,7 +68,7 @@ namespace BrainSimulator
             if (MainWindow.useServers && n.Owner == MainWindow.此神经元数组)
             {
                 n.突触列表 = 神经元客户端.GetSynapses(n.id);
-                n.突触来源列表 = 神经元客户端.GetSynapsesFrom(n.id);
+                n.突触来源列表 = 神经元客户端.获取突触(n.id);
             }
             return n;
         }

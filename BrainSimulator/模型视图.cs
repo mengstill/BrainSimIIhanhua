@@ -83,7 +83,7 @@ namespace BrainSimulator
         public int Color { get => color; set => color = value; }
 
         public string ModuleTypeStr { get => moduleTypeStr; set => moduleTypeStr = value; }
-        private int Rows { get { return MainWindow.此神经元数组.行数; } }
+        private int Rows { get { return MainWindow.此神经元数组.rows; } }
 
         public int NeuronCount { get { return Width * Height; } }
         public Modules.ModuleBase TheModule { get => theModule; set => theModule = value; }

@@ -2,289 +2,386 @@
 <ArrayOfModuleDescription xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <ModuleDescription>
     <moduleName>Module2DModel</moduleName>
-    <toolTip>Maintains an internal representation of surrounding things</toolTip>
+    <toolTip>维护周围事物的内部表示Maintains an internal representation of surrounding things</toolTip>
     <description>
-            This module receives input from the Touch and Vision modules and merges the information to maintain a representation of physical objects in the entity's environment. It also supports imagination via the temporary addition of imagined objects and the temporary change in point of view.
-            Dialog: the dialog shows objects from the entity's point of view. The top of the display is forward. Objects have white ends which indicate the confidence that the distance is correct--the smaller the white, the greater the confidence.
+      该模块接收来自触摸和视觉模块的输入并合并信息以维护实体环境中物理对象的表示。 它还通过临时添加想象的对象和临时改变视角来支持想象。
+      对话框：对话框从实体的角度显示对象。 显示器的顶部是向前的。 物体有白色末端，表示距离正确的信心——白色越小，信心越大。
+      This module receives input from the Touch and Vision modules and merges the information to maintain a representation of physical objects in the entity's environment. It also supports imagination via the temporary addition of imagined objects and the temporary change in point of view.
+      Dialog: the dialog shows objects from the entity's point of view. The top of the display is forward. Objects have white ends which indicate the confidence that the distance is correct--the smaller the white, the greater the confidence.
 
-        </description>
+    </description>
   </ModuleDescription>
   <ModuleDescription>
     <moduleName>Module2DSim</moduleName>
-    <toolTip>A simulated 2D environment with obstacles</toolTip>
+    <toolTip>有障碍物的模拟 2D 环境A simulated 2D environment with obstacles</toolTip>
     <description>
-            This module uses no neurons of its own but fires neurons in various sensory modules if they are in the network. It has methods (Move and Turn and potentially others) which can be called by other modules to move its point of view around the simulation. Shift-mouse wheel can zoom the display and Shift-left mouse button can drag (pan). Right-clicking in the dialog box can direct the entity to that location. Shift + Mouse motion or mouse wheel will pan or zoom the display.
+      这个模块不使用它自己的神经元，但如果它们在网络中，它会在各种感觉模块中激发神经元。 它有方法（Move 和 Turn 以及可能的其他方法），其他模块可以调用这些方法以在模拟中移动其视点。  Shift-鼠标滚轮可以缩放显示，Shift-鼠标左键可以拖动（平移）。 在对话框中单击鼠标右键可以将实体定向到该位置。  Shift + 鼠标移动或鼠标滚轮将平移或缩放显示。
+      障碍是用突触设置的，并会在启动后显示。
+      重量=1 可移动。
+      Weight=-1 fixed Weight=(0,1) 障碍物垂直移动 spd=weight-.5 Weight=(-1,0) 障碍物水平移动 spd=weight-(-.5) 使用滑块调整速度。
+      This module uses no neurons of its own but fires neurons in various sensory modules if they are in the network. It has methods (Move and Turn and potentially others) which can be called by other modules to move its point of view around the simulation. Shift-mouse wheel can zoom the display and Shift-left mouse button can drag (pan). Right-clicking in the dialog box can direct the entity to that location. Shift + Mouse motion or mouse wheel will pan or zoom the display.
 
-            Obstacles are set with synapses and will show after initiation.
-            Weight=1 movable.
-            Weight=-1 fixed
-            Weight=(0,1) obstacle moves vertically spd=weight-.5
-            Weight=(-1,0) obstacle moves horizontally spd=weight-(-.5)
-            Speeds are adjusted with the slider.
-        </description>
+      Obstacles are set with synapses and will show after initiation.
+      Weight=1 movable.
+      Weight=-1 fixed
+      Weight=(0,1) obstacle moves vertically spd=weight-.5
+      Weight=(-1,0) obstacle moves horizontally spd=weight-(-.5)
+      Speeds are adjusted with the slider.
+    </description>
   </ModuleDescription>
   <ModuleDescription>
     <moduleName>Module2DSmell</moduleName>
-    <toolTip>Handles 2 Smell sensors</toolTip>
-    <description>This module has 2 rows of neurons representing input from two smell sensors. It receives input from the 2DSim module and outputs smell info to the Internal Model. It necessarily handles the positions of the two smell sensors forming the beginning of an internal sense of olfactory perception. </description>
+    <toolTip>处理 2 个气味传感器Handles 2 Smell sensors</toolTip>
+    <description>
+      该模块有 2 行神经元，代表来自两个气味传感器的输入。 它接收来自 2DSim 模块的输入并将气味信息输出到内部模型。 它必须处理两个气味传感器的位置，形成内部嗅觉感知的开始。
+      This module has 2 rows of neurons representing input from two smell sensors. It receives input from the 2DSim module and outputs smell info to the Internal Model. It necessarily handles the positions of the two smell sensors forming the beginning of an internal sense of olfactory perception.
+    </description>
   </ModuleDescription>
   <ModuleDescription>
     <moduleName>Module2DTouch</moduleName>
-    <toolTip>Handles 2 Touch sensors</toolTip>
-    <description>This module has 2 rows of neurons representing input from two touch sensors. It receives input from the 2DSim module and outputs touch info to the Internal Model. It necessarily handles the positions of the two touch sensors forming the beginning of an internal sense of proprioception. </description>
+    <toolTip>手柄 2 个触摸传感器Handles 2 Touch sensors</toolTip>
+    <description>
+      该模块有 2 行神经元，代表来自两个触摸传感器的输入。 它接收来自 2DSim 模块的输入并将触摸信息输出到内部模型。 它必须处理形成内部本体感觉开始的两个触摸传感器的位置。
+      This module has 2 rows of neurons representing input from two touch sensors. It receives input from the 2DSim module and outputs touch info to the Internal Model. It necessarily handles the positions of the two touch sensors forming the beginning of an internal sense of proprioception.
+    </description>
   </ModuleDescription>
   <ModuleDescription>
     <moduleName>Module2DVision</moduleName>
-    <toolTip>Retinae</toolTip>
+    <toolTip>视网膜Retinae</toolTip>
     <description>
-            This module has 2 rows of neurons representing the retinal views of the right and left eyes. It receives input from the 2DSim module and finds points of interest which are color boundaries. Based on the difference in position of these boundaries in the two eyes, it estimates the distance (depth perception) of the point and passes this information to the model. As depths are approximate, it enters these as 'possible' points.
-        </description>
+      该模块有 2 行代表左右眼视网膜视图的神经元。 它接收来自 2DSim 模块的输入并找到颜色边界的兴趣点。 基于这些边界在两只眼睛中的位置差异，它估计点的距离（深度感知）并将此信息传递给模型。 由于深度是近似的，它会将这些作为“可能”点输入。
+      This module has 2 rows of neurons representing the retinal views of the right and left eyes. It receives input from the 2DSim module and finds points of interest which are color boundaries. Based on the difference in position of these boundaries in the two eyes, it estimates the distance (depth perception) of the point and passes this information to the model. As depths are approximate, it enters these as 'possible' points.
+    </description>
   </ModuleDescription>
   <ModuleDescription>
     <moduleName>Module3DSim</moduleName>
-    <toolTip>A simulated 3D environment with obstacles</toolTip>
-    <description>This module uses no neurons of its own but fires neurons in various sensory modules if they are in the network. It has methods (Move and Turn and potentially others) which can be called by other modules to move its point of view around the simulation. This is still largely experimental, more progress has been made in the 2DSim module.</description>
+    <toolTip>有障碍物的模拟 3D 环境A simulated 3D environment with obstacles</toolTip>
+    <description>
+      这个模块不使用它自己的神经元，但如果它们在网络中，它会在各种感觉模块中激发神经元。 它有方法（Move 和 Turn 以及可能的其他方法），其他模块可以调用这些方法以在模拟中移动其视点。 这在很大程度上仍处于试验阶段，在 2DSim 模块中取得了更多进展。
+    This module uses no neurons of its own but fires neurons in various sensory modules if they are in the network. It has methods (Move and Turn and potentially others) which can be called by other modules to move its point of view around the simulation. This is still largely experimental, more progress has been made in the 2DSim module.</description>
   </ModuleDescription>
   <ModuleDescription>
     <moduleName>ModuleArm</moduleName>
-    <toolTip>A module to form one of Sallie's arms</toolTip>
-    <description>In the simulator, Sallie has arms with touch sensors which default to moving in small circles. This module can override that process with specific arem locations for experimentation with directed exploration.</description>
+    <toolTip>用于形成莎莉手臂之一的模块A module to form one of Sallie's arms</toolTip>
+    <description>
+      在模拟器中，Sallie 的手臂带有触摸传感器，默认以小圆圈移动。 该模块可以使用特定的武器位置覆盖该过程，以进行定向探索的实验。
+      In the simulator, Sallie has arms with touch sensors which default to moving in small circles. This module can override that process with specific arem locations for experimentation with directed exploration.</description>
   </ModuleDescription>
   <ModuleDescription>
     <moduleName>ModuleAudible</moduleName>
-    <toolTip>Under Development, do not use.</toolTip>
-    <description>Consolidation of processing of audible input outside of the UKS.</description>
+    <toolTip>在开发中，不要使用。Under Development, do not use.</toolTip>
+    <description>整合在 UKS 之外的声音输入处理。Consolidation of processing of audible input outside of the UKS.</description>
   </ModuleDescription>
   <ModuleDescription>
     <moduleName>ModuleBehavior</moduleName>
-    <toolTip>Handles a queue of behaviors.</toolTip>
-    <description>This module has primitives of Move and Turn behaviors and allows them to be queued into sequences. A sequence can be cancelled in the event of collision or other issue. By firing various input neurons the module may query the Model to decide where to turn.</description>
+    <toolTip>处理一系列行为。Handles a queue of behaviors.</toolTip>
+    <description>
+      该模块具有移动和转弯行为的原语，并允许将它们排队到序列中。 如果发生碰撞或其他问题，可以取消序列。 通过激发各种输入神经元，模块可以查询模型以决定转向哪里。
+      This module has primitives of Move and Turn behaviors and allows them to be queued into sequences. A sequence can be cancelled in the event of collision or other issue. By firing various input neurons the module may query the Model to decide where to turn.</description>
   </ModuleDescription>
   <ModuleDescription>
     <moduleName>ModuleBoundary</moduleName>
-    <toolTip>Finds the boundaries in an imageZoom module image.</toolTip>
-    <description>Detects boundaries and corners in an image.
-
+    <toolTip>
+      在 imageZoom 模块图像中查找边界。
+      Finds the boundaries in an imageZoom module image.</toolTip>
+    <description>
+      检测图像中的边界和角落。
+    将其视为占位符代码，在不久的将来将替换为更强大的库，例如 OPENCV。
+      Detects boundaries and corners in an image.
 Consider this as placeholder code to be replaced with some more robuse libray such as OPENCV in the near future.</description>
   </ModuleDescription>
   <ModuleDescription>
     <moduleName>ModuleBoundary1</moduleName>
-    <toolTip>Uses code to trace boundaries in an imagefile image.</toolTip>
-    <description>Follows boundaries with code.</description>
+    <toolTip>使用代码来跟踪图像文件图像中的边界。Uses code to trace boundaries in an imagefile image.</toolTip>
+    <description>
+      遵循代码的边界。
+      Follows boundaries with code.</description>
   </ModuleDescription>
   <ModuleDescription>
     <moduleName>ModuleCamera</moduleName>
-    <toolTip>Module Camera turns camera input into neurons.</toolTip>
-    <description>The module Camera is a module for translating the signals from an attached camera into a rectangular field of Color Neurons, which show the camera image.</description>
+    <toolTip>Module Camera 将相机输入转换为神经元。Module Camera turns camera input into neurons.</toolTip>
+    <description>
+      相机模块是一个模块，用于将来自附加相机的信号转换为彩色神经元的矩形场，显示相机图像。
+      The module Camera is a module for translating the signals from an attached camera into a rectangular field of Color Neurons, which show the camera image.</description>
   </ModuleDescription>
   <ModuleDescription>
     <moduleName>ModuleChain</moduleName>
-    <toolTip>Builds a chain of neurons with one firing the next.</toolTip>
-    <description>A quick way to create an array of neurons representing a bucket-brigade.</description>
+    <toolTip>
+      构建一个神经元链，一个触发下一个。
+      Builds a chain of neurons with one firing the next.</toolTip>
+    <description>
+      一种快速创建代表桶旅的神经元数组的方法。
+      A quick way to create an array of neurons representing a bucket-brigade.</description>
   </ModuleDescription>
   <ModuleDescription>
     <moduleName>ModuleChainCounter</moduleName>
-    <toolTip>Counts the number of neurons firing in a chain.</toolTip>
-    <description>Builds an array of synapse weights which can detect the number of neurons firing in a chain dictated by the size of the module.</description>
+    <toolTip>计算链中发射的神经元数量。Counts the number of neurons firing in a chain.</toolTip>
+    <description>
+      构建一个突触权重数组，可以检测由模块大小决定的链中神经元的数量。
+      Builds an array of synapse weights which can detect the number of neurons firing in a chain dictated by the size of the module.</description>
   </ModuleDescription>
   <ModuleDescription>
     <moduleName>ModuleColorComponent</moduleName>
-    <toolTip>Module ColorComponent breaks a color into components.</toolTip>
-    <description>The ColorComponent module has four labeled nerons that have the values of the red, green, blue and intensity values of a color that is fed in. This somewhat emulates the signals which would be generated by cells in the retina. In the context menu, you can change the number of discrete levels which an individual color neuron may take and the amount of jitter in the signal</description>
+    <toolTip>模块 ColorComponent 将颜色分解为组件。Module ColorComponent breaks a color into components.</toolTip>
+    <description>
+      ColorComponent 模块有四个标记的神经元，它们具有红色、绿色、蓝色的值和输入颜色的强度值。这在某种程度上模拟了视网膜细胞产生的信号。 在上下文菜单中，您可以更改单个颜色神经元可能采用的离散级别的数量以及信号中的抖动量
+      The ColorComponent module has four labeled nerons that have the values of the red, green, blue and intensity values of a color that is fed in. This somewhat emulates the signals which would be generated by cells in the retina. In the context menu, you can change the number of discrete levels which an individual color neuron may take and the amount of jitter in the signal</description>
   </ModuleDescription>
   <ModuleDescription>
     <moduleName>ModuleCommand</moduleName>
-    <toolTip>Reads neuron firing instructions from a file</toolTip>
+    <toolTip>从文件中读取神经元放电指令Reads neuron firing instructions from a file</toolTip>
     <description>
-            For testing purposes, this module reads a script file with a direction to fire specific neurons in the network. You can edit the script file in the dialog box.
+      出于测试目的，该模块读取一个脚本文件，其中包含在网络中激发特定神经元的方向。 您可以在对话框中编辑脚本文件。
+      格式/命令：通常，激发神经元的格式是 '[moduleLabel:] [neuronLabel]...[neuronLabel] 文件中的每一行代表一个引擎循环，因此同一行上的命令在同一循环中执行。
+      如果命令包含“//”，则可以在整行中输入命令。“WaitFor”命令会暂停执行，直到指定的神经元触发。
+      “停止”命令在文件中的行中止执行......对于仅执行文件的第一行很有用。
+      For testing purposes, this module reads a script file with a direction to fire specific neurons in the network. You can edit the script file in the dialog box.
 
-            Format / commands:
-            In general, the format to fire a neuron is '[moduleLabel:] [neuronLabel]...[neuronLabel]
-            Every line in the file represents an engine cycle so commands on the same line execute in the same cycle.
-            Commands may be entered on full lines if they contain '//'
-            The 'WaitFor' command which pauses execution until the specified neuron fires.
-            The 'Stop' command aborts execution at the line in the file...useful for executing just the first lines of a file.
-        </description>
+      Format / commands:
+      In general, the format to fire a neuron is '[moduleLabel:] [neuronLabel]...[neuronLabel]
+      Every line in the file represents an engine cycle so commands on the same line execute in the same cycle.
+      Commands may be entered on full lines if they contain '//'
+      The 'WaitFor' command which pauses execution until the specified neuron fires.
+      The 'Stop' command aborts execution at the line in the file...useful for executing just the first lines of a file.
+    </description>
   </ModuleDescription>
   <ModuleDescription>
     <moduleName>ModuleEvent</moduleName>
-    <toolTip>Builds Landmark objects and Event Triples in the UKS.</toolTip>
-    <description>Creates UKS things which represent objects needed for reinforcement learning. Each triple includes a Situation, an Action, and the Outcome. For a given situation, Sallie takes an action, and receives an outcome and can subsequently search the structure to select the action which leads to the best outcome for any given situation. </description>
+    <toolTip>在英国建造地标对象和事件三元组。Builds Landmark objects and Event Triples in the UKS.</toolTip>
+    <description>
+      创建代表强化学习所需对象的 UKS 事物。 每个三元组包括一个情境、一个行动和一个结果。 对于给定的情况，Sallie 采取行动，并收到结果，然后可以搜索结构以选择对任何给定情况产生最佳结果的行动。
+      Creates UKS things which represent objects needed for reinforcement learning. Each triple includes a Situation, an Action, and the Outcome. For a given situation, Sallie takes an action, and receives an outcome and can subsequently search the structure to select the action which leads to the best outcome for any given situation.
+    </description>
   </ModuleDescription>
   <ModuleDescription>
     <moduleName>ModuleFireOldest</moduleName>
-    <toolTip>Fires the Oldest Neuron.</toolTip>
-    <description>The module FireOldest fires the oldest neuron in the module, which can be used to trigger functionality like forgetting something.</description>
+    <toolTip>激发最古老的神经元。Fires the Oldest Neuron.</toolTip>
+    <description>模块 FireOldest 触发模块中最古老的神经元，可用于触发功能，如忘记某事。The module FireOldest fires the oldest neuron in the module, which can be used to trigger functionality like forgetting something.</description>
   </ModuleDescription>
   <ModuleDescription>
     <moduleName>ModuleGoToDest</moduleName>
-    <toolTip>Demo module to show use of imagination</toolTip>
-    <description>The module accepts a destination and determines a path to get there. It works by successively trying different endpoints it can currently reach to see if there is one which can directly reach the destination. This is a demonstration of the use of various other modules.</description>
+    <toolTip>演示模块展示想象力的运用Demo module to show use of imagination</toolTip>
+    <description>
+      该模块接受一个目的地并确定到达那里的路径。 它通过连续尝试当前可以到达的不同端点来工作，以查看是否有一个可以直接到达目的地。 这是使用各种其他模块的演示。
+      The module accepts a destination and determines a path to get there. It works by successively trying different endpoints it can currently reach to see if there is one which can directly reach the destination. This is a demonstration of the use of various other modules.</description>
   </ModuleDescription>
   <ModuleDescription>
     <moduleName>ModuleGraph</moduleName>
-    <toolTip>Builds a Simple Knowledge Graph in neurons.</toolTip>
-    <description>Demonstrates how neurons can be harnessed to store knowledge in relationships.</description>
+    <toolTip>在神经元中构建一个简单的知识图谱。Builds a Simple Knowledge Graph in neurons.</toolTip>
+    <description>
+      演示如何利用神经元在关系中存储知识。
+      Demonstrates how neurons can be harnessed to store knowledge in relationships.</description>
   </ModuleDescription>
   <ModuleDescription>
     <moduleName>ModuleHearWords</moduleName>
-    <toolTip>Senses words from the 2DSIM and builds phrases in the UKS.</toolTip>
-    <description>With an array of labeled word neurons, this modules senses the firing sequence and build phrase Things.</description>
+    <toolTip>感知来自 2DSIM 的单词并在 UKS 中构建短语。Senses words from the 2DSIM and builds phrases in the UKS.</toolTip>
+    <description>
+      借助一组标记的单词神经元，该模块可以感知触发序列并构建短语 Things。
+      With an array of labeled word neurons, this modules senses the firing sequence and build phrase Things.</description>
   </ModuleDescription>
   <ModuleDescription>
     <moduleName>ModuleImageFile</moduleName>
-    <toolTip>ImageFile can import images into a set of neurons.</toolTip>
-    <description>This module can import an image file or set of image files and will projectthem onto a rectangular area of Color neurons much like the Camera Module does.</description>
+    <toolTip>ImageFile 可以将图像导入一组神经元。ImageFile can import images into a set of neurons.</toolTip>
+    <description>
+      这个模块可以导入一个图像文件或一组图像文件，并将它们投影到一个矩形颜色神经元区域，就像相机模块一样。
+    This module can import an image file or set of image files and will projectthem onto a rectangular area of Color neurons much like the Camera Module does.</description>
   </ModuleDescription>
   <ModuleDescription>
     <moduleName>ModuleKBDebug</moduleName>
-    <toolTip>Module KBDebug is used for debugging the UKS modules.</toolTip>
-    <description>Creates a dialog box which scrolls the sequence of neuron firings into and out of the UKS. This module is used in debugging of the UKS, UKSN and UKS2 modules.</description>
+    <toolTip>Module KBDebug 用于调试 UKS 模块。Module KBDebug is used for debugging the UKS modules.</toolTip>
+    <description>
+      创建一个对话框，用于滚动进出 UKS 的神经元放电序列。 该模块用于UKS、UKSN、UKS2模块的调试。
+      Creates a dialog box which scrolls the sequence of neuron firings into and out of the UKS. This module is used in debugging of the UKS, UKSN and UKS2 modules.</description>
   </ModuleDescription>
   <ModuleDescription>
     <moduleName>ModuleLife</moduleName>
-    <toolTip>This module implements the Game of Life.</toolTip>
-    <description>With this module it is possible to show Conway's Game of Life implemented in neurons and synapses.</description>
+    <toolTip>该模块实现了生命游戏。This module implements the Game of Life.</toolTip>
+    <description>
+      通过这个模块，可以展示在神经元和突触中实现的康威生命游戏。
+      With this module it is possible to show Conway's Game of Life implemented in neurons and synapses.</description>
   </ModuleDescription>
   <ModuleDescription>
     <moduleName>ModuleMotor</moduleName>
-    <toolTip>Simulates a few motor funtions for Sallie.</toolTip>
-    <description>Allows for Sallies movement of wheels or limbs</description>
+    <toolTip>为 Sallie 模拟一些运动功能Simulates a few motor funtions for Sallie.</toolTip>
+    <description>允许 Sallies 移动轮子或四肢Allows for Sallies movement of wheels or limbs</description>
   </ModuleDescription>
   <ModuleDescription>
     <moduleName>ModuleMove</moduleName>
-    <toolTip>Moves the entity within the simulator</toolTip>
+    <toolTip>在模拟器中移动实体Moves the entity within the simulator</toolTip>
     <description>
-            The outer neurons can move the entity by pre-programmed amounts. It always moves forward or back relative to the direction it is headed.
+      外部神经元可以按预先编程的量移动实体。 它总是相对于它前进的方向向前或向后移动。
+      中心神经元可以与任何浮点值一起应用，以将实体移动指定的量。
+      其他模块（例如模拟器和模型）直接获知该运动。 当通知模拟器时，碰撞可能会取消请求的运动。
 
-            The center neuron can be applied with any float value to move the entity by a specified amount.
+      The outer neurons can move the entity by pre-programmed amounts. It always moves forward or back relative to the direction it is headed.
 
-            Other modules such as Simulator and Model are informed directly of the motiion. When the Simulator is informed, a collision may cancel the requested motion.
-        </description>
+      The center neuron can be applied with any float value to move the entity by a specified amount.
+
+      Other modules such as Simulator and Model are informed directly of the motiion. When the Simulator is informed, a collision may cancel the requested motion.
+    </description>
   </ModuleDescription>
   <ModuleDescription>
     <moduleName>ModuleMoveObject</moduleName>
-    <toolTip>This module moves objects.</toolTip>
-    <description>This module can move objects around in the simulated worlds.</description>
+    <toolTip>该模块移动对象This module moves objects.</toolTip>
+    <description>该模块可以在模拟世界中移动对象。This module can move objects around in the simulated worlds.</description>
   </ModuleDescription>
   <ModuleDescription>
     <moduleName>ModuleNavigate</moduleName>
-    <toolTip>Navigates a Maze.</toolTip>
-    <description>The module Navigate has specific code to navigate a maze in the simulated world, and perhaps one day in the real world.</description>
+    <toolTip>导航迷宫。Navigates a Maze.</toolTip>
+    <description>
+      Navigate 模块有特定的代码来在模拟世界中导航迷宫，也许有一天在现实世界中。
+    The module Navigate has specific code to navigate a maze in the simulated world, and perhaps one day in the real world.</description>
   </ModuleDescription>
   <ModuleDescription>
     <moduleName>ModuleNull</moduleName>
-    <toolTip>Module does nothing and can be used for testing</toolTip>
-    <description>Module does nothing and is used for testing.</description>
+    <toolTip>模块什么都不做，可用于测试Module does nothing and can be used for testing</toolTip>
+    <description>Module 什么都不做，用于测试Module does nothing and is used for testing.</description>
   </ModuleDescription>
   <ModuleDescription>
     <moduleName>ModulePatternGenerator</moduleName>
-    <toolTip>Generates a pattern of neuron firings for testing.</toolTip>
-    <description>Has a library of output patterns and can randomly select and output them.</description>
+    <toolTip>生成用于测试的神经元放电模式。Generates a pattern of neuron firings for testing.</toolTip>
+    <description>具有输出模式库，可以随机选择并输出。Has a library of output patterns and can randomly select and output them.</description>
   </ModuleDescription>
   <ModuleDescription>
     <moduleName>ModulePatternRecognizer</moduleName>
-    <toolTip>Decodes input patterns from an input array.</toolTip>
+    <toolTip>从输入数组中解码输入模式。Decodes input patterns from an input array.</toolTip>
     <description>
-            With 'Learning' not firing:
-            'RdOut' fires periodically to request data from inputs. Synapse weights are fixed. Based onthe learning algorithm, synapses are typically set so that a perfrect pattern match will fire on the first cycle and 1, 2, and 3-bit errors will fire on the subsequent cycles.
+      'Learning' 不触发：'RdOut' 周期性触发以从输入中请求数据。 突触权重是固定的。 基于学习算法，通常会设置突触，以便在第一个周期触发完美的模式匹配，并在后续周期触发 1、2 和 3 位错误。
+      使用“学习”触发：如果在“RdOut”之后没有识别神经元出现尖峰，则选择一个神经元来代表新模式，赫布突触开始学习新模式。
+      设置：将来自各种输入源的突触添加到“P0”。 系统将自动从添加的输入突触下方的所有标记神经元添加输入突触。 将“RdOut”中的突触添加到每个启用输入的神经元，因此该模块。
+      With 'Learning' not firing:
+      'RdOut' fires periodically to request data from inputs. Synapse weights are fixed. Based onthe learning algorithm, synapses are typically set so that a perfrect pattern match will fire on the first cycle and 1, 2, and 3-bit errors will fire on the subsequent cycles.
 
-            With 'Learning' firing:
-            If no recognition neuron spikes after 'RdOut,' a neuron is selected to represent the new pattern  and Hebbian synapses begin learning the new pattern.
+      With 'Learning' firing:
+      If no recognition neuron spikes after 'RdOut,' a neuron is selected to represent the new pattern  and Hebbian synapses begin learning the new pattern.
 
-            To Set up:
-            Add synapses from various input sources to 'P0'. The system will automatically add input synapses from all labeled neurons below the input synapses added. Add a synapse from'RdOut' to each neuron which enables inputs so this module.
-        </description>
+      To Set up:
+      Add synapses from various input sources to 'P0'. The system will automatically add input synapses from all labeled neurons below the input synapses added. Add a synapse from'RdOut' to each neuron which enables inputs so this module.
+    </description>
   </ModuleDescription>
   <ModuleDescription>
     <moduleName>ModuleRateDecoder</moduleName>
-    <toolTip>Decode seriel input into single firings of an neuron array</toolTip>
-    <description>Assuming 1ms cycle and 4ms refractory, this module can differentiate serial input by measuring the time between adjascent spikes in an input stream. The number of different levels detected is controlled by the height of the module and it detects different interspike timings in 1ms intervals. </description>
+    <toolTip>将串行输入解码为神经元阵列的单次触发Decode seriel input into single firings of an neuron array</toolTip>
+    <description>
+      假设 1ms 周期和 4ms 耐火，该模块可以通过测量输入流中相邻尖峰之间的时间来区分串行输入。 检测到的不同电平的数量由模块的高度控制，它以 1ms 的间隔检测不同的尖峰时间。
+      Assuming 1ms cycle and 4ms refractory, this module can differentiate serial input by measuring the time between adjascent spikes in an input stream. The number of different levels detected is controlled by the height of the module and it detects different interspike timings in 1ms intervals.
+    </description>
   </ModuleDescription>
   <ModuleDescription>
     <moduleName>ModuleRateDecoder2</moduleName>
-    <toolTip>Similar to RateDecoder module but twice as fast</toolTip>
-    <description>Assuming 1ms cycle and 4ms refractory, this module can differentiate serial input by measuring the time between adjascent spikes in an input stream. The number of different levels detected is controlled by the height of the module and it detects different interspike timings in 1ms intervals. This module measuring the inter-spike timing for every pair of spikes whereas RateDecoder measures for every other pair of spikes.</description>
+    <toolTip>类似于 RateDecoder 模块，但速度是后者的两倍Similar to RateDecoder module but twice as fast</toolTip>
+    <description>
+      假设 1ms 周期和 4ms 耐火，该模块可以通过测量输入流中相邻尖峰之间的时间来区分串行输入。 检测到的不同电平的数量由模块的高度控制，它以 1ms 的间隔检测不同的尖峰时间。 该模块测量每对尖峰的尖峰间时间，而 RateDecoder 测量每隔一对尖峰。
+      Assuming 1ms cycle and 4ms refractory, this module can differentiate serial input by measuring the time between adjascent spikes in an input stream. The number of different levels detected is controlled by the height of the module and it detects different interspike timings in 1ms intervals. This module measuring the inter-spike timing for every pair of spikes whereas RateDecoder measures for every other pair of spikes.</description>
   </ModuleDescription>
   <ModuleDescription>
     <moduleName>ModuleRateDecoder3</moduleName>
-    <toolTip>Similar to RateDecoder module but twice as fast</toolTip>
+    <toolTip>类似于 RateDecoder 模块，但速度是后者的两倍Similar to RateDecoder module but twice as fast</toolTip>
     <description>
-            Assuming 1ms cycle and 4ms refractory, this module can differentiate serial input by measuring the time between adjacent spikes in an input stream. The number of different levels detected is controlled by the height of the module and it detects different interspike timings in 1ms intervals.
+      假设 1ms 周期和 4ms 耐火，该模块可以通过测量输入流中相邻尖峰之间的时间来区分串行输入。 检测到的不同电平的数量由模块的高度控制，它以 1ms 的间隔检测不同的尖峰时间。
+      该模块测量每对尖峰的尖峰间时间，而 RateDecoder 测量每隔一对尖峰。 标记为“In”的神经元代表速率编码尖峰信号的输入。 标记为“读取”的神经元能够输出存储在其短期记忆中的值。
+      Assuming 1ms cycle and 4ms refractory, this module can differentiate serial input by measuring the time between adjacent spikes in an input stream. The number of different levels detected is controlled by the height of the module and it detects different interspike timings in 1ms intervals.
 
-            This module measures the inter-spike timing for every pair of spikes whereas RateDecoder measures for every other pair of spikes. The neuron labeled 'In' represents the input of the rate-encoded spiking signal. The neuron labeled 'Read' enables the output of the value which is stored in its short-term memory.
-        </description>
+      This module measures the inter-spike timing for every pair of spikes whereas RateDecoder measures for every other pair of spikes. The neuron labeled 'In' represents the input of the rate-encoded spiking signal. The neuron labeled 'Read' enables the output of the value which is stored in its short-term memory.
+    </description>
   </ModuleDescription>
   <ModuleDescription>
     <moduleName>ModuleRealityModel</moduleName>
-    <toolTip>Obsolete, do not use.</toolTip>
+    <toolTip>已过时，请勿使用。Obsolete, do not use.</toolTip>
     <description>Obsolete, do not use.</description>
   </ModuleDescription>
   <ModuleDescription>
     <moduleName>ModuleShortTermMemory</moduleName>
-    <toolTip>Short Term memory, expends no energy for unlimited duration</toolTip>
-    <description>Data is entered by firing the 'I' neurons. When 'Rd' is fired, data will be present on the 'O' neurons. </description>
+    <toolTip>短期记忆，无限期不消耗能量Short Term memory, expends no energy for unlimited duration</toolTip>
+    <description>
+      通过激发“I”神经元来输入数据。 当“Rd”被触发时，数据将出现在“O”神经元上。
+      Data is entered by firing the 'I' neurons. When 'Rd' is fired, data will be present on the 'O' neurons.
+    </description>
   </ModuleDescription>
   <ModuleDescription>
     <moduleName>ModuleSpeakPhonemes</moduleName>
-    <toolTip>Uses OS speech synhesis to say phonemes.</toolTip>
-    <description>This module uses the onboard OS Speech synthesis to speak (strings of) phonemes, thus building words and sentences.</description>
+    <toolTip>使用 OS 语音合成来说出音素。Uses OS speech synhesis to say phonemes.</toolTip>
+    <description>
+      该模块使用板载 OS 语音合成来说出（串）音素，从而构建单词和句子。
+      This module uses the onboard OS Speech synthesis to speak (strings of) phonemes, thus building words and sentences.</description>
   </ModuleDescription>
   <ModuleDescription>
     <moduleName>ModuleSpeakPhonemes2</moduleName>
-    <toolTip>Uses OS speech synhesis to say phonemes.</toolTip>
-    <description>This module uses the onboard OS Speech synthesis to speak (strings of) phonemes, thus building words and sentences.</description>
+    <toolTip>使用 OS 语音合成来说出音素。Uses OS speech synhesis to say phonemes.</toolTip>
+    <description>
+      该模块使用板载 OS 语音合成来说出（串）音素，从而构建单词和句子。
+    This module uses the onboard OS Speech synthesis to speak (strings of) phonemes, thus building words and sentences.</description>
   </ModuleDescription>
   <ModuleDescription>
     <moduleName>ModuleSpeakWords</moduleName>
-    <toolTip>Uses OS speech synhesis to say words.</toolTip>
-    <description>This module uses the onboard OS Speech synthesis to speak (strings of) words, thus building entire sentences.</description>
+    <toolTip>使用 OS 语音合成来说出单词。Uses OS speech synhesis to say words.</toolTip>
+    <description>
+      该模块使用板载 OS 语音合成来说出（字符串）单词，从而构建整个句子。
+      This module uses the onboard OS Speech synthesis to speak (strings of) words, thus building entire sentences.</description>
   </ModuleDescription>
   <ModuleDescription>
     <moduleName>ModuleSpeechIn</moduleName>
-    <toolTip>Uses OS speech recognition to detect words.</toolTip>
-    <description>This module uses the onboard OS Speech recognition to hear (strings of) words, in this case digits.</description>
+    <toolTip>使用操作系统语音识别来检测单词。Uses OS speech recognition to detect words.</toolTip>
+    <description>
+      该模块使用板载 OS 语音识别来听到（字符串）单词，在本例中为数字。
+    This module uses the onboard OS Speech recognition to hear (strings of) words, in this case digits.</description>
   </ModuleDescription>
   <ModuleDescription>
     <moduleName>ModuleSpeechOut</moduleName>
-    <toolTip>Uses OS speech synhesis to speak words.</toolTip>
-    <description>This module uses the onboard OS Speech synthesis to speak (strings of) words, thus building sentences.</description>
+    <toolTip>使用操作系统语音合成来说话。Uses OS speech synhesis to speak words.</toolTip>
+    <description>
+      该模块使用板载 OS 语音合成来说出（字符串）单词，从而构建句子。
+      This module uses the onboard OS Speech synthesis to speak (strings of) words, thus building sentences.</description>
   </ModuleDescription>
   <ModuleDescription>
     <moduleName>ModuleStrokeCenter</moduleName>
-    <toolTip>The base class for all Modules.</toolTip>
-    <description>This base class defines all common functionality for Modules.</description>
+    <toolTip>所有模块的基类。The base class for all Modules.</toolTip>
+    <description>
+      这个基类定义了模块的所有通用功能。
+    This base class defines all common functionality for Modules.</description>
   </ModuleDescription>
   <ModuleDescription>
     <moduleName>ModuleStrokeFinder</moduleName>
-    <toolTip>The base class for all Modules.</toolTip>
-    <description>This base class defines all common functionality for Modules.</description>
+    <toolTip>所有模块的基类。The base class for all Modules.</toolTip>
+    <description>
+      这个基类定义了模块的所有通用功能。
+      This base class defines all common functionality for Modules.</description>
   </ModuleDescription>
   <ModuleDescription>
     <moduleName>ModuleTurn</moduleName>
-    <toolTip>Rotates the entity within the simulator</toolTip>
+    <toolTip>在模拟器中旋转实体Rotates the entity within the simulator</toolTip>
     <description>
-            The outer neurons can rotate the entity by pre-programmed amounts.
+      外部神经元可以按预先编程的量旋转实体。
+      中心神经元可以应用任何浮点值以将实体旋转指定的量。其他模块（例如 Simulator 和 Model）直接通知旋转。
 
-            The center neuron can be applied with any float value to rotate the entity by a specified amount.Other modules such as Simulator and Model are informed directly of the rotation.
-        </description>
+      The outer neurons can rotate the entity by pre-programmed amounts.
+
+      The center neuron can be applied with any float value to rotate the entity by a specified amount.Other modules such as Simulator and Model are informed directly of the rotation.
+    </description>
   </ModuleDescription>
   <ModuleDescription>
     <moduleName>ModuleUKS</moduleName>
-    <toolTip>Universal Knowledge Store for storing linked knowledge data</toolTip>
+    <toolTip>用于存储链接知识数据的通用知识库Universal Knowledge Store for storing linked knowledge data</toolTip>
     <description>
-            This module uses no neurons but can be called directly by other modules.
+      该模块不使用神经元，但可以被其他模块直接调用。
+      在知识库中，一切都是“事物”（参见“事物”对象的源代码）。 事物可能有父母、孩子、对其他事物的引用和一个“值”，它可以是任何 .NET 对象（实现了 Color 和 Point）。 它可以使用可选的容差按值搜索。 对另一事物的引用是通过“链接”完成的，“链接”是具有可以检查和/或修改的附加权重的事物。
+      请注意，如果我们将节点视为神经元而将链接视为突触，那么知识库本身就有点像神经网络。
+      该对话框以树的形式显示 UKS 的内容。 您可以通过单击打开的箭头来展开树的子级，还可以显示引用和 referencedBy 链接。 该对话框可以设置为自动刷新。 当鼠标进入对话框时，自动刷新暂停，背景变为浅蓝色，提醒显示不再是当前的。
+      This module uses no neurons but can be called directly by other modules.
 
-            Within the Knowledge Store, everything is a 'Thing' (see the source code for the 'Thing' object). Things may have parents, children, references to other Things, and a 'value' which can be any .NET object (with Color and Point being implemented). It can search by value with an optional tolerance. A reference to another thing is done with a 'Link' which is a thing with an attached weight which can be examined and/or modified.
+      Within the Knowledge Store, everything is a 'Thing' (see the source code for the 'Thing' object). Things may have parents, children, references to other Things, and a 'value' which can be any .NET object (with Color and Point being implemented). It can search by value with an optional tolerance. A reference to another thing is done with a 'Link' which is a thing with an attached weight which can be examined and/or modified.
 
-            Note that the Knowledge store is a bit like a neural network its own right if we consider a node to be a neuron and a link to be a synapse.
-        
-The dialog box shows the content of the UKS at a tree. You can expand children of the tree by clicking the open arrows and also show references and referencedBy links. The dialog can be set to automatically refresh. When the mouse enters the dialog, automatic refreshing is paused and the background is changed to light blue as a reminder that the display is no longer current.</description>
+      Note that the Knowledge store is a bit like a neural network its own right if we consider a node to be a neuron and a link to be a synapse.
+
+      The dialog box shows the content of the UKS at a tree. You can expand children of the tree by clicking the open arrows and also show references and referencedBy links. The dialog can be set to automatically refresh. When the mouse enters the dialog, automatic refreshing is paused and the background is changed to light blue as a reminder that the display is no longer current.</description>
   </ModuleDescription>
   <ModuleDescription>
     <moduleName>ModuleUKS2</moduleName>
-    <toolTip>A Knowledge Graph UKS module expanded with a neuron arrays for inputs and outputs.</toolTip>
+    <toolTip>知识图 UKS 模块扩展了输入和输出的神经元阵列。A Knowledge Graph UKS module expanded with a neuron arrays for inputs and outputs.</toolTip>
     <description>
+      这就像一个 UKS 模块，但扩展为可以通过神经元触发访问，而不仅仅是以编程方式访问。 该模块不使用神经元，但可以被其他模块直接调用。
+                在知识库中，一切都是“事物”（参见“事物”对象的源代码）。 事物可能有父母、孩子、对其他事物的引用和一个“值”，它可以是任何 .NET 对象（实现了 Color 和 Point）。 它可以使用可选的容差按值搜索。 对另一事物的引用是通过“链接”完成的，“链接”是具有可以检查和/或修改的附加权重的事物。
+                请注意，如果我们将节点视为神经元而将链接视为突触，那么知识库本身就有点像神经网络。
             This is like a UKS module but expanded to be accessible via neuron firings instead of just programmatically. This module uses no neurons but can be called directly by other modules.
 
             Within the Knowledge Store, everything is a 'Thing' (see the source code for the 'Thing' object). Things may have parents, children, references to other Things, and a 'value' which can be any .NET object (with Color and Point being implemented). It can search by value with an optional tolerance. A reference to another thing is done with a 'Link' which is a thing with an attached weight which can be examined and/or modified.
@@ -294,112 +391,163 @@ The dialog box shows the content of the UKS at a tree. You can expand children o
   </ModuleDescription>
   <ModuleDescription>
     <moduleName>ModuleUKSN</moduleName>
-    <toolTip>DEPRECATED, use UKS2! A Knowledge Graph KB module expanded with a neuron arrays for inputs and outputs.</toolTip>
+    <toolTip>已弃用，使用 UKS2！ 知识图知识库模块扩展了输入和输出的神经元阵列。DEPRECATED, use UKS2! A Knowledge Graph KB module expanded with a neuron arrays for inputs and outputs.</toolTip>
     <description>
-            This is like a KB module but expanded to be accessible via neuron firings instead of just programmatically. This module uses no neurons but can be called directly by other modules.
+      这就像一个 KB 模块，但扩展为可通过神经元触发访问，而不仅仅是以编程方式访问。 该模块不使用神经元，但可以被其他模块直接调用。
+      在知识库中，一切都是“事物”（参见“事物”对象的源代码）。 事物可能有父母、孩子、对其他事物的引用和一个“值”，它可以是任何 .NET 对象（实现了 Color 和 Point）。 它可以使用可选的容差按值搜索。 对另一事物的引用是通过“链接”完成的，“链接”是具有可以检查和/或修改的附加权重的事物。
+      请注意，如果我们将节点视为神经元而将链接视为突触，那么知识库本身就有点像神经网络。
+      This is like a KB module but expanded to be accessible via neuron firings instead of just programmatically. This module uses no neurons but can be called directly by other modules.
 
-            Within the Knowledge Store, everything is a 'Thing' (see the source code for the 'Thing' object). Things may have parents, children, references to other Things, and a 'value' which can be any .NET object (with Color and Point being implemented). It can search by value with an optional tolerance. A reference to another thing is done with a 'Link' which is a thing with an attached weight which can be examined and/or modified.
+      Within the Knowledge Store, everything is a 'Thing' (see the source code for the 'Thing' object). Things may have parents, children, references to other Things, and a 'value' which can be any .NET object (with Color and Point being implemented). It can search by value with an optional tolerance. A reference to another thing is done with a 'Link' which is a thing with an attached weight which can be examined and/or modified.
 
-            Note that the Knowledge store is a bit like a neural network its own right if we consider a node to be a neuron and a link to be a synapse.
-        </description>
+      Note that the Knowledge store is a bit like a neural network its own right if we consider a node to be a neuron and a link to be a synapse.
+    </description>
   </ModuleDescription>
   <ModuleDescription>
     <moduleName>ModuleWords</moduleName>
-    <toolTip>Read a .txt file and load the words into an array of neuons.</toolTip>
-    <description>Creates an array of neurons representing words interconnected with synapses with weights indicated the count of the next word in a sequence.</description>
+    <toolTip>读取 .txt 文件并将单词加载到神经元数组中。Read a .txt file and load the words into an array of neuons.</toolTip>
+    <description>
+      创建一个神经元数组，表示与突触互连的单词，其权重表示序列中下一个单词的计数。
+      Creates an array of neurons representing words interconnected with synapses with weights indicated the count of the next word in a sequence.</description>
   </ModuleDescription>
   <ModuleDescription>
     <moduleName>ModuleImageZoom</moduleName>
-    <toolTip>Displays a bitmap image a desired scale, rotation, and offset</toolTip>
-    <description>This reads the underlying bitmap of an ImageFile module and displays it any way needed.
+    <toolTip>以所需的比例、旋转和偏移显示位图图像Displays a bitmap image a desired scale, rotation, and offset</toolTip>
+    <description>
+      这会读取 ImageFile 模块的底层位图并以任何需要的方式显示它。
+      顶行中的神经元值设置 x、y、比例和旋转值。 在模块上下文文件夹中显示的滑块中有镜像 最小比例显示模块神经元区域中的图像。 最大比例显示每个神经元一个像素。 旋转是关于图像的中心。
+      注意力模块旨在控制各种参数，以便系统可以专注于感兴趣的领域。
+      由于缩放、位置或旋转的变化使用抗锯齿算法，这些可能会对后续处理产生不利影响
+      This reads the underlying bitmap of an ImageFile module and displays it any way needed.
 
-Neuron values in the top row set the x, y, scale, and rotation values. There are mirrored in sliders which appear in the module context folder 
+      Neuron values in the top row set the x, y, scale, and rotation values. There are mirrored in sliders which appear in the module context folder
 
-Minimum scale shows the image in the neuron area of the module. Maximum scale shows one pixel per neuron. Rotation is about the center of the image.
+      Minimum scale shows the image in the neuron area of the module. Maximum scale shows one pixel per neuron. Rotation is about the center of the image.
 
-It is intended that an attention module will control the various parameters so the system can focus in on areas of intereest.
+      It is intended that an attention module will control the various parameters so the system can focus in on areas of intereest.
 
-Becauses changes in scale, position, or rotation use an antialiasing algorithm, these can have an adverse impact on subsequent processing.</description>
+      Becauses changes in scale, position, or rotation use an antialiasing algorithm, these can have an adverse impact on subsequent processing.</description>
   </ModuleDescription>
   <ModuleDescription>
     <moduleName>ModuleAssociation</moduleName>
-    <toolTip>Create associations between words and properties and relationships</toolTip>
-    <description>The association updates links by setting hits between nodes which have fired recently and adding misses to links for which only one end has fired recently.
+    <toolTip>在单词、属性和关系之间创建关联Create associations between words and properties and relationships</toolTip>
+    <description>
+      该关联通过在最近触发的节点之间设置命中并将未命中添加到最近仅触发一端的链接来更新链接。
+      该对话框将当前关联显示为顶部带有单词的网格。
+      关联被存储为命中或错过，并且在检查对话框“原始值”选项时，将其显示为命中/错过。 否则，该值是命中与未命中的比率。 每行或每列中的最高值都会突出显示。
+      The association updates links by setting hits between nodes which have fired recently and adding misses to links for which only one end has fired recently.
 
-The dialog shows the current associations as a grid with words across the top.
+      The dialog shows the current associations as a grid with words across the top.
 
-Associations are stored as hits or misses and when the dialog "Raw Values" option is checked, these are shown as hits/misses. Otherwise, the value is the ratio of hits to misses. The highes value in each row or column is highlighted.</description>
+      Associations are stored as hits or misses and when the dialog "Raw Values" option is checked, these are shown as hits/misses. Otherwise, the value is the ratio of hits to misses. The highes value in each row or column is highlighted.</description>
   </ModuleDescription>
   <ModuleDescription>
     <moduleName>ModuleBoundaryDescription</moduleName>
-    <toolTip>Handles verbal descriptions of the current view</toolTip>
-    <description>1. This module accepts an input string from either a dialog or programmaticaly via a SetDescription() method which is called from the ImageFile module. It then adds words one at a time to the Attention node.
-2. It also processes the current attention to create a verbal description, sort of an internal monologue.,</description>
+    <toolTip>处理当前视图的口头描述Handles verbal descriptions of the current view</toolTip>
+    <description>
+      1. 该模块接受来自对话框或通过从 ImageFile 模块调用的 SetDescription() 方法以编程方式输入的字符串。 然后，它一次将一个单词添加到 Attention 节点。
+      2. 它还处理当前注意力以创建口头描述，有点像内部独白。
+
+      1. This module accepts an input string from either a dialog or programmaticaly via a SetDescription() method which is called from the ImageFile module. It then adds words one at a time to the Attention node.
+      2. It also processes the current attention to create a verbal description, sort of an internal monologue.,</description>
   </ModuleDescription>
   <ModuleDescription>
     <moduleName>ModuleBoundarySegments</moduleName>
-    <toolTip>Find corners and segments in an image</toolTip>
-    <description>This module reads an input image from the ImageZoom module and searches from boundary segments and corners. It outputs these as neuron firings.
+    <toolTip>
+      查找图像中的角和段
+      Find corners and segments in an image</toolTip>
+    <description>
+      该模块从 ImageZoom 模块读取输入图像，并从边界段和角落进行搜索。 它将这些输出为神经元放电。
+      上下文菜单允许您调整色相、饱和度和亮度的最小增量阈值。
+      这是占位符代码。 它仅适用于由直线段组成的简单对象。 很容易被抗锯齿弄糊涂
+      This module reads an input image from the ImageZoom module and searches from boundary segments and corners. It outputs these as neuron firings.
 
-The Context Menu lets you adjust the thresholds for the minimum delta for Hue, Saturation, and Luminance.
+      The Context Menu lets you adjust the thresholds for the minimum delta for Hue, Saturation, and Luminance.
 
-THIS IS PLACEHOLDER CODE. it works with simple objects made of straight segments only.  It is eaily confused by anti-aliasing .</description>
+      THIS IS PLACEHOLDER CODE. it works with simple objects made of straight segments only.  It is eaily confused by anti-aliasing .</description>
   </ModuleDescription>
   <ModuleDescription>
     <moduleName>ModuleBoundaryAreas</moduleName>
-    <toolTip>Assembles segments and corners into areas</toolTip>
-    <description>Assuming there or multiple shapes in the visual field processed by Boundary Areas, this module clusters connected segments and corners into areas. Areas can be complex.
+    <toolTip>将段和角组装成区域Assembles segments and corners into areas</toolTip>
+    <description>
+      假设边界区域处理的视野中存在或多个形状，该模块将连接的段和角聚集成区域。 领域可能很复杂。
+      区域在“Sense | Visual | CurrentVisible”位置下写入 UKS。
+      它还计算每个区域的中心及其在中心的颜色。
+      Assuming there or multiple shapes in the visual field processed by Boundary Areas, this module clusters connected segments and corners into areas. Areas can be complex.
 
-Areas are written into the UKS under the location "Sense | Visual | CurrentlyVisible".
+      Areas are written into the UKS under the location "Sense | Visual | CurrentlyVisible".
 
-It also calculates the center of each area and its color at the center.</description>
+      It also calculates the center of each area and its color at the center.</description>
   </ModuleDescription>
   <ModuleDescription>
     <moduleName>ModuleBoundaryColor</moduleName>
-    <toolTip>Match detected colors agains stored colors</toolTip>
-    <description>This module determins if the detect color (in HSL format) is already in the UKS and adds it if not. 
+    <toolTip>将检测到的颜色与存储的颜色匹配Match detected colors agains stored colors</toolTip>
+    <description>
+      此模块确定检测颜色（HSL 格式）是否已经在 UKS 中，如果没有则添加。
+      使用 HSL 表示可以轻松确定颜色是否相似，因为它们的色调相似，而饱和度和亮度可能有更大的变化并且仍然是相同的颜色。
+      This module determins if the detect color (in HSL format) is already in the UKS and adds it if not.
 
-Using the HSL representation allows for easy determiniation if colors are similar because their hue will be similar whereas the saturation and luminatnce could have much greater variation and still be the same color.</description>
+      Using the HSL representation allows for easy determiniation if colors are similar because their hue will be similar whereas the saturation and luminatnce could have much greater variation and still be the same color.</description>
   </ModuleDescription>
   <ModuleDescription>
     <moduleName>ModuleBoundaryShapes</moduleName>
-    <toolTip>Determines if visible areas represent known shapes</toolTip>
-    <description>Each area in the visible field is matched against library the stored shapes in the UKS. If it is not found, and new shape entry is made. Then the visible objects are updated with the known shape.
+    <toolTip>确定可见区域是否代表已知形状Determines if visible areas represent known shapes</toolTip>
+    <description>
+      可见字段中的每个区域都与库中存储的 UKS 形状相匹配。 如果未找到，则进行新的形状条目。 然后用已知形状更新可见对象。
+      因为形状基于角和它们之间的相对距离，所以形状检测与缩放、旋转或位置无关。
+      Each area in the visible field is matched against library the stored shapes in the UKS. If it is not found, and new shape entry is made. Then the visible objects are updated with the known shape.
 
-Because shapes are based on corners and relative distances between them, shape detection is independent of scale, rotation, or position.</description>
+      Because shapes are based on corners and relative distances between them, shape detection is independent of scale, rotation, or position.</description>
   </ModuleDescription>
   <ModuleDescription>
     <moduleName>ModuleBoundaryKnown</moduleName>
-    <toolTip>Determines if this object has been seen before</toolTip>
-    <description>This module etermines if areas in the visual field have been seen before based on their current shape and color. 
+    <toolTip>确定此对象是否以前见过Determines if this object has been seen before</toolTip>
+    <description>
+      该模块根据当前的形状和颜色确定视野中的区域是否曾被看到。
+      未来的发展将允许已知的形状尽可能复杂，包括numerout形状。
+      This module etermines if areas in the visual field have been seen before based on their current shape and color.
 
-Future development will allow known shapes to be as complex as desired consisting of numerout shapes.</description>
+      Future development will allow known shapes to be as complex as desired consisting of numerout shapes.</description>
   </ModuleDescription>
   <ModuleDescription>
     <moduleName>ModuleBoundaryMotion</moduleName>
-    <toolTip>Detects object motion and updates the Mental Model</toolTip>
-    <description>This module detecs motion of objects in the visual field by comparing the current visual field content with the current mental model. It  detects if object have appeared or disappeared and if objects have moved. 
+    <toolTip>检测物体运动并更新心智模型Detects object motion and updates the Mental Model</toolTip>
+    <description>
+      该模块通过将当前视野内容与当前心智模型进行比较来检测视野中物体的运动。 它检测对象是否出现或消失以及对象是否移动。
+      然后它假设如果所有物体都在运动，则更有可能视角已经改变并且物体实际上是静止的。 然后它可以确定 POV 的运动。
+      最后，它更新了心智模型。
 
-It then assumes that if all objects are in motion, it is more likely that the point of view has changed and the objects are actually static. It can then determine the motion of the POV.
+      This module detecs motion of objects in the visual field by comparing the current visual field content with the current mental model. It  detects if object have appeared or disappeared and if objects have moved.
 
-Finally, it updates the mental model. </description>
+      It then assumes that if all objects are in motion, it is more likely that the point of view has changed and the objects are actually static. It can then determine the motion of the POV.
+
+      Finally, it updates the mental model.
+    </description>
   </ModuleDescription>
   <ModuleDescription>
     <moduleName>ModuleAttention</moduleName>
-    <toolTip>Determines which inputs are the current focus of attention</toolTip>
-    <description>Based on the idea the the mind can only pat attention to a few things at a time, this module selects which one to pay attentiaon to. Currently the module supports a single visual stream and a single audible stream.
+    <toolTip>确定哪些输入是当前关注的焦点Determines which inputs are the current focus of attention</toolTip>
+    <description>
+      基于大脑一次只能关注几件事情的想法，这个模块选择关注哪一件。 目前该模块支持单一视觉流和单一听觉流。
+      听觉注意：传入的单词按顺序一次处理一个。  I 视觉注意：如果一个物体移动了，它就会成为一个焦点。 在没有任何其他输入的情况下，注意力会在可见对象中随机跳过。 视觉注意力也可以通过对话框或图像文件描述中的关键字来控制。
+      该对话框以颜色显示当前的视觉注意力，并以轮廓显示心智模型中的其他对象。 请注意，因为显示是从心智模型中的角落重建的，所以它可以比原始输入具有更高的分辨率。
+      当鼠标光标进入对话框时，它会停止注意力的变化并用蓝色背景表示。 您可以通过单击将注意力集中到某个特定对象上。
+      Based on the idea the the mind can only pat attention to a few things at a time, this module selects which one to pay attentiaon to. Currently the module supports a single visual stream and a single audible stream.
 
-Audible Attention: Incoming words are processed one at a time in sequence. I
-Visual Attentiaon: f an object has moved, it becomes a focus of attention. Absent any other input, attention skips randomly among the visible objects. Visual attention can also be controlled by the dialog box or key-words in the imageFile desciptions.
+      Audible Attention: Incoming words are processed one at a time in sequence. I
+      Visual Attentiaon: f an object has moved, it becomes a focus of attention. Absent any other input, attention skips randomly among the visible objects. Visual attention can also be controlled by the dialog box or key-words in the imageFile desciptions.
 
-The dialog box shows the current visual attention in color and the other objects in the mental model in outline. Note that because the display is a reconstruction from the corners in the mental model, it can be at a higher resolution than the original input.
-WHen the mouse cursor enters the dialog, it stops changes in attentaion and inticates this with a blue bakcground.  You can direct attention to a particula object by clicking on it.</description>
+      The dialog box shows the current visual attention in color and the other objects in the mental model in outline. Note that because the display is a reconstruction from the corners in the mental model, it can be at a higher resolution than the original input.
+      WHen the mouse cursor enters the dialog, it stops changes in attentaion and inticates this with a blue bakcground.  You can direct attention to a particula object by clicking on it.</description>
   </ModuleDescription>
   <ModuleDescription>
     <moduleName>ModuleBoundaryRelationship</moduleName>
-    <toolTip>Builds the relationships between objects in the mental model</toolTip>
-    <description>This module scans the properties of the objects in the mental model and builds relationship linkages between them. 
+    <toolTip>在心智模型中建立对象之间的关系Builds the relationships between objects in the mental model</toolTip>
+    <description>
+      该模块扫描心智模型中对象的属性并建立它们之间的关系链接。
+      关系类似于 UKS 链接，但也有关系类型。 这样，我们可以通过 >size 表示 Area0 与 Area1 相关（意味着一个大于另一个）。 为存在的任何属性自动创建关系。 具有值的属性具有 >= 的比较，而颜色或形状等属性仅显示为 = 或 !=。
+      This module scans the properties of the objects in the mental model and builds relationship linkages between them.
 
-A relationship is like a UKS Link but ALSO has a relationship type. That way, we can represent that Area0 is related to Area1 by &gt;size (meaning that one is larger than the other). Relationships are automatically created for any properties which exist.  Properties with values have comparisionts of &lt;&gt;= while properties like color or shape are simply shows as = or !=.</description>
+      A relationship is like a UKS Link but ALSO has a relationship type. That way, we can represent that Area0 is related to Area1 by &gt;size (meaning that one is larger than the other). Relationships are automatically created for any properties which exist.  Properties with values have comparisionts of &lt;&gt;= while properties like color or shape are simply shows as = or !=.</description>
   </ModuleDescription>
 </ArrayOfModuleDescription>

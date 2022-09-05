@@ -78,8 +78,8 @@ namespace BrainSimulator
                         selectedRectangles[i].获取选择区域(out int X1, out int Y1, out int X2, out int Y2);
                         int height = Y2 - Y1 + 1;
                         选中神经元索引 = selectedRectangles[i].首个选中的神经元 + (index / height) *
-                            MainWindow.此神经元数组.行数 + index % height;
-                        if (选中神经元索引 > MainWindow.此神经元数组.数组大小) return null;
+                            MainWindow.此神经元数组.rows + index % height;
+                        if (选中神经元索引 > MainWindow.此神经元数组.arraySize) return null;
                         n = MainWindow.此神经元数组.获取神经元(选中神经元索引);
                         if (!已访问神经元列表.Contains(n))
                         {

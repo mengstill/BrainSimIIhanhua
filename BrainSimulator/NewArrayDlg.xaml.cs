@@ -77,9 +77,9 @@ namespace BrainSimulator
         {
             if (cbUseServers.IsChecked == true)
             {
-                神经元客户端.GetServerList();
+                神经元客户端.获取服务列表();
                 Thread.Sleep(1000);
-                if (神经元客户端.serverList.Count == 0)
+                if (神经元客户端.服务列表.Count == 0)
                 {
                     ServerList.Text = "未检测到服务器";
                     buttonSpeedTest.IsEnabled = false;
@@ -90,11 +90,11 @@ namespace BrainSimulator
                     int.TryParse(textBoxRows.Text, out rows);
                     ServerList.Text = "";
                     MainWindow.useServers = true;
-                    int numServers = 神经元客户端.serverList.Count;
+                    int numServers = 神经元客户端.服务列表.Count;
                     int neuronsNeeded = rows * cols;
                     for (int i = 0; i < numServers; i++)
                     {
-                        神经元客户端.Server s = 神经元客户端.serverList[i];
+                        神经元客户端.Server s = 神经元客户端.服务列表[i];
                         s.firstNeuron = i * neuronsNeeded / numServers;
                         s.lastNeuron = (i + 1) * neuronsNeeded / numServers;
                         ServerList.Text += s.ipAddress.ToString() + " " + s.name + " " + s.firstNeuron + " " + s.lastNeuron + "\n";
@@ -130,7 +130,7 @@ namespace BrainSimulator
                 }
             }
             MainWindow.神经元数组视图.ClearSelection();
-            MainWindow.此神经元数组 = new 神经元数组();
+            MainWindow.此神经元数组 = new NeuronArray();
 
             if (!int.TryParse(textBoxColumns.Text, out cols)) return;
             if (!int.TryParse(textBoxRows.Text, out rows)) return;
@@ -146,12 +146,12 @@ namespace BrainSimulator
             MainWindow.神经元数组视图.Dp.神经元图示大小 = 62;
             MainWindow.神经元数组视图.Dp.DisplayOffset = new Point(0, 0);
 
-            if (MainWindow.useServers && 神经元客户端.serverList.Count > 0)
+            if (MainWindow.useServers && 神经元客户端.服务列表.Count > 0)
             {
                 //TODO: Replace this with a multicolumn UI
                 MainWindow.此神经元数组.初始化(arraySize, rows);
                 string[] lines = ServerList.Text.Split('\n');
-                神经元客户端.serverList.Clear();
+                神经元客户端.服务列表.Clear();
                 foreach (string line in lines)
                 {
                     if (line == "") continue;
@@ -161,12 +161,12 @@ namespace BrainSimulator
                     s.name = command[1];
                     int.TryParse(command[2], out s.firstNeuron);
                     int.TryParse(command[3], out s.lastNeuron);
-                    神经元客户端.serverList.Add(s);
+                    神经元客户端.服务列表.Add(s);
                 }
 
                 int totalNeuronsInServers = 0;
-                for (int i = 0; i < 神经元客户端.serverList.Count; i++)
-                    totalNeuronsInServers += 神经元客户端.serverList[i].lastNeuron - 神经元客户端.serverList[i].firstNeuron;
+                for (int i = 0; i < 神经元客户端.服务列表.Count; i++)
+                    totalNeuronsInServers += 神经元客户端.服务列表[i].lastNeuron - 神经元客户端.服务列表[i].firstNeuron;
                 if (totalNeuronsInServers != arraySize)
                 {
                     MessageBox.Show("服务器神经元分配不等于总神经元!");
@@ -175,8 +175,8 @@ namespace BrainSimulator
                     return;
                 }
 
-                神经元客户端.InitServers(0, arraySize);
-                神经元客户端.WaitForDoneOnAllServers();
+                神经元客户端.初始化服务器(0, arraySize);
+                神经元客户端.在所有服务器上等待完成();
                 returnValue = true;
                 Close();
                 returnValue = true;
@@ -219,10 +219,10 @@ namespace BrainSimulator
             神经元客户端.pingCount = 0;
             System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
             sw.Start();
-            string payload = 神经元客户端.CreatePayload(1450);
+            string payload = 神经元客户端.创建有效载荷(1450);
             for (int i = 0; i < 100000; i++)
             {
-                神经元客户端.SendToServer(targetIp, "Ping");
+                神经元客户端.向服务器发送消息(targetIp, "Ping");
             }
             sw.Stop();
             double packetSendNoPayload = ((double)sw.ElapsedMilliseconds) / 100000.0;
@@ -231,7 +231,7 @@ namespace BrainSimulator
             sw.Start();
             for (int i = 0; i < 100000; i++)
             {
-                神经元客户端.SendToServer(targetIp, "Ping " + payload);
+                神经元客户端.向服务器发送消息(targetIp, "Ping " + payload);
             }
             sw.Stop();
             double packetSendBigPayload = ((double)sw.ElapsedMilliseconds) / 100000.0;
@@ -255,7 +255,7 @@ namespace BrainSimulator
         {
             神经元客户端.Init();
             UpdateServerTextBox();
-            if (神经元客户端.serverList.Count > 0)
+            if (神经元客户端.服务列表.Count > 0)
                 MainWindow.useServers = true;
             buttonRefresh.IsEnabled = true; ;
         }

@@ -381,7 +381,7 @@ namespace BrainSimulator
 
             MainWindow.此神经元数组.获取神经元位置(currentNeuron, out int col, out int row);
             col = Math.Min(col, MainWindow.此神经元数组.Cols - theModule.MinWidth);
-            row = Math.Min(row, MainWindow.此神经元数组.行数 - theModule.MinHeight);
+            row = Math.Min(row, MainWindow.此神经元数组.rows - theModule.MinHeight);
             currentNeuron = MainWindow.此神经元数组.获取神经元索引(col, row);
             Point snappedPosition = dp.神经元坐标(currentNeuron);
 
@@ -440,7 +440,7 @@ namespace BrainSimulator
                     MainWindow.此神经元数组.获取神经元位置(newLast, out int col1, out int row1);
 
 
-                    if (newFirst >= 0 && row1 > row0 && newLast < MainWindow.此神经元数组.数组大小)
+                    if (newFirst >= 0 && row1 > row0 && newLast < MainWindow.此神经元数组.arraySize)
                     {
                         //move all the neurons
                         List<int> neuronsToMove = new List<int>();
@@ -590,7 +590,7 @@ namespace BrainSimulator
                     if (Yc != Yf)
                     {
                         int newBottom = Y2 + Yc - Yf;
-                        if (newBottom >= Y1  && newBottom < MainWindow.此神经元数组.行数)
+                        if (newBottom >= Y1  && newBottom < MainWindow.此神经元数组.rows)
                         {
                             MainWindow.此神经元数组.添加模块撤销(index, theCurrentModule);
 

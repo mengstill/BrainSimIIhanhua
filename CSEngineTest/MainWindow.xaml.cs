@@ -23,11 +23,11 @@ namespace CsEngineTest
         {
             int neuronCount = 1000000;
             int synapsesPerNeuron = 1000;
-            MessageBox.Show("Starting array allocation");
+            MessageBox.Show("开始数组分配");
             theNeuronArray = new NeuronHandler();
-            MessageBox.Show("any existing array removed");
+            MessageBox.Show("已删除任何现有阵列");
             theNeuronArray.Initialize(neuronCount);
-            MessageBox.Show("array allocation complete");
+            MessageBox.Show("数组分配完成");
             int test = theNeuronArray.GetArraySize();
             int threads = theNeuronArray.GetThreadCount();
             theNeuronArray.SetThreadCount(16);
@@ -69,7 +69,7 @@ namespace CsEngineTest
             theNeuronArray.DeleteSynapse(1, 2);
 
 
-            MessageBox.Show("allocating synapses");
+            MessageBox.Show("分配突触");
             Parallel.For(0, neuronCount, x =>
             {
                 //for (int x = 0; x < neuronCount; x++)
@@ -84,7 +84,7 @@ namespace CsEngineTest
             });
             for (int i = 0; i < neuronCount / 100; i++)
                 theNeuronArray.SetNeuronCurrentCharge(100 * i, 1);
-            MessageBox.Show("synapses and charge complete");
+            MessageBox.Show("突触和充电完成");
             Stopwatch sw = new Stopwatch();
             string msg = "";
             for (int i = 0; i < 10; i++)

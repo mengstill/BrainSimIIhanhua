@@ -19,9 +19,9 @@ namespace BrainSimulator
         public NotesDialog(bool showToolBar = false)
         {
             InitializeComponent();
-            if (MainWindow.此神经元数组.网络节点 == "")
-                MainWindow.此神经元数组.网络节点 = "目的:\n\r要尝试的事情:\n\r发展现状:\n\r笔记:\n\r";
-            string theNotes = MainWindow.此神经元数组.网络节点;
+            if (MainWindow.此神经元数组.networkNotes == "")
+                MainWindow.此神经元数组.networkNotes = "目的:\n\r要尝试的事情:\n\r发展现状:\n\r笔记:\n\r";
+            string theNotes = MainWindow.此神经元数组.networkNotes;
             if (theNotes.IndexOf("<") != 0) //for backward compatibility from before these were RTF
             {
                 mainRTB.AppendText(theNotes);
@@ -87,9 +87,9 @@ namespace BrainSimulator
                 }
                 xamlText = xamlText.Replace("</Hyperlink>", "");
 
-                MainWindow.此神经元数组.网络节点 = xamlText;
+                MainWindow.此神经元数组.networkNotes = xamlText;
             }
-            MainWindow.此神经元数组.隐藏节点 = (bool)checkBox.IsChecked;
+            MainWindow.此神经元数组.hideNotes = (bool)checkBox.IsChecked;
             Close();
         }
 

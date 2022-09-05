@@ -35,8 +35,8 @@ namespace BrainSimulator
             //get list of neurons to copy
             List<int> neuronsToCopy = theSelection.枚举选择的神经元();
             theSelection.获取选择的矩形边界(out int X1o, out int Y1o, out int X2o, out int Y2o);
-            MainWindow.myClipBoard = new 神经元数组();
-            神经元数组 myClipBoard;
+            MainWindow.myClipBoard = new NeuronArray();
+            NeuronArray myClipBoard;
             myClipBoard = MainWindow.myClipBoard;
             myClipBoard.初始化((X2o - X1o + 1) * (Y2o - Y1o + 1), (Y2o - Y1o + 1),true);
             boundarySynapsesOut.Clear();
@@ -181,7 +181,7 @@ namespace BrainSimulator
 
         public void PasteNeurons()
         {
-            神经元数组 myClipBoard = MainWindow.myClipBoard;
+            NeuronArray myClipBoard = MainWindow.myClipBoard;
 
             if (!MainWindow.神经元数组视图.dp.显示神经元())
             {
@@ -199,7 +199,7 @@ namespace BrainSimulator
 
             //first check to see if the destination is claar and warn
             List<int> targetNeurons = new List<int>();
-            for (int i = 0; i < myClipBoard.数组大小; i++)
+            for (int i = 0; i < myClipBoard.arraySize; i++)
             {
                 if (myClipBoard.获取神经元(i,true) != null)
                 {
@@ -209,7 +209,7 @@ namespace BrainSimulator
 
             MainWindow.此神经元数组.获取神经元位置(targetNeuronIndex, out int col, out int row);
             if (col + myClipBoard.Cols > MainWindow.此神经元数组.Cols ||
-                row + myClipBoard.行数 > MainWindow.此神经元数组.行数)
+                row + myClipBoard.rows > MainWindow.此神经元数组.rows)
             {
                 MessageBoxResult result = MessageBox.Show("Paste would exceed neuron array boundary!", "Error", MessageBoxButton.OK);
                 return;
@@ -224,7 +224,7 @@ namespace BrainSimulator
             MainWindow.暂停引擎();
             MainWindow.此神经元数组.设置撤消点();
             //now paste the neurons
-            for (int i = 0; i < myClipBoard.数组大小; i++)
+            for (int i = 0; i < myClipBoard.arraySize; i++)
             {
                 if (myClipBoard.获取神经元(i) != null)
                 {
@@ -407,7 +407,7 @@ namespace BrainSimulator
 
             MainWindow.此神经元数组.获取神经元位置(targetNeuronIndex, out int col, out int row);
             if (col + maxCol >= MainWindow.此神经元数组.Cols ||
-                row + maxRow >= MainWindow.此神经元数组.行数 ||
+                row + maxRow >= MainWindow.此神经元数组.rows ||
                 row < 0 || 
                 col < 0)
             {
@@ -436,7 +436,7 @@ namespace BrainSimulator
                 MoveOneNeuron(sourceNeuron, destNeuron);
                 if (MainWindow.神经元数组视图.IsShowingSynapses(source))
                 {
-                    MainWindow.神经元数组视图.RemoveShowSynapses(source);
+                    MainWindow.神经元数组视图.移除突触显示(source);
                     MainWindow.神经元数组视图.添加突触显示(source + offset);
                 }
             }
@@ -471,7 +471,7 @@ namespace BrainSimulator
             if(MainWindow.useServers)
             {
                 n.突触列表 = 神经元客户端.GetSynapses(n.id);
-                n.突触来源列表 = 神经元客户端.GetSynapsesFrom(n.id);
+                n.突触来源列表 = 神经元客户端.获取突触(n.id);
             }
 
             //copy the neuron attributes and delete them from the old neuron.

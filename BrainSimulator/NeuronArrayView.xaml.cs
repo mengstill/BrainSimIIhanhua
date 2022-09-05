@@ -15,6 +15,9 @@ using System.Windows.Threading;
 
 namespace BrainSimulator
 {
+    /// <summary>
+    /// 就是主窗口中间那部分的内容,这里是自定义了一个控件
+    /// </summary>
     public partial class 神经元数组视图 : UserControl
     {
 
@@ -30,7 +33,7 @@ namespace BrainSimulator
         //keeps track of the multiple selection areas
         public 选择 theSelection = new 选择();
 
-        int Rows { get { return MainWindow.此神经元数组.行数; } }
+        int Rows { get { return MainWindow.此神经元数组.rows; } }
 
         //this helper class keeps track of the neurons on the screen so they can change color without repainting
         private List<NeuronOnScreen> neuronsOnScreen = new List<NeuronOnScreen>();
@@ -59,7 +62,7 @@ namespace BrainSimulator
             if (!showSynapses.Contains(neuronID))
                 showSynapses.Add(neuronID);
         }
-        public void RemoveShowSynapses(int neuronID)
+        public void 移除突触显示(int neuronID)
         {
             showSynapses.Remove(neuronID);
         }
@@ -89,7 +92,7 @@ namespace BrainSimulator
         public void 更新()
         {
             var watch = System.Diagnostics.Stopwatch.StartNew();
-            神经元数组 theNeuronArray = MainWindow.此神经元数组;
+            NeuronArray theNeuronArray = MainWindow.此神经元数组;
 
             Canvas labelCanvas = new Canvas();
             Canvas.SetLeft(labelCanvas, 0);
@@ -122,15 +125,15 @@ namespace BrainSimulator
             if (MainWindow.数组是否为空()) return;
 
             //Debug.WriteLine("Update " + MainWindow.theNeuronArray.Generation);
-            dp.神经元行数 = MainWindow.此神经元数组.行数;
+            dp.神经元行数 = MainWindow.此神经元数组.rows;
             theCanvas.Children.Clear();
             neuronsOnScreen.Clear();
-            int columns = MainWindow.此神经元数组.数组大小 / dp.神经元行数;
+            int columns = MainWindow.此神经元数组.arraySize / dp.神经元行数;
 
             //draw some background grid and labels
             int boxSize = 250;
             if (columns > 2500) boxSize = 1000;
-            for (int i = 0; i <= theNeuronArray.行数; i += boxSize)
+            for (int i = 0; i <= theNeuronArray.rows; i += boxSize)
             {
                 Line l = new Line
                 {
@@ -149,14 +152,14 @@ namespace BrainSimulator
                     X1 = dp.DisplayOffset.X + j * dp.神经元图示大小,
                     X2 = dp.DisplayOffset.X + j * dp.神经元图示大小,
                     Y1 = dp.DisplayOffset.Y + 0,
-                    Y2 = dp.DisplayOffset.Y + theNeuronArray.行数 * dp.神经元图示大小,
+                    Y2 = dp.DisplayOffset.Y + theNeuronArray.rows * dp.神经元图示大小,
                     Stroke = new SolidColorBrush(Colors.Red),
                 };
                 legendCanvas.Children.Add(l);
             }
 
             int refNo = 1;
-            for (int i = 0; i < theNeuronArray.行数; i += boxSize)
+            for (int i = 0; i < theNeuronArray.rows; i += boxSize)
             {
                 for (int j = 0; j < columns; j += boxSize)
                 {
@@ -287,7 +290,7 @@ namespace BrainSimulator
                     for (int row = startRow; row < endRow; row++)
                     {
                         int neuronID = dp.GetAbsNeuronAt(col, row);
-                        if (neuronID >= 0 && neuronID < theNeuronArray.数组大小)
+                        if (neuronID >= 0 && neuronID < theNeuronArray.arraySize)
                         {
                             神经元 n;
                             if (MainWindow.useServers)

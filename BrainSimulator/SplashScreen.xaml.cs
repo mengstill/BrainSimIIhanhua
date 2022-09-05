@@ -8,10 +8,13 @@ using System.Windows;
 namespace BrainSimulator
 {
     /// <summary>
-    /// Interaction logic for SplashScreeen.xaml
+    /// SplashScreeen.xaml的交互逻辑
     /// </summary>
     public partial class SplashScreeen : Window
     {
+        /// <summary>
+        /// 弹出界面初始化
+        /// </summary>
         public SplashScreeen()
         {
             InitializeComponent();

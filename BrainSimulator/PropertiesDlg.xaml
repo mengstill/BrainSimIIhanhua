@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:BrainSimulator"
         mc:Ignorable="d"
         Background="LightGray"
-        Title="Network Properties" Height="268" Width="378">
+        Title="网络属性" Height="268" Width="378">
     <Grid Margin="15">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"  />
@@ -27,17 +27,17 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <Label Name="lbl1"        Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" >File Path:</Label>
+        <Label Name="lbl1"        Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" >文件路径:</Label>
         <TextBox Name="txtFileName" IsEnabled="False" Grid.Row="0" Grid.Column="3" IsReadOnly="true" MinWidth="250" VerticalAlignment="Center">Answer</TextBox>
-        <Label Name="lbl2"        Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" >Rows:</Label>
+        <Label Name="lbl2"        Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" >行数:</Label>
         <TextBox Name="txtRows" Grid.Row="1" Grid.Column="3" MinWidth="250" VerticalAlignment="Center">Answer</TextBox>
-        <Label Name="lbl3"        Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" >Columns:</Label>
+        <Label Name="lbl3"        Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" >列数:</Label>
         <TextBox Name="txtColumns" Grid.Row="2" Grid.Column="3" MinWidth="250" VerticalAlignment="Center">Answer</TextBox>
-        <Label Name="lbl4"        Grid.Row="3" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" >Neurons:</Label>
+        <Label Name="lbl4"        Grid.Row="3" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" >神经元数:</Label>
         <TextBox Name="txtNeurons" Grid.Row="3" IsEnabled="False" Grid.Column="3" MinWidth="250" IsReadOnly="true" VerticalAlignment="Center">Answer</TextBox>
-        <Label Name="lbl5"        Grid.Row="4" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" >Neurons In Use:</Label>
+        <Label Name="lbl5"        Grid.Row="4" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" >使用中的神经元:</Label>
         <TextBox Name="txtNeuronsInUse" Grid.Row="4" Grid.Column="3" IsEnabled="False" IsReadOnly="true" MinWidth="250" VerticalAlignment="Center" >Answer</TextBox>
-        <Label Name="lbl6"        Grid.Row="5" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" >Synapses:</Label>
+        <Label Name="lbl6"        Grid.Row="5" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" >突触数:</Label>
         <TextBox Name="txtSynapses" Grid.Row="5" IsEnabled="False" Grid.Column="3" IsReadOnly="true" MinWidth="250" VerticalAlignment="Center">Answer</TextBox>
 
         <Button IsDefault="True" x:Name="btnDialogOk" Click="btnDialogOk_Click" MinWidth="60" Margin="66,5,173,-31" Content="OK" Grid.Column="1" Grid.Row="9" RenderTransformOrigin="1.03,0.339" Grid.ColumnSpan="3"/>

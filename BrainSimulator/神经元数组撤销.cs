@@ -11,7 +11,7 @@ using System.Xml.Serialization;
 
 namespace BrainSimulator
 {
-    public partial class 神经元数组 : 神经元处理
+    public partial class NeuronArray : 神经元处理
     {
 
         /// UNDO Handling UNDO 处理

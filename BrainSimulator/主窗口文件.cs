@@ -63,13 +63,13 @@ namespace BrainSimulator
 
             Update();
             SetShowSynapsesCheckBox(此神经元数组.ShowSynapses);
-            SetPlayPauseButtonImage(此神经元数组.引擎是否暂停);
-            SetSliderPosition(此神经元数组.引擎运行速度);
+            SetPlayPauseButtonImage(此神经元数组.EngineIsPaused);
+            SetSliderPosition(此神经元数组.EngineSpeed);
 
-            引擎是否暂停 = 此神经元数组.引擎是否暂停;
+            引擎是否暂停 = 此神经元数组.EngineIsPaused;
 
             engineSpeedStack.Clear();
-            engineSpeedStack.Push(此神经元数组.引擎运行速度);
+            engineSpeedStack.Push(此神经元数组.EngineSpeed);
 
             if (!引擎是否暂停)
                 恢复引擎();
@@ -91,7 +91,7 @@ namespace BrainSimulator
                     }
                     catch (Exception e)
                     {
-                        MessageBox.Show("SetupAfterLoad failed on module " + na.Label + ".   Message: " + e.Message);
+                        MessageBox.Show("模块加载失败后的安装 " + na.Label + ".   消息: " + e.Message);
                     }
                 }
             }
@@ -105,7 +105,7 @@ namespace BrainSimulator
             //because file in bin..debug can be clobbered on every rebuild.
             if (fileName.ToLower().Contains("bin\\debug\\net6.0-windows"))
             {
-                MessageBoxResult mbResult = System.Windows.MessageBox.Show(this, "Save to source folder instead?", "Save", MessageBoxButton.YesNoCancel,
+                MessageBoxResult mbResult = System.Windows.MessageBox.Show(this, "改为保存到源文件夹?", "Save", MessageBoxButton.YesNoCancel,
                 MessageBoxImage.Asterisk, MessageBoxResult.No);
                 if (mbResult == MessageBoxResult.Yes)
                     fileName = fileName.ToLower().Replace("bin\\debug\\net6.0-windows\\", "");
@@ -190,7 +190,7 @@ namespace BrainSimulator
             暂停引擎();
 
             bool retVal = false;
-            MessageBoxResult mbResult = System.Windows.MessageBox.Show(this, "Do you want to save changes?", "Save", MessageBoxButton.YesNoCancel,
+            MessageBoxResult mbResult = System.Windows.MessageBox.Show(this, "是否要保存更改?", "Save", MessageBoxButton.YesNoCancel,
             MessageBoxImage.Asterisk, MessageBoxResult.No);
             if (mbResult == MessageBoxResult.Yes)
             {

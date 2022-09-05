@@ -48,39 +48,39 @@
 
 
         <Menu DockPanel.Dock="Top" x:Name="MainMenu" MouseEnter="MainMenu_MouseEnter" Height="26" Margin="0,0" VerticalAlignment="Top" >
-            <MenuItem Header="_File">
-                <MenuItem Header="_New" Click="button_FileNew_Click" InputGestureText="Ctrl-N">
+            <MenuItem Header="_文件">
+                <MenuItem Header="_新建" Click="button_FileNew_Click" InputGestureText="Ctrl-N">
                     <MenuItem.Icon>
                         <Image Source="/resources/icons/newFile_16x.png"/>
                         <!--<TextBlock FontSize="16" FontFamily="Segoe MDL2 Assets" >&#xF61B;</TextBlock>-->
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="_Open" Click="buttonLoad_Click" InputGestureText="Ctrl-O">
+                <MenuItem Header="_打开" Click="buttonLoad_Click" InputGestureText="Ctrl-O">
                     <MenuItem.Icon>
                         <Image Source="/resources/icons/OpenFile_16x.png"/>
                         <!--<TextBlock FontSize="16" FontFamily="Segoe MDL2 Assets" >&#xE8E5;</TextBlock>-->
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="_Save" Click="buttonSave_Click" InputGestureText="Ctrl-S">
+                <MenuItem Header="_保存" Click="buttonSave_Click" InputGestureText="Ctrl-S">
                     <MenuItem.Icon>
                         <Image Source="/resources/icons/Save_16x.png"/>
                         <!--<TextBlock FontSize="16" FontFamily="Segoe MDL2 Assets" >&#xE74E;</TextBlock>-->
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Save _As" Click="buttonSaveAs_Click" >
+                <MenuItem Header="另存为" Click="buttonSaveAs_Click" >
                     <MenuItem.Icon>
                         <!--<Image Source="resources/diskette.png"></Image>-->
                         <Image Source="resources/icons/saveAs_16x.png"></Image>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem x:Name="Reload_network" Header="Reload _Network" Click="buttonReloadNetwork_click" IsEnabled="False">
+                <MenuItem x:Name="Reload_network" Header="重载网络" Click="buttonReloadNetwork_click" IsEnabled="False">
                     <MenuItem.Icon>
                         <!--<Image Source="resources/diskette.png"></Image>-->
                         <Image Source="resources/icons/refresh_16x.png"></Image>
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator />
-                <MenuItem Header="_Properties" Click="MenuItemProperties_Click">
+                <MenuItem Header="_网络属性" Click="MenuItemProperties_Click">
                     <MenuItem.Icon>
                         <TextBlock FontSize="16" FontFamily="Segoe MDL2 Assets" Foreground="#FF00539C"  >&#xE71D;</TextBlock>
                     </MenuItem.Icon>
@@ -110,93 +110,93 @@
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
-            <MenuItem Header="Edit">
-                <MenuItem Header="Find Neuron" x:Name="NeuronMenu">
+            <MenuItem Header="编辑">
+                <MenuItem Header="寻找神经元" x:Name="NeuronMenu">
                     <MenuItem.Icon>
                         <Image Source="/Resources/icons/quickFind_16x.png"></Image>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Find Module" x:Name="ModuleMenu">
+                <MenuItem Header="寻找模块" x:Name="ModuleMenu">
                     <MenuItem.Icon>
                         <Image Source="/Resources/icons/quickFind_16x.png"></Image>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Insert Module" x:Name="InsertModuleMenu"></MenuItem>
-                <MenuItem Header=" Undo"  Click="MenuItem_Undo" InputGestureText="Ctrl-Z">
+                <MenuItem Header="插入模块" x:Name="InsertModuleMenu"></MenuItem>
+                <MenuItem Header=" 撤销"  Click="MenuItem_Undo" InputGestureText="Ctrl-Z">
                     <MenuItem.Icon>
                         <Image Source="/resources/icons/Undo_16x.png"></Image>
                         <!--<TextBlock FontSize="16" FontFamily="Segoe MDL2 Assets" >&#xE7A7;</TextBlock>-->
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator />
-                <MenuItem Header=" Cut"  Click="MenuItem_CutNeurons" InputGestureText="Ctrl-X">
+                <MenuItem Header=" 剪切"  Click="MenuItem_CutNeurons" InputGestureText="Ctrl-X">
                     <MenuItem.Icon>
                         <TextBlock FontSize="16" FontFamily="Segoe MDL2 Assets" Foreground="#FF00539C" >&#xE8C6;</TextBlock>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header=" Copy"  Click="MenuItem_CopyNeurons" InputGestureText="Ctrl-C">
+                <MenuItem Header=" 复制"  Click="MenuItem_CopyNeurons" InputGestureText="Ctrl-C">
                     <MenuItem.Icon>
                         <TextBlock FontSize="16" FontFamily="Segoe MDL2 Assets" Foreground="#FF00539C" >&#xE8C8;</TextBlock>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header=" Paste"  Click="MenuItem_PasteNeurons" InputGestureText="Ctrl-V">
+                <MenuItem Header=" 粘贴"  Click="MenuItem_PasteNeurons" InputGestureText="Ctrl-V">
                     <MenuItem.Icon>
                         <TextBlock FontSize="16" FontFamily="Segoe MDL2 Assets" Foreground="#FF00539C" >&#xE77F;</TextBlock>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header=" Delete"  Click="MenuItem_DeleteNeurons" InputGestureText="DEL">
+                <MenuItem Header=" 删除"  Click="MenuItem_DeleteNeurons" InputGestureText="DEL">
                     <MenuItem.Icon>
                         <TextBlock FontSize="16" FontFamily="Segoe MDL2 Assets" Foreground="#FF00539C" >&#xE74D;</TextBlock>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header=" Move" Click="MenuItem_MoveNeurons" InputGestureText="Ctrl-M" >
+                <MenuItem Header=" 移动" Click="MenuItem_MoveNeurons" InputGestureText="Ctrl-M" >
                     <MenuItem.Icon>
                         <TextBlock FontSize="16" FontFamily="Segoe MDL2 Assets" Foreground="#FF00539C" >&#xE8F3;</TextBlock>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header=" Clear Selection" Click="MenuItem_ClearSelection" InputGestureText="ESC">
+                <MenuItem Header=" 清空选项" Click="MenuItem_ClearSelection" InputGestureText="ESC">
                 </MenuItem>
-                <MenuItem Header=" Select All" Click="MenuItem_SelectAll" InputGestureText="Ctrl-A" >
+                <MenuItem Header=" 全选" Click="MenuItem_SelectAll" InputGestureText="Ctrl-A" >
                     <MenuItem.Icon>
                         <Image Source="/Resources/icons/SelectAll_16x.png"></Image>
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator />
-                <MenuItem Header="Load Clipboard" Click="button_LoadClipboard_Click" ToolTip="Load clipboard from file" >
+                <MenuItem Header="加载剪贴板" Click="button_LoadClipboard_Click" ToolTip="Load clipboard from file" >
                     <MenuItem.Icon>
                         <TextBlock FontSize="16" FontFamily="Segoe MDL2 Assets" Foreground="#FF00539C" >&#xE896;</TextBlock>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Save Clipboard" Click="button_ClipboardSave_Click" ToolTip="Save clipboard to file">
+                <MenuItem Header="保存剪贴板" Click="button_ClipboardSave_Click" ToolTip="将剪贴板保存到文件">
                     <MenuItem.Icon>
                         <TextBlock FontSize="16" FontFamily="Segoe MDL2 Assets" Foreground="#FF00539C" >&#xE898;</TextBlock>
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator/>
-                <MenuItem Header="_Network Notes" Click="MenuItemNotes_Click" >
+                <MenuItem Header="_网络笔记" Click="MenuItemNotes_Click" >
                     <MenuItem.Icon>
                         <TextBlock FontSize="16" FontFamily="Segoe MDL2 Assets" Foreground="#FF00539C" >&#xE70F;</TextBlock>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Module Descriptions" Click="MenuItemModuleInfo_Click" >
+                <MenuItem Header="模块说明" Click="MenuItemModuleInfo_Click" >
                     <MenuItem.Icon>
                         <TextBlock FontSize="16" FontFamily="Segoe MDL2 Assets" Foreground="#FF00539C" >&#xE70F;</TextBlock>
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
-            <MenuItem Header="Neuron Engine" StaysOpenOnClick="True">
-                <MenuItem Header="Reset" Click="ButtonInit_Click">
+            <MenuItem Header="神经元引擎" StaysOpenOnClick="True">
+                <MenuItem Header="重置" Click="ButtonInit_Click">
                     <MenuItem.Icon>
                         <TextBlock FontSize="16" FontFamily="Segoe MDL2 Assets" Foreground="#FF00539C" >&#xEB9E;</TextBlock>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Run" Click="PlayPause_Click">
+                <MenuItem Header="运行" Click="PlayPause_Click">
                     <MenuItem.Icon>
                         <!--<Image Source="/resources/icons/pause_16x.png"></Image>-->
                         <TextBlock FontSize="16" FontFamily="Segoe MDL2 Assets"  Foreground="#FF00539C">&#xE768;</TextBlock>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Pause" Click="PlayPause_Click" >
+                <MenuItem Header="暂停" Click="PlayPause_Click" >
                     <MenuItem.Icon>
                         <TextBlock FontSize="16" FontFamily="Segoe MDL2 Assets" Foreground="#FF00539C" >&#xE769;</TextBlock>
                     </MenuItem.Icon>
@@ -227,23 +227,23 @@
                     <TextBox Text="-1" VerticalAlignment="Center" Width="37" x:Name="ThreadCount" TextChanged="ThreadCount_TextChanged"/>
                 </StackPanel>
             </MenuItem>
-            <MenuItem Header="View">
-                <MenuItem Header="Start Pan" Click="ButtonPan_Click">
+            <MenuItem Header="视图">
+                <MenuItem Header="启动盘" Click="ButtonPan_Click">
                     <MenuItem.Icon>
                         <Image Source="/resources/icons/hand.png" Height="20"></Image>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Zoom In" Click="ButtonZoomIn_Click">
+                <MenuItem Header="放大" Click="ButtonZoomIn_Click">
                     <MenuItem.Icon>
                         <Image Source="/resources/icons/ZoomIn_16x.png" Height="20"></Image>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Zoom Out" Click="ButtonZoomOut_Click">
+                <MenuItem Header="缩小" Click="ButtonZoomOut_Click">
                     <MenuItem.Icon>
                         <Image Source="/resources/icons/ZoomOut_16x.png" Height="20"></Image>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Show all" Click="ButtonZoomToOrigin_Click">
+                <MenuItem Header="显示所有" Click="ButtonZoomToOrigin_Click">
                     <MenuItem.Icon>
                         <Image Source="/resources/icons/ZoomoriginalSize_16x.png" Height="20"></Image>
                     </MenuItem.Icon>
@@ -253,43 +253,43 @@
                         <Image Source="/resources/icons/ZoomoriginalSize_16x.png" Height="20"></Image>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Show Synapses" Name="ShowSynapses" IsCheckable="true" Click="Menu_ShowSynapses" ></MenuItem>
+                <MenuItem Header="显示突触" Name="ShowSynapses" IsCheckable="true" Click="Menu_ShowSynapses" ></MenuItem>
             </MenuItem>
-            <MenuItem Header=" Help">
-                <MenuItem Click="MenuItemHelp_Click" InputGestureText="F1">
+            <MenuItem Header=" 帮助">
+                <MenuItem Click="菜单帮助按钮_Click" InputGestureText="F1">
                     <MenuItem.Header>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" >
-                            <Label Width="100" VerticalAlignment="Center" Padding="0,0,5,0">Getting Started</Label>
+                            <Label Width="100" VerticalAlignment="Center" Padding="0,0,5,0">入门</Label>
                             <CheckBox x:Name="cbShowHelpAtStartup" Checked="cbShowHelpAtStartup_Checked" Unchecked="cbShowHelpAtStartup_Checked" VerticalAlignment="Center" Padding="5,0,5,0">Show at startup</CheckBox>
                         </StackPanel>
                     </MenuItem.Header>
                 </MenuItem>
-                <MenuItem Header="Register" Click="MenuItemRegister_Click" >
+                <MenuItem Header="登记" Click="MenuItemRegister_Click" >
                     <MenuItem.Icon>
                         <Image Source="/resources/mailing-list-icon-17.jpg"></Image>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Help Contents" Click="MenuItemOnlineHelp_Click" >
+                <MenuItem Header="帮助内容" Click="MenuItemOnlineHelp_Click" >
                     <MenuItem.Icon>
                         <TextBlock FontSize="16" FontFamily="Segoe MDL2 Assets" Foreground="#FF00539C" >&#xE897;</TextBlock>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Report bugs, request features" Click="MenuItemOnlineBugs_Click" >
+                <MenuItem Header="报告错误，请求功能" Click="MenuItemOnlineBugs_Click" >
                     <MenuItem.Icon>
                         <Image Source="/resources/github-9-24.ico"></Image>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Join Facebook discussion" Click="MenuItemOnlineDiscussions_Click" >
+                <MenuItem Header="加入 Facebook 讨论" Click="MenuItemOnlineDiscussions_Click" >
                     <MenuItem.Icon>
                         <Image Source="resources/facebook-3-24.ico"></Image>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Watch the YouTubeChannel" Click="MenuItemYouTube_Click" >
+                <MenuItem Header="观看 YouTube 频道" Click="MenuItemYouTube_Click" >
                     <MenuItem.Icon>
                         <Image Source="resources/youtube-24.ico"></Image>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Check for available updates" Click="MenuCheckForUpdates_Click"></MenuItem>
+                <MenuItem Header="检查可用的更新" Click="MenuCheckForUpdates_Click"></MenuItem>
                 <MenuItem Header="About" Click="Button_HelpAbout_Click"/>
             </MenuItem>
         </Menu>
@@ -327,7 +327,7 @@
                     <Image Source="/resources/icons/ZoomoriginalSize_16x.png" Height="20"></Image>
                 </Button>
                 <Label Visibility="Hidden" Width="5"></Label>
-                <CheckBox x:Name="checkBox" Content="All Synapses" Height="18" VerticalAlignment="Center" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked"  />
+                <CheckBox x:Name="checkBox" Content="所有突触" Height="18" VerticalAlignment="Center" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked"  />
                 <Label Visibility="Hidden" Width="30"></Label>
                 <Button x:Name="buttonInit" FontSize="20" FontFamily="Segoe MDL2 Assets" Content="&#xEB9E;" Foreground="#FF00539C" VerticalAlignment="Top" Click="ButtonInit_Click" ToolTip="Reset all modules" Grid.Column="2" >
                     <!--<Image Source="/resources/Rewind.png" Height="20"></Image>-->
@@ -341,16 +341,16 @@
                 </Button>
                 <RepeatButton  x:Name="buttonSingle" Delay="500" Interval="500" FontSize="20" FontFamily="Segoe MDL2 Assets" Content="&#xE893;" Foreground="#FF00539C" Click="ButtonSingle_Click" VerticalAlignment="Top" ToolTip="Run the engine one cycle" Grid.Column="2" >
                 </RepeatButton>
-                <Label x:Name="label1" Content="Speed:" Height="30" VerticalAlignment="Center" />
-                <Slider x:Name="slider" ValueChanged="slider_ValueChanged" IsSnapToTickEnabled="True" Value="5" 
+                <Label x:Name="label1" Content="速度:" Height="30" VerticalAlignment="Center" />
+                <Slider x:Name="slider" ValueChanged="速度滑块更改时" IsSnapToTickEnabled="True" Value="5" 
                     Width="140" ToolTip="Change the engine speed" Height="25" VerticalAlignment="Bottom"  />
                 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                    <Label VerticalAlignment="Center">Add Module:</Label>
+                    <Label VerticalAlignment="Center">添加模块:</Label>
                     <ComboBox x:Name="ModuleListComboBox" SelectionChanged="ModuleList_SelectionChanged" VerticalContentAlignment="Center" Width="80" Height="26" IsEditable="True">
                         
                     </ComboBox>
-                    <Label VerticalAlignment="Center">Add Synapse With—Weight:</Label>
+                    <Label VerticalAlignment="Center">添加突触 - 权重:</Label>
                     <ComboBox x:FieldModifier="public" Name="SynapseWeight" VerticalContentAlignment="Center" Width="60" Height="26" IsEditable="True">
                         <ComboBoxItem IsSelected="true">1.00</ComboBoxItem>
                         <ComboBoxItem>0.90</ComboBoxItem>
@@ -364,7 +364,7 @@
                         <ComboBoxItem>0.00</ComboBoxItem>
                         <ComboBoxItem>-1.00</ComboBoxItem>
                     </ComboBox>
-                    <Label VerticalAlignment="Center">Model:</Label>
+                    <Label VerticalAlignment="Center">模块:</Label>
                     <ComboBox x:Name="SynapseModel"  Width="80" Height="26" VerticalContentAlignment="Center">
                         <ComboBoxItem IsSelected="True">Fixed</ComboBoxItem>
                         <ComboBoxItem>Binary</ComboBoxItem>
@@ -373,7 +373,7 @@
                         <!--<ComboBoxItem>Hebbian3</ComboBoxItem>-->
                     </ComboBox>
                     <Label Width="10"></Label>
-                    <CheckBox x:Name="SynapseUpdate" VerticalAlignment="Center">Update from click</CheckBox>
+                    <CheckBox x:Name="SynapseUpdate" VerticalAlignment="Center">点击更新</CheckBox>
                     <Label Width="30"></Label>
                 </StackPanel>
             </DockPanel>

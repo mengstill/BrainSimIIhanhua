@@ -19,12 +19,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SetupFirewall", "SetupFirew
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AutomatedTests", "AutomatedTests", "{23F38505-3BF9-44D4-B138-F7E57837D466}"
 	ProjectSection(SolutionItems) = preProject
-		AutomatedTests\_run_complete_test.cmd = AutomatedTests\_run_complete_test.cmd
-		AutomatedTests\_run_set_1.cmd = AutomatedTests\_run_set_1.cmd
-		AutomatedTests\_run_set_2.cmd = AutomatedTests\_run_set_2.cmd
-		AutomatedTests\_run_set_3.cmd = AutomatedTests\_run_set_3.cmd
-		AutomatedTests\_run_set_4.cmd = AutomatedTests\_run_set_4.cmd
-		AutomatedTests\_run_wip_tests.cmd = AutomatedTests\_run_wip_tests.cmd
 		AutomatedTests\keywords.resource = AutomatedTests\keywords.resource
 		AutomatedTests\testset_1.robot = AutomatedTests\testset_1.robot
 		AutomatedTests\testset_2.robot = AutomatedTests\testset_2.robot
@@ -32,6 +26,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AutomatedTests", "Automated
 		AutomatedTests\testset_4.robot = AutomatedTests\testset_4.robot
 		AutomatedTests\teststeps.py = AutomatedTests\teststeps.py
 		AutomatedTests\testtoolkit.py = AutomatedTests\testtoolkit.py
+		AutomatedTests\_run_complete_test.cmd = AutomatedTests\_run_complete_test.cmd
+		AutomatedTests\_run_set_1.cmd = AutomatedTests\_run_set_1.cmd
+		AutomatedTests\_run_set_2.cmd = AutomatedTests\_run_set_2.cmd
+		AutomatedTests\_run_set_3.cmd = AutomatedTests\_run_set_3.cmd
+		AutomatedTests\_run_set_4.cmd = AutomatedTests\_run_set_4.cmd
+		AutomatedTests\_run_wip_tests.cmd = AutomatedTests\_run_wip_tests.cmd
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{1C458A63-D394-4406-9465-01FA35263D9E}"
@@ -46,7 +46,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{1C458A63
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Installer", "Installer", "{A2928C3B-AE3F-4E47-9094-39ECEC5D3183}"
 	ProjectSection(SolutionItems) = preProject
-		Installer\_BRAINSIM2.nsi = Installer\_BRAINSIM2.nsi
 		Installer\bsicon.ico = Installer\bsicon.ico
 		Installer\build_installer.cmd = Installer\build_installer.cmd
 		Installer\FileAssociation.nsh = Installer\FileAssociation.nsh
@@ -55,9 +54,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Installer", "Installer", "{
 		Installer\SPLASH.bmp = Installer\SPLASH.bmp
 		Installer\SPLASH.wav = Installer\SPLASH.wav
 		Installer\unicon.ico = Installer\unicon.ico
+		Installer\_BRAINSIM2.nsi = Installer\_BRAINSIM2.nsi
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GetVersionInfo", "GetVersionInfo\GetVersionInfo.csproj", "{853FC713-7A7F-4995-95E0-1396A82CA2B5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "解决方案项", "解决方案项", "{79A935A1-E0A7-49CC-BAD9-E2E88E8663E8}"
+	ProjectSection(SolutionItems) = preProject
+		日志.txt = 日志.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

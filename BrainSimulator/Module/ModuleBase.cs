@@ -13,7 +13,7 @@ namespace BrainSimulator.Modules
 {
     abstract public class ModuleBase
     {
-        protected 神经元数组 theNeuronArray { get => MainWindow.此神经元数组; }
+        protected NeuronArray theNeuronArray { get => MainWindow.此神经元数组; }
         protected 模块视图 mv = null;
 
         //this is public so it will be included in the saved xml file.  That way
@@ -181,7 +181,7 @@ namespace BrainSimulator.Modules
         }
 
         //this hack is here because a file can load and create dialogs prior to the mainwindow opening
-        public void SetDlgOwner(Window MainWindow)
+        public void 设置对话框所有者(Window MainWindow)
         {
             if (dlg != null)
                 dlg.Owner = MainWindow;

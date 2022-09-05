@@ -178,7 +178,7 @@ namespace BrainSimulator
                 Modules.ModuleBase tempModule = (Modules.ModuleBase)Activator.CreateInstance(t);
                 选择矩阵 nsr = MainWindow.神经元数组视图.theSelection.selectedRectangles[i];
                 MainWindow.此神经元数组.获取神经元位置(nsr.首个选中的神经元, out int col, out int row);
-                if (row + tempModule.MinHeight > MainWindow.此神经元数组.行数 ||
+                if (row + tempModule.MinHeight > MainWindow.此神经元数组.rows ||
                     col + tempModule.MinWidth > MainWindow.此神经元数组.Cols)
                 {
                     MessageBox.Show("Minimum size would exceed neuron array boundary.");

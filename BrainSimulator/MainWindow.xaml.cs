@@ -37,9 +37,9 @@ namespace BrainSimulator
     {
         //Globals
         public static 神经元数组视图 神经元数组视图 = null;
-        public static 神经元数组 此神经元数组 = null;
+        public static NeuronArray 此神经元数组 = null;
         //for cut-copy-paste
-        public static 神经元数组 myClipBoard = null; //refactor back to private
+        public static NeuronArray myClipBoard = null; //refactor back to private
 
         public static FiringHistoryWindow fwWindow = null;
         public static NotesDialog notesWindow = null;
@@ -61,13 +61,13 @@ namespace BrainSimulator
         public static string currentFileName = "";
 
         public static MainWindow thisWindow;
-        readonly Window splashScreen = new SplashScreeen();
+        readonly Window 弹出窗口 = new SplashScreeen();
 
         public ProgressDialog progressDialog;
 
         public MainWindow()
         {
-            //this puts up a dialog on unhandled exceptions
+            //这将显示一个关于未处理异常的对话框
 #if !DEBUG
             AppDomain.CurrentDomain.UnhandledException += (sender, eventArgs) =>
                 {
@@ -85,62 +85,70 @@ namespace BrainSimulator
                     Application.Current.Shutdown(255);
                 };
 #endif
-
+            //这里应该是程序的入口,开门启动神经元引擎
             引擎线程 = new Thread(new ThreadStart(引擎循环)) { Name = "EngineThread" };
 
             //testing of crash message...
             //throw new FileNotFoundException();
-
-            InitializeComponent();
             
+            InitializeComponent();
+            //将引擎线程的有限级设置为低
             引擎线程.Priority = ThreadPriority.Lowest;
-
-            displayUpdateTimer.Tick += DisplayUpdate_TimerTick;
+            //增加一个事件,计时器触发
+            displayUpdateTimer.Tick += 计时器触发显示更新;
+            //设置计时器的间隔
             displayUpdateTimer.Interval = TimeSpan.FromMilliseconds(100);
+            //启动计时器
             displayUpdateTimer.Start();
-
+            
             神经元数组视图 = 此神经元数组视图;
             Width = 1100;
             Height = 600;
-            slider_ValueChanged(slider, null);
+            
+            速度滑块更改时(slider, null);
 
             thisWindow = this;
-
-            splashScreen.Left = 300;
-            splashScreen.Top = 300;
-            splashScreen.Show();
-            DispatcherTimer splashHide = new DispatcherTimer
+            //下面这一些代码注释后仍然可以正常运行,且不会有网页与弹出窗口,但是关闭后,线程还在后台运行
+            弹出窗口.Left = 30;
+            弹出窗口.Top = 30;
+            弹出窗口.Show();
+            DispatcherTimer 弹出窗口隐藏计时器 = new DispatcherTimer
             {
-                Interval = new TimeSpan(0, 0, 3),
+                Interval = new TimeSpan(0, 0, 1),
             };
-            splashHide.Tick += SplashHide_Tick;
-            splashHide.Start();
+            弹出窗口隐藏计时器.Tick += 弹出窗口隐藏计时器事件;
+            弹出窗口隐藏计时器.Start();
+            //下面这一堆代码大致是检查是否设置了自动更新,如果有则检查是否有更新,有更新则启动更新窗口
             if (Properties.Settings.Default.UpgradeRequired)
             {
                 Properties.Settings.Default.Upgrade();
                 Properties.Settings.Default.UpgradeRequired = false;
                 Properties.Settings.Default.Save();
             }
-            CheckForVersionUpdate();
-
+            检查版本更新();
         }
 
-        private void SplashHide_Tick(object sender, EventArgs e)
+        private void 弹出窗口隐藏计时器事件(object sender, EventArgs e)
         {
             Application.Current.MainWindow = this;
-            splashScreen.Close();
+            弹出窗口.Close();
+            //关闭这个事件
             ((DispatcherTimer)sender).Stop();
-
-            bool showHelp = (bool)Properties.Settings.Default["ShowHelp"];
+            //以下是关于打开帮助网络的逻辑,首先在配置中查询这个showhelp是否为真,如果为真则启动网页
+            bool showHelp = (bool)Properties.Settings.Default.ShowHelp;
             cbShowHelpAtStartup.IsChecked = showHelp;
             if (showHelp)
             {
-                MenuItemHelp_Click(null, null);
+                菜单帮助按钮_Click(null, null);
             }
 
 
             //this is here because the file can be loaded before the mainwindow displays so
+            //这是因为可以在主窗口显示之前加载文件
             //module dialogs may open before their owner so this happens a few seconds later
+            //模块对话框可能在其所有者之前打开，因此这会在几秒钟后发生
+
+            //这里的大概意思是如果神经元数组为空,则,更改神经元数组中的模型的所有者,目的是干什么还不太清楚
             if (此神经元数组 != null)
             {
                 lock (此神经元数组.Modules)
@@ -149,7 +157,7 @@ namespace BrainSimulator
                     {
                         if (na.TheModule != null)
                         {
-                            na.TheModule.SetDlgOwner(this);
+                            na.TheModule.设置对话框所有者(this);
                         }
                     }
                 }
@@ -177,7 +185,7 @@ namespace BrainSimulator
                     });
                 }
             }
-            if (!此神经元数组.隐藏节点 && 此神经元数组.网络节点 != "")
+            if (!此神经元数组.hideNotes && 此神经元数组.networkNotes != "")
                 Application.Current.Dispatcher.Invoke((Action)delegate
                 {
                     MenuItemNotes_Click(null, null);
@@ -266,7 +274,7 @@ namespace BrainSimulator
             }
         }
 
-        private void 设置KB状态()
+        private void 设置键盘状态()
         {
             string kbString = "";
             if (ctrlPressed) kbString += "CTRL ";
@@ -360,7 +368,7 @@ namespace BrainSimulator
             return false;
         }
 
-        //Enable/disable menu item specified by "Entry"...pass in the Menu.Items as the root to search
+        //启用/禁用“条目”指定的菜单项…进入菜单。作为要搜索的根的项
         private void EnableMenuItem(ItemCollection mm, string Entry, bool enabled)
         {
             foreach (Object m1 in mm)
@@ -381,7 +389,7 @@ namespace BrainSimulator
             return;
         }
 
-        //this enables and disables various menu entries based on circumstances
+        //这将根据情况启用和禁用各种菜单项
         private void MainMenu_MouseEnter(object sender, MouseEventArgs e)
         {
             LoadMRUMenu();
@@ -554,8 +562,8 @@ namespace BrainSimulator
         public static bool 数组是否为空()
         {
             if (MainWindow.此神经元数组 == null) return true;
-            if (MainWindow.此神经元数组.数组大小 == 0) return true;
-            if (MainWindow.此神经元数组.行数 == 0) return true;
+            if (MainWindow.此神经元数组.arraySize == 0) return true;
+            if (MainWindow.此神经元数组.rows == 0) return true;
             if (MainWindow.此神经元数组.Cols == 0) return true;
             if (!MainWindow.此神经元数组.加载完成) return true;
             return false;
@@ -563,7 +571,7 @@ namespace BrainSimulator
 
         public void 创建空网络()
         {
-            此神经元数组 = new 神经元数组();
+            此神经元数组 = new NeuronArray();
             神经元数组视图.Dp.神经元图示大小 = 62;
             神经元数组视图.Dp.DisplayOffset = new Point(0, 0);
             此神经元数组.初始化(450, 15);

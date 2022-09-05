@@ -57,6 +57,7 @@ namespace BrainSimulator
             {
                 if (数组是否为空())
                 {
+                    //等待神经元数组加载完成
                     Thread.Sleep(100);
                 }
                 else if (IsEngineSuspended())
@@ -106,7 +107,7 @@ namespace BrainSimulator
             }
         }
 
-        // stack to make sure we supend and resume the engine properly
+        // 堆叠以确保我们正确地支撑和恢复引擎
         static Stack<int> engineSpeedStack = new Stack<int>();
 
         public bool IsEngineSuspended()

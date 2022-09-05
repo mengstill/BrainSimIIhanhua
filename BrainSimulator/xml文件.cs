@@ -64,7 +64,7 @@ namespace BrainSimulator
             return retVal;
         }
 
-        public static bool Load(ref 神经元数组 theNeuronArray, string fileName)
+        public static bool Load(ref NeuronArray theNeuronArray, string fileName)
         {
             bool fromClipboard = fileName == "ClipBoard";
             Stream file;
@@ -76,7 +76,7 @@ namespace BrainSimulator
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show("Could not open file because: " + e.Message);
+                    MessageBox.Show("无法打开文件，因为: " + e.Message);
                     RemoveFileFromMRUList(fileName);
                     return false;
                 }
@@ -92,11 +92,11 @@ namespace BrainSimulator
                 else
                 {
                     file.Close();
-                    MessageBox.Show("File is not a valid Brain Simulator II XML file.");
+                    MessageBox.Show("文件不是有效的 Brain Simulator II XML 文件.");
                     return false;
                 }
 
-                MainWindow.thisWindow.设置程序(0, "Loading Network File");
+                MainWindow.thisWindow.设置程序(0, "加载网络文件");
             }
             else
             {
@@ -107,17 +107,17 @@ namespace BrainSimulator
                 sw.Flush();
                 file.Seek(0, SeekOrigin.Begin);
             }
-            theNeuronArray = new 神经元数组();
+            theNeuronArray = new NeuronArray();
 
-            XmlSerializer reader1 = new XmlSerializer(typeof(神经元数组), 获取模型类型数组());
+            XmlSerializer reader1 = new XmlSerializer(typeof(NeuronArray), 获取模型类型数组());
             try
             {
-                theNeuronArray = (神经元数组)reader1.Deserialize(file);
+                theNeuronArray = (NeuronArray)reader1.Deserialize(file);
             }
             catch (Exception e)
             {
                 file.Close();
-                MessageBox.Show("Network file load failed, a blank network will be opened. \r\n\r\n"+e.InnerException,"File Load Error",
+                MessageBox.Show("网络文件加载失败，将打开一个空白网络. \r\n\r\n" + e.InnerException, "文件加载错误",
                     MessageBoxButton.OK,MessageBoxImage.Error,MessageBoxResult.OK,MessageBoxOptions.DefaultDesktopOnly);
                 MainWindow.thisWindow.设置程序(100,"");
                 return false;
@@ -131,8 +131,8 @@ namespace BrainSimulator
             xmldoc.Load(file);
             file.Close();
 
-            int arraySize = theNeuronArray.数组大小;
-            theNeuronArray.初始化(arraySize, theNeuronArray.行数);
+            int arraySize = theNeuronArray.arraySize;
+            theNeuronArray.初始化(arraySize, theNeuronArray.rows);
             neuronNodes = xmldoc.GetElementsByTagName("Neuron");
 
             for (int i = 0; i < neuronNodes.Count; i++)
@@ -269,7 +269,7 @@ namespace BrainSimulator
         }
 
         //if you pass in the fileName 'ClipBoard', the save is to the windows clipboard
-        public static bool Save(神经元数组 theNeuronArray, string fileName)
+        public static bool Save(NeuronArray theNeuronArray, string fileName)
         {
             Stream file;
             string tempFile = "";
@@ -295,7 +295,7 @@ namespace BrainSimulator
             Type[] extraTypes = 获取模型类型数组();
             try
             {
-                XmlSerializer writer = new XmlSerializer(typeof(神经元数组), extraTypes);
+                XmlSerializer writer = new XmlSerializer(typeof(NeuronArray), extraTypes);
                 writer.Serialize(file, theNeuronArray);
             }
             catch (Exception e)
@@ -316,11 +316,11 @@ namespace BrainSimulator
             XmlNode neuronsNode = xmldoc.CreateNode("element", "Neurons", "");
             root.AppendChild(neuronsNode);
 
-            for (int i = 0; i < theNeuronArray.数组大小; i++)
+            for (int i = 0; i < theNeuronArray.arraySize; i++)
             {
                 if (!fromClipboard)
                 {
-                    var progress = i / (float)theNeuronArray.数组大小;
+                    var progress = i / (float)theNeuronArray.arraySize;
                     progress *= 100;
                     if (MainWindow.thisWindow.设置程序(progress, ""))
                     {

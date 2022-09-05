@@ -16,7 +16,7 @@ namespace BrainSimulator
 
         public List<突触> 突触列表 = new List<突触>();
         public List<突触> 突触来源列表 = new List<突触>();
-        神经元数组 所有者数组 = MainWindow.此神经元数组;
+        NeuronArray 所有者数组 = MainWindow.此神经元数组;
 
         //这仅在 NeuronView 中使用，但在这里，您可以在添加神经元类型时添加工具提示
         //工具提示将自动出现在神经元类型选择器组合框中
@@ -29,7 +29,7 @@ namespace BrainSimulator
             "Always fire",
         };
 
-        public 神经元数组 Owner { get => 所有者数组; set => 所有者数组 = value; }
+        public NeuronArray Owner { get => 所有者数组; set => 所有者数组 = value; }
 
         //IMPORTANT:
         //Lastcharge is a stable readable value of the output of a neuron
@@ -184,7 +184,7 @@ namespace BrainSimulator
                 if (value)
                     MainWindow.神经元数组视图.添加突触显示(id);
                 else
-                    MainWindow.神经元数组视图.RemoveShowSynapses(id);
+                    MainWindow.神经元数组视图.移除突触显示(id);
             }
         }
 
