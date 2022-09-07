@@ -488,7 +488,7 @@ Sensor Pitch x4 p3 t100 T200 e1 m1
         public override void SetUpBeforeSave()
         {
         }
-        public override void SetUpAfterLoad()
+        public override void 设置后负荷()
         {
             Init();
             Initialize();

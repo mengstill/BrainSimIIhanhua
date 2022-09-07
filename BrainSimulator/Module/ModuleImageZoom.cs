@@ -214,7 +214,7 @@ namespace BrainSimulator.Modules
         public override void SetUpBeforeSave()
         {
         }
-        public override void SetUpAfterLoad()
+        public override void 设置后负荷()
         {
         }
 

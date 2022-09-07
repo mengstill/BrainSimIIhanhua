@@ -53,7 +53,7 @@ namespace BrainSimulator
                     if (content.Contains("<NeuronArray"))
                     {
                         retVal = true;
-                        Load(ref MainWindow.myClipBoard, "ClipBoard");
+                        加载神经元数组(ref MainWindow.myClipBoard, "ClipBoard");
                     }
                 }
             }
@@ -64,7 +64,7 @@ namespace BrainSimulator
             return retVal;
         }
 
-        public static bool Load(ref NeuronArray theNeuronArray, string fileName)
+        public static bool 加载神经元数组(ref NeuronArray theNeuronArray, string fileName)
         {
             bool fromClipboard = fileName == "ClipBoard";
             Stream file;

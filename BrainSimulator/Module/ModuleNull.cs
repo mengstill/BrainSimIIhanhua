@@ -38,7 +38,7 @@ namespace BrainSimulator.Modules
             //n.AddSynapse(n1.Id, 0.5f);
         }
 
-        public override void SetUpAfterLoad()
+        public override void 设置后负荷()
         {} //add code here to execute once after the module is loaded from a file
         public override void SetUpBeforeSave()
         {} //add code here to execute once before the module is saved to a file

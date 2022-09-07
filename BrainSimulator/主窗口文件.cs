@@ -17,18 +17,18 @@ namespace BrainSimulator
     /// </summary>
     public partial class MainWindow : Window
     {
-        private async void LoadFile(string fileName)
+        private async void 加载模型文件(string fileName)
         {
             清除所有模型对话框();
-            CloseHistoryWindow();
-            CloseNotesWindow();
+            关闭历史窗口();
+            关闭节点窗口();
             此神经元数组视图.theSelection.selectedRectangles.Clear();
             清除所有模型对话框();
             暂停引擎();
 
-            bool success = false;
-            await Task.Run(delegate { success = xml文件.Load(ref 此神经元数组, fileName); });
-            if (!success)
+            bool 成功 = false;
+            await Task.Run(delegate { 成功 = xml文件.加载神经元数组(ref 此神经元数组, fileName); });
+            if (!成功)
             {
                 创建空网络();
                 Properties.Settings.Default["CurrentFile"] = currentFileName;
@@ -50,7 +50,7 @@ namespace BrainSimulator
             foreach (模块视图 na in 此神经元数组.模块)
             {
                 if (na.TheModule != null)
-                    na.TheModule.SetUpAfterLoad();
+                    na.TheModule.设置后负荷();
             }
             此神经元数组.加载完成 = true;
 
@@ -78,16 +78,16 @@ namespace BrainSimulator
         private bool LoadClipBoardFromFile(string fileName)
         {
 
-            xml文件.Load(ref myClipBoard, fileName);
+            xml文件.加载神经元数组(ref myClipBoard, fileName);
 
             foreach (模块视图 na in myClipBoard.模块)
             {
                 if (na.TheModule != null)
-                    na.TheModule.SetUpAfterLoad();
+                    na.TheModule.设置后负荷();
                 {
                     try
                     {
-                        na.TheModule.SetUpAfterLoad();
+                        na.TheModule.设置后负荷();
                     }
                     catch (Exception e)
                     {
@@ -168,7 +168,7 @@ namespace BrainSimulator
 
         private void LoadCurrentFile()
         {
-            LoadFile(currentFileName);
+            加载模型文件(currentFileName);
         }
 
         private static void SetCurrentFileNameToProperties()

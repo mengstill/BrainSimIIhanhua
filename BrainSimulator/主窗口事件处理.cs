@@ -371,7 +371,7 @@ namespace BrainSimulator
             if (!引擎线程.IsAlive)
                 引擎线程.Start();
             EngineSpeed.Text = slider.Value.ToString();
-            displayUpdateTimer.Start();
+            显示更新计时器.Start();
             if (engineSpeedStack.Count > 0)
             {//if there is a stack entry, the engine is paused...put the new value on the stack
                 engineSpeedStack.Pop();
@@ -494,7 +494,7 @@ namespace BrainSimulator
                         fileName = (string)Properties.Settings.Default["CurrentFile"];
                     if (fileName != "")
                     {
-                        LoadFile(fileName);
+                        加载模型文件(fileName);
                         神经元视图.打开历史窗口();
                     }
                     else //force a new file creation on startup if no file name set
@@ -685,7 +685,7 @@ namespace BrainSimulator
             }
         }
 
-        public static void CloseNotesWindow()
+        public static void 关闭节点窗口()
         {
             if (notesWindow != null)
             {

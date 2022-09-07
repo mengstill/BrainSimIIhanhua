@@ -51,7 +51,7 @@ namespace BrainSimulator
         private static int 引擎延迟 = 500; //wait after each cycle of the engine, 0-1000
 
         //timer to update the neuron values 
-        readonly private DispatcherTimer displayUpdateTimer = new DispatcherTimer();
+        readonly private DispatcherTimer 显示更新计时器 = new DispatcherTimer();
 
         // if the control key is pressed...used for adding multiple selection areas
         public static bool ctrlPressed = false;
@@ -95,11 +95,11 @@ namespace BrainSimulator
             //将引擎线程的有限级设置为低
             引擎线程.Priority = ThreadPriority.Lowest;
             //增加一个事件,计时器触发
-            displayUpdateTimer.Tick += 计时器触发显示更新;
+            显示更新计时器.Tick += 计时器触发显示更新;
             //设置计时器的间隔
-            displayUpdateTimer.Interval = TimeSpan.FromMilliseconds(100);
+            显示更新计时器.Interval = TimeSpan.FromMilliseconds(100);
             //启动计时器
-            displayUpdateTimer.Start();
+            显示更新计时器.Start();
             
             神经元数组视图 = 此神经元数组视图;
             Width = 1100;
@@ -165,7 +165,7 @@ namespace BrainSimulator
             神经元视图.打开历史窗口();
         }
 
-        public static void CloseHistoryWindow()
+        public static void 关闭历史窗口()
         {
             if (fwWindow != null)
                 fwWindow.Close();
@@ -517,7 +517,7 @@ namespace BrainSimulator
                 }
             }
             displayTimerMovingAverage.RemoveAt(0);
-            displayTimerMovingAverage.Add((int)displayElapsed);
+            displayTimerMovingAverage.Add((int)更新用时);
             string formatString = "N0";
             if (zoomLevel < 10) formatString = "N1";
             if (zoomLevel < 1) formatString = "N2";
@@ -529,7 +529,7 @@ namespace BrainSimulator
         static bool fullUpdateNeeded = false;
         public static void Update()
         {
-            if (thisWindow.IsEngineSuspended())
+            if (thisWindow.引擎暂停与否())
             {
                 Application.Current.Dispatcher.Invoke((Action)delegate
                 {

@@ -70,7 +70,7 @@ namespace BrainSimulator
                 MainWindow.thisWindow.SetShowSynapsesCheckBox(true);
                 MainWindow.神经元数组视图.ClearShowingSynapses();
                 神经冲动历史.移除所有();
-                MainWindow.CloseHistoryWindow();
+                MainWindow.关闭历史窗口();
             }
             this.Close();
             MainWindow.恢复引擎();

@@ -119,8 +119,8 @@ namespace BrainSimulator
                 previousShowSynapses = MainWindow.此神经元数组.ShowSynapses;
             }
             MainWindow.清除所有模型对话框();
-            MainWindow.CloseHistoryWindow();
-            MainWindow.CloseNotesWindow();
+            MainWindow.关闭历史窗口();
+            MainWindow.关闭节点窗口();
             MainWindow.神经元数组视图.ClearShowingSynapses();
             if (MainWindow.此神经元数组 != null)
             {
@@ -251,7 +251,7 @@ namespace BrainSimulator
             PingLabel1.Visibility = Visibility.Visible;
         }
 
-        private void CheckBoxUseServers_Checked(object sender, RoutedEventArgs e)
+        private void 使用服务器复选框_Checked(object sender, RoutedEventArgs e)
         {
             神经元客户端.Init();
             UpdateServerTextBox();
@@ -260,7 +260,7 @@ namespace BrainSimulator
             buttonRefresh.IsEnabled = true; ;
         }
 
-        private void CheckBoxUseServers_Unchecked(object sender, RoutedEventArgs e)
+        private void 使用服务器复选框_Unchecked(object sender, RoutedEventArgs e)
         {
             MainWindow.useServers = false;
             buttonRefresh.IsEnabled = MainWindow.useServers;

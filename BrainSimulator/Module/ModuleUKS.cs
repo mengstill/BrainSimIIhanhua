@@ -268,9 +268,9 @@ namespace BrainSimulator.Modules
                 UKSTemp.Add(st);
             }
         }
-        public override void SetUpAfterLoad()
+        public override void 设置后负荷()
         {
-            base.SetUpAfterLoad();
+            base.设置后负荷();
             UKS.Clear();
             foreach (SThing st in UKSTemp)
             {

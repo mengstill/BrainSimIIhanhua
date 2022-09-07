@@ -276,9 +276,9 @@ namespace BrainSimulator.Modules
                     recognizer.RecognizeAsync(RecognizeMode.Multiple);
         }
 
-        public override void SetUpAfterLoad()
+        public override void 设置后负荷()
         {
-            base.SetUpAfterLoad();
+            base.设置后负荷();
             Init();
             Initialize();
         }

@@ -237,7 +237,7 @@ namespace BrainSimulator.Modules
         public virtual void SetUpBeforeSave()
         { }
         //this is called to allow for any data massaging needed after loading the file
-        public virtual void SetUpAfterLoad()
+        public virtual void 设置后负荷()
         { }
         public virtual void SizeChanged()
         { }

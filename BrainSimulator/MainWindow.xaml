@@ -260,7 +260,7 @@
                     <MenuItem.Header>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" >
                             <Label Width="100" VerticalAlignment="Center" Padding="0,0,5,0">入门</Label>
-                            <CheckBox x:Name="cbShowHelpAtStartup" Checked="cbShowHelpAtStartup_Checked" Unchecked="cbShowHelpAtStartup_Checked" VerticalAlignment="Center" Padding="5,0,5,0">Show at startup</CheckBox>
+                            <CheckBox x:Name="cbShowHelpAtStartup" Checked="cbShowHelpAtStartup_Checked" Unchecked="cbShowHelpAtStartup_Checked" VerticalAlignment="Center" Padding="5,0,5,0">启动时显示</CheckBox>
                         </StackPanel>
                     </MenuItem.Header>
                 </MenuItem>

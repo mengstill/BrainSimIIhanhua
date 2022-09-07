@@ -25,6 +25,9 @@ namespace BrainSimulator
         /// 隐藏节点
         /// </summary>
         public bool hideNotes = false;
+        /// <summary>
+        /// 运行次数
+        /// </summary>
         public long Generation = 0;
         /// <summary>
         /// 引擎速度

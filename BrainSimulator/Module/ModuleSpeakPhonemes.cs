@@ -133,10 +133,10 @@ namespace BrainSimulator.Modules
             return t1;
         }
 
-        public override void SetUpAfterLoad()
+        public override void 设置后负荷()
         {
             Init();
-            base.SetUpAfterLoad();
+            base.设置后负荷();
             InitVoice();
         }
 

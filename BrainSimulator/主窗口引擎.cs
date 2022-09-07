@@ -27,8 +27,8 @@ namespace BrainSimulator
     {
         //TODO: Migrate this to a separate object
         static bool 引擎是否暂停 = false;
-        static long engineElapsed = 0;
-        static long displayElapsed = 0;
+        static long 引擎用时 = 0;
+        static long 更新用时 = 0;
         static bool 更新显示 = false;
 
         static List<int> engineTimerMovingAverage;
@@ -44,7 +44,7 @@ namespace BrainSimulator
                 }
             }
             engineTimerMovingAverage.RemoveAt(0);
-            engineTimerMovingAverage.Add((int)engineElapsed);
+            engineTimerMovingAverage.Add((int)引擎用时);
             string engineStatus = "运行, 速度: " + thisWindow.slider.Value + "  循环: " + 此神经元数组.Generation.ToString("N0") +
             "  " + firedCount.ToString("N0") + " 神经元冲动  " + (engineTimerMovingAverage.Average() / 10000f).ToString("F2") + "ms";
             thisWindow.设置窗口底部状态(3, engineStatus, 0);
@@ -60,7 +60,7 @@ namespace BrainSimulator
                     //等待神经元数组加载完成
                     Thread.Sleep(100);
                 }
-                else if (IsEngineSuspended())
+                else if (引擎暂停与否())
                 {
                     if (更新显示)
                     {
@@ -70,9 +70,9 @@ namespace BrainSimulator
                             //thisWindow.SetPlayPauseButtonImage(true);
                         });
                         更新显示 = false;
-                        displayUpdateTimer.Start();
+                        显示更新计时器.Start();
                     }
-                    Thread.Sleep(100); //check the engineDelay every 100 ms.
+                    Thread.Sleep(100); //每100毫秒检查一次引擎。
                     引擎是否暂停 = true;
                 }
                 else
@@ -83,7 +83,7 @@ namespace BrainSimulator
                         long start = 跨语言接口.GetPreciseTime();
                         此神经元数组.Fire();
                         long end = 跨语言接口.GetPreciseTime();
-                        engineElapsed = end - start;
+                        引擎用时 = end - start;
 
                         if (更新显示)
                         {
@@ -96,10 +96,10 @@ namespace BrainSimulator
                                     此神经元数组视图.更新();
                                 fullUpdateNeeded = false;
                                 long dEnd = 跨语言接口.GetPreciseTime();
-                                displayElapsed = dEnd - dStart;
+                                更新用时 = dEnd - dStart;
                             });
                             更新显示 = false;
-                            displayUpdateTimer.Start();
+                            显示更新计时器.Start();
                         }
                     }
                     Thread.Sleep(Math.Abs(引擎延迟));
@@ -110,7 +110,7 @@ namespace BrainSimulator
         // 堆叠以确保我们正确地支撑和恢复引擎
         static Stack<int> engineSpeedStack = new Stack<int>();
 
-        public bool IsEngineSuspended()
+        public bool 引擎暂停与否()
         {
             return engineSpeedStack.Count > 0;
         }

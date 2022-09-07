@@ -228,7 +228,7 @@ namespace BrainSimulator.Modules
         }
 
        
-        public override void SetUpAfterLoad()
+        public override void 设置后负荷()
         {
             Init();
             foreach (神经元 n in mv.Neurons)
