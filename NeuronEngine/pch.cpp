@@ -1,5 +1,5 @@
-// pch.cpp: source file corresponding to the pre-compiled header
+// pch.cpp: 与预编译头相对应的源文件
 
 #include "pch.h"
 
-// When you are using pre-compiled headers, this source file is necessary for compilation to succeed.
+// 当您使用预编译的头文件时，此源文件是编译成功所必需的。

@@ -300,8 +300,8 @@ namespace NeuronEngine
 		}
 	}
 
-	//neuron firing is two-phase so that the network is independent of neuron order
-	//When you call this, the neuron is added to fireList2 by the caller.
+	//神经元放电是两相的，因此网络独立于神经元顺序
+	//调用此函数时，调用方将神经元添加到fireList2。
 	bool NeuronBase::Fire1(long long cycle)
 	{
 		if (signbit(leakRate))return false;
@@ -314,21 +314,21 @@ namespace NeuronEngine
 		if (model == modelType::Always)
 		{
 			nextFiring--;
-			if (leakRate >= 0 && nextFiring <= 0) //leakrate is the std.deviation
+			if (leakRate >= 0 && nextFiring <= 0) //泄漏率是标准偏差
 			{
 				currentCharge = currentCharge + threshold;
 			}
-			if (leakRate >= 0) //a negative leakrate means "disabled"
+			if (leakRate >= 0) //负泄漏率表示“禁用”
 				NeuronArrayBase::AddNeuronToFireList1(id);
 		}
 		if (model == modelType::Random)
 		{
 			nextFiring--;
-			if (leakRate >= 0 && nextFiring <= 0) //leakrate is the std.deviation
+			if (leakRate >= 0 && nextFiring <= 0) //泄漏率是标准偏差
 			{
 				currentCharge = currentCharge + threshold;
 			}
-			if (leakRate >= 0) //a negative leakrate means "disabled"
+			if (leakRate >= 0) //负泄漏率表示“禁用”
 				NeuronArrayBase::AddNeuronToFireList1(id);
 		}
 		if (model == modelType::Burst)

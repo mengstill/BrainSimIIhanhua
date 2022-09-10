@@ -17,8 +17,8 @@ namespace NeuronEngine
 		modelType GetModel();
 
 	private:
-		NeuronBase* targetNeuron = 0; //pointer to the target neuron
-		float weight = 0; //weight of the synapse
+		NeuronBase* targetNeuron = 0; //指向目标神经元的指针
+		float weight = 0; //突触权重
 		modelType model = modelType::Fixed;
 	};
 }

@@ -50,7 +50,7 @@ namespace NeuronEngine
 		static std::vector<unsigned long long> fireList2;
 
 	private:
-		__declspec(noinline) void ProcessNeurons1(int taskID); //these are noinlined so the profiler makes more sense
+		__declspec(noinline) void ProcessNeurons1(int taskID); //这些都是未联机的，因此分析器更有意义
 		__declspec(noinline) void ProcessNeurons2(int taskID);
 		__declspec(noinline) void ProcessNeurons3(int taskID);
 		void GetBounds64(int taskID, int& start, int& end);
