@@ -50,7 +50,7 @@ namespace NeuronServer
         const int clientServerPort = 49002;
         const int serverClientPort = 49003;
 
-        static public NeuronArrayBase theNeuronArray = null;
+        static public 神经元列表Base theNeuronArray = null;
         static void Main(string[] args)
         {
 
@@ -123,7 +123,7 @@ namespace NeuronServer
                 case "GetServerInfo":
                     message = "ServerInfo " + ipAddressThisMachine.ToString() + " " + Environment.MachineName + " " + firstNeuron + " " + lastNeuron;
                     if (theNeuronArray != null)
-                        message += " " + theNeuronArray.GetTotalNeuronsInUse() + " " + theNeuronArray.GetTotalSynapses();
+                        message += " " + theNeuronArray.获取使用中的神经元总数() + " " + theNeuronArray.获取总突触数();
                     Console.SetCursorPosition(0, 1);
                     Console.WriteLine(message + " PacketCount: " + pingCount);
                     pingCount = 0;
@@ -145,14 +145,14 @@ namespace NeuronServer
                         {
                             firstNeuron = si.firstNeuron;
                             lastNeuron = si.lastNeuron;
-                            theNeuronArray = new NeuronArrayBase();
+                            theNeuronArray = new 神经元列表Base();
                             theNeuronArray.Initialize(lastNeuron - firstNeuron);
                             if (synapsesPerNeuron != 0)
                             {
                                 // Parallel.For(0, lastNeuron - firstNeuron, j => CreateRandomSynapses(j,synapsesPerNeuron));
                                 for (int j = 0; j < lastNeuron - firstNeuron; j++) CreateRandomSynapses(j, synapsesPerNeuron, arraySize);
                             }
-                            SendToClient("Done " + Environment.MachineName + " " + theNeuronArray.GetGeneration() + " " + theNeuronArray.GetFiredCount());
+                            SendToClient("Done " + Environment.MachineName + " " + theNeuronArray.获取次代() + " " + theNeuronArray.获取激活的神经元数量());
                             Console.SetCursorPosition(0, 2);
 
                             Console.WriteLine("Server initialized: " + firstNeuron + "-" + lastNeuron + " with " + synapsesPerNeuron + " synapses/neuron");
@@ -169,8 +169,8 @@ namespace NeuronServer
                         elapsedFiring.RemoveAt(0);
                         elapsedFiring.Add(end - start);
                         neuronsFired.RemoveAt(0);
-                        neuronsFired.Add(theNeuronArray.GetFiredCount());
-                        SendToClient("Done " + Environment.MachineName + " " + theNeuronArray.GetGeneration() + " " + theNeuronArray.GetFiredCount());
+                        neuronsFired.Add(theNeuronArray.获取激活的神经元数量());
+                        SendToClient("Done " + Environment.MachineName + " " + theNeuronArray.获取次代() + " " + theNeuronArray.获取激活的神经元数量());
                     });
                     break;
 
@@ -210,14 +210,14 @@ namespace NeuronServer
                                 SendToOtherServer2(serverList[j].ip, buffer);
                             }
                         }
-                        SendToClient("Done " + Environment.MachineName + " " + theNeuronArray.GetGeneration() + " " + theNeuronArray.GetFiredCount());
+                        SendToClient("Done " + Environment.MachineName + " " + theNeuronArray.获取次代() + " " + theNeuronArray.获取激活的神经元数量());
                         GetSystemTimePreciseAsFileTime(out long end);
                         elapsedTransfer.RemoveAt(0);
                         elapsedTransfer.Add(end - start);
                         boundarySynapses.RemoveAt(0);
                         boundarySynapses.Add(synapses.Count);
                         Console.SetCursorPosition(0, 4);
-                        Console.Write("Gen: " + theNeuronArray.GetGeneration() + " Neurons fired: " + neuronsFired.Average().ToString("f0") + " Boundary Synapses: " + boundarySynapses.Average().ToString("f0")+ " Firing: " + (elapsedFiring.Average() / 10000f).ToString("f2") + "ms Transfer: " + (elapsedTransfer.Average() / 10000f).ToString("f2") + "ms                                                                 ");
+                        Console.Write("Gen: " + theNeuronArray.获取次代() + " Neurons fired: " + neuronsFired.Average().ToString("f0") + " Boundary Synapses: " + boundarySynapses.Average().ToString("f0")+ " Firing: " + (elapsedFiring.Average() / 10000f).ToString("f2") + "ms Transfer: " + (elapsedTransfer.Average() / 10000f).ToString("f2") + "ms                                                                 ");
                     });
                     break;
 
@@ -228,11 +228,11 @@ namespace NeuronServer
                         int localID = neuronID - firstNeuron;
                         string retVal = "Neuron ";
                         retVal += neuronID + " ";
-                        retVal += theNeuronArray.GetNeuronModel(neuronID) + " ";
+                        retVal += theNeuronArray.获取神经元模型(neuronID) + " ";
                         retVal += theNeuronArray.GetNeuronLastCharge(neuronID) + " ";
                         retVal += theNeuronArray.GetNeuronLeakRate(neuronID) + " ";
                         retVal += theNeuronArray.GetNeuronAxonDelay(neuronID) + " ";
-                        retVal += theNeuronArray.GetNeuronInUse(localID);
+                        retVal += theNeuronArray.获取神经元是否使用中(localID);
                         SendToClient(retVal);
                     }
                     break;
@@ -253,11 +253,11 @@ namespace NeuronServer
                             }
                             retVal += neuronID + " ";
                             int localID = neuronID - firstNeuron;
-                            retVal += theNeuronArray.GetNeuronModel(localID) + " ";
+                            retVal += theNeuronArray.获取神经元模型(localID) + " ";
                             retVal += theNeuronArray.GetNeuronLastCharge(localID) + " ";
                             retVal += theNeuronArray.GetNeuronLeakRate(localID) + " ";
                             retVal += theNeuronArray.GetNeuronAxonDelay(localID) + " ";
-                            retVal += theNeuronArray.GetNeuronInUse(localID) + " ";
+                            retVal += theNeuronArray.获取神经元是否使用中(localID) + " ";
                             neuronID++;
                         }
                         SendToClient(retVal);
@@ -274,7 +274,7 @@ namespace NeuronServer
                         float.TryParse(commands[4], out float lastCharge);
                         float.TryParse(commands[5], out float leakRate);
                         int.TryParse(commands[6], out int axonDelay);
-                        theNeuronArray.SetNeuronModel(localID, neuronModel);
+                        theNeuronArray.设置神经元模型(localID, neuronModel);
                         theNeuronArray.SetNeuronCurrentCharge(localID, currentCharge);
                         theNeuronArray.SetNeuronLastCharge(localID, lastCharge);
                         theNeuronArray.SetNeuronLeakRate(localID, leakRate);
@@ -304,11 +304,11 @@ namespace NeuronServer
                         dest = dest - firstNeuron;
                     if (src >= 0)
                     {
-                        theNeuronArray.DeleteSynapse(src, dest);
+                        theNeuronArray.删除突触(src, dest);
                     }
                     if (dest >= 0)
                     {
-                        theNeuronArray.DeleteSynapseFrom(src, dest);
+                        theNeuronArray.删除输入突触(src, dest);
                     }
                     break;
 
@@ -317,7 +317,7 @@ namespace NeuronServer
                     if (neuronID >= firstNeuron && neuronID < lastNeuron)
                     {
                         int localID = neuronID - firstNeuron;
-                        List<Synapse> synapses = ConvertToSynapseList(theNeuronArray.GetSynapses(localID));
+                        List<Synapse> synapses = ConvertToSynapseList(theNeuronArray.获取突触数组(localID));
                         string retVal = "Synapses " + neuronID + " ";
                         foreach (Synapse s in synapses)
                         {
@@ -361,11 +361,11 @@ namespace NeuronServer
                 dest = dest - firstNeuron;
             if (src >= 0)
             {
-                theNeuronArray.AddSynapse(src, dest, weight, model, true);
+                theNeuronArray.添加突触(src, dest, weight, model, true);
             }
             if (dest >= 0)
             {
-                theNeuronArray.AddSynapseFrom(src, dest, weight, model);
+                theNeuronArray.添加输入突触(src, dest, weight, model);
             }
         }
 

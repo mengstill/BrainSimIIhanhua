@@ -20,11 +20,11 @@ namespace BrainSimulator
         public long lastFired;
     };
 
-    public class 神经元处理 : NeuronArrayBase
+    public class 神经元处理 : 神经元列表Base
     {
         public 神经元部分参数 获取神经元部分参数(int i)
         {
-            return 变换为神经元(GetNeuron(i));
+            return 变换为神经元(获取神经元(i));
         }
         public void 设置所有神经元( 神经元 n)
         {
@@ -37,13 +37,13 @@ namespace BrainSimulator
                 int i = n.id;
                 SetNeuronCurrentCharge(i, n.当前更改);
                 SetNeuronLastCharge(i, n.最后更改);
-                SetNeuronLabel(i, n.标签);
+                设置神经元标签(i, n.标签);
                 SetNeuronLeakRate(i, n.leakRate泄露速度);
-                SetNeuronModel(i, (int)n.模型);
+                设置神经元模型(i, (int)n.模型);
                 SetNeuronAxonDelay(i, n.突触延迟);
             }
         }
-        public 神经元 GetNeuronForDrawing(int i)
+        public 神经元 获取用于绘图的神经元(int i)
         {
             if (MainWindow.useServers)
             {
@@ -55,9 +55,9 @@ namespace BrainSimulator
                 神经元 retVal = new 神经元();
                 retVal.id = i;
                 retVal.LastCharge = GetNeuronLastCharge(i);
-                retVal.是否使用 = GetNeuronInUse(i);
-                retVal.标签 = GetNeuronLabel(i);
-                retVal.模型 = (神经元.模型类型)GetNeuronModel(i);
+                retVal.是否使用 = 获取神经元是否使用中(i);
+                retVal.标签 = 获取神经元标签(i);
+                retVal.模型 = (神经元.模型类型)获取神经元模型(i);
                 retVal.leakRate泄露速度 = GetNeuronLeakRate(i);
                 retVal.突触延迟 = GetNeuronAxonDelay(i);
                 return retVal;
@@ -72,7 +72,7 @@ namespace BrainSimulator
             }
             return n;
         }
-        public 神经元 GetCompleteNeuron(int i, bool fromClipboard = false)
+        public 神经元 获取完整的神经元(int i, bool fromClipboard = false)
         {
             if (MainWindow.useServers && !fromClipboard)
             {
@@ -107,7 +107,7 @@ namespace BrainSimulator
         }
         public List<突触> 获取突触列表(int i)
         {
-            return 变换为突触列表(GetSynapses(i));
+            return 变换为突触列表(获取突触数组(i));
         }
         public List<突触> 从列表中获取突触(int i)
         {

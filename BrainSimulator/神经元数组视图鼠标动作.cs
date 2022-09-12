@@ -140,7 +140,7 @@ namespace BrainSimulator
             int source = (int)theShape.GetValue(突触视图.SourceIDProperty);
             int target = (int)theShape.GetValue(突触视图.TargetIDProperty);
             float weight = (float)theShape.GetValue(突触视图.WeightValProperty);
-            神经元 n1 = MainWindow.此神经元数组.GetCompleteNeuron(source);
+            神经元 n1 = MainWindow.此神经元数组.获取完整的神经元(source);
             n1 = MainWindow.此神经元数组.添加突触(n1);
             if (n1.查找突触(target) is 突触 s1)
             {

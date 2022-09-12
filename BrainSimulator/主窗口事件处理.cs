@@ -840,7 +840,7 @@ namespace BrainSimulator
                 if (int.TryParse(tb.Text, out int newThreadCount))
                 {
                     if (newThreadCount > 0 && newThreadCount < 512)
-                        此神经元数组.SetThreadCount(newThreadCount);
+                        此神经元数组.设置线程数量(newThreadCount);
                 }
             }
         }

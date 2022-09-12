@@ -1,8 +1,8 @@
 // CppEngineTest.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
-#include "..\NeuronEngine\NeuronBase.h"
-#include "..\NeuronEngine\NeuronArrayBase.h"
+#include "..\NeuronEngine\神经元Base.h"
+#include "..\NeuronEngine\神经元列表Base.h"
 
 
 #include<execution>
@@ -44,11 +44,11 @@ int main(int argc, char* argv[], char* envp[])
 	start_time = my_clock::now();
 
 	random_device rd;
-	int sizeOfNeuron = sizeof(NeuronBase);
-	int sizeOfSynapse = sizeof(SynapseBase);
+	int sizeOfNeuron = sizeof(神经元Base);
+	int sizeOfSynapse = sizeof(突触Base);
 	int sizeOfVector = sizeof(vector<int>);
 	long long synapsesPerNeuron = 10;
-	NeuronArrayBase* neuronArray = NULL;
+	神经元列表Base* neuronArray = NULL;
 
 	/*
 	//memory leak check
@@ -127,33 +127,33 @@ int main(int argc, char* argv[], char* envp[])
 	cyclesPerFiring = 1;
 #endif // DEBUG
 
-	neuronArray = new NeuronArrayBase();
+	neuronArray = new 神经元列表Base();
 	neuronArray->Initialize(neuronCount);
-	neuronArray->SetThreadCount(threadCount);
+	neuronArray->设置线程总数(threadCount);
 
 	outputElapsedTime(to_string(neuronCount) + " neurons allocated");
 
-	string s = "Using " + to_string(neuronArray->GetThreadCount()) + " threads. \n";
+	string s = "Using " + to_string(neuronArray->获取线程总数()) + " threads. \n";
 	cout << s;
 
 	s = "Allocating " + to_string(neuronCount * synapsesPerNeuron) + " synapses . Each dot is " + to_string(synapsesPerDot) + " synapses \n";
 	cout << s;
 
 	std::atomic<long long> count = 0;
-	parallel_for(0, neuronArray->GetThreadCount(), [&](int value) {
+	parallel_for(0, neuronArray->获取线程总数(), [&](int value) {
 		int start, end;
 		neuronArray->GetBounds(value, start, end);
 		for (int i = start; i < end; i++)
 		{
-			NeuronBase* n = neuronArray->GetNeuron(i);
+			神经元Base* n = neuronArray->获取神经元(i);
 			//n->AddSynapse(n, 1, false, true);
 			for (int j = 1; j < synapsesPerNeuron; j++)
 			{
 				int target = i + rd() % 1'000;
 				//int target = j;
-				if (target >= neuronArray->GetArraySize()) target -= neuronArray->GetArraySize();
-				if (target < 0) target += neuronArray->GetArraySize();
-				n->AddSynapse(neuronArray->GetNeuron(target), 1, SynapseBase::modelType::Fixed, true);
+				if (target >= neuronArray->获取数组大小()) target -= neuronArray->获取数组大小();
+				if (target < 0) target += neuronArray->获取数组大小();
+				n->AddSynapse(neuronArray->获取神经元(target), 1, 突触Base::modelType::Fixed, true);
 				count++;
 				if (count % synapsesPerDot == 0) printf(".");
 			}
@@ -167,10 +167,10 @@ int main(int argc, char* argv[], char* envp[])
 	//select some neurons to be firing (all the time based on synapses
 	for (int i = 0; i < neuronCount / cyclesPerFiring; i++)
 	{
-		int target = rd() % neuronArray->GetArraySize();
+		int target = rd() % neuronArray->获取数组大小();
 		//int target = i;
-		neuronArray->GetNeuron(target)->SetCurrentCharge(1);
-		neuronArray->GetNeuron(target)->SetLastCharge(1);
+		neuronArray->获取神经元(target)->SetCurrentCharge(1);
+		neuronArray->获取神经元(target)->SetLastCharge(1);
 	}
 
 	outputElapsedTime("firing loop Start");

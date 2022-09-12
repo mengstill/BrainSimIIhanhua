@@ -93,16 +93,16 @@ namespace CsEngineTest
                     int id = n.Id;
                     theNeuronArray.SetNeuronCurrentCharge(id, n.CurrentCharge);
                     if (n.Label != "")
-                        theNeuronArray.SetNeuronLabel(id, n.Label);
+                        theNeuronArray.设置神经元标签(id, n.Label);
                     if (n.LeakRate != 0.1f)
                         theNeuronArray.SetNeuronLeakRate(id, n.LeakRate);
                     if (n.Model != modelType.Std)
-                        theNeuronArray.SetNeuronModel(id, (int)n.Model);
+                        theNeuronArray.设置神经元模型(id, (int)n.Model);
                     foreach (S s in n.Synapses)
                     {
                         int model = 0;
                         if (s.IsHebbian) model = 1;
-                        theNeuronArray.AddSynapse(id, s.TargetNeuron, s.Weight, model, false);
+                        theNeuronArray.添加突触(id, s.TargetNeuron, s.Weight, model, false);
                     }
                 }
 
@@ -149,12 +149,12 @@ namespace CsEngineTest
             XmlNode neuronsNode = xmldoc.CreateNode("element", "Neurons", "");
             root.AppendChild(neuronsNode);
 
-            for (int i = 0; i < theNeuronArray.GetArraySize(); i++)
+            for (int i = 0; i < theNeuronArray.获取数组大小(); i++)
             {
                 NeuronPartial n = theNeuronArray.GetPartialNeuron(i);
                 if (n.inUse && n.id != 0)
                 {
-                    string label = theNeuronArray.GetNeuronLabel(n.id);
+                    string label = theNeuronArray.获取神经元标签(n.id);
                     List<Synapse> theSynapses = theNeuronArray.GetSynapsesList(i);
                     //this is needed bacause inUse is true if any synapse points to this neuron--we don't need to bother with 
                     if (theSynapses.Count != 0 || label != "" || n.lastCharge != 0 || n.leakRate != 0.1f

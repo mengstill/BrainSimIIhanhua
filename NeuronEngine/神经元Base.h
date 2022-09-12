@@ -3,15 +3,15 @@
 #include <string>
 #include <vector>
 #include <atomic>
-#include "SynapseBase.h"
+#include "突触Base.h"
 
 
-namespace NeuronEngine { class SynapseBase; }
-namespace NeuronEngine { class NeuronArrayBase; }
+namespace NeuronEngine { class 突触Base; }
+namespace NeuronEngine { class 神经元列表Base; }
 
 namespace NeuronEngine
 {
-	class NeuronBase
+	class 神经元Base
 	{
 	public:
 		enum class modelType {Std,Color,FloatValue,LIF,Random,Burst,Always};
@@ -20,7 +20,7 @@ namespace NeuronEngine
 		float lastCharge = 0;
 
 		//空向量占用内存，因此这是指向向量的指针，仅在需要时分配
-		std::vector<SynapseBase>* synapses = NULL;
+		std::vector<突触Base>* synapses = NULL;
 
 	private:
 		//神经元的累积值
@@ -36,7 +36,7 @@ namespace NeuronEngine
 		int axonDelay = 0;
 		int axonCounter = 0;
 		
-		std::vector<SynapseBase>* synapsesFrom = NULL;
+		std::vector<突触Base>* synapsesFrom = NULL;
 
 		//这是一个滚动您自己的互斥体，因为互斥体在CLI代码中不存在，并导致编译失败
 		//this is a roll-your-own mutex because mutex doesn't exist in CLI code and causes compile fails
@@ -49,8 +49,8 @@ namespace NeuronEngine
 
 
 	public:
-		__declspec(dllexport)  NeuronBase(int ID);
-		__declspec(dllexport)  ~NeuronBase();
+		__declspec(dllexport)  神经元Base(int ID);
+		__declspec(dllexport)  ~神经元Base();
 
 		__declspec(dllexport)  int GetId();
 		__declspec(dllexport)  modelType GetModel();
@@ -60,13 +60,13 @@ namespace NeuronEngine
 		__declspec(dllexport)  float GetCurrentCharge();
 		__declspec(dllexport)  void SetCurrentCharge(float value);
 
-		__declspec(dllexport)  void AddSynapse(NeuronBase* n, float weight, SynapseBase::modelType model = SynapseBase::modelType::Fixed, bool noBackPtr = true);
-		__declspec(dllexport)  void AddSynapseFrom(NeuronBase* n, float weight, SynapseBase::modelType model = SynapseBase::modelType::Fixed);
-		__declspec(dllexport)  void DeleteSynapse(NeuronBase* n);
+		__declspec(dllexport)  void AddSynapse(神经元Base* n, float weight, 突触Base::modelType model = 突触Base::modelType::Fixed, bool noBackPtr = true);
+		__declspec(dllexport)  void AddSynapseFrom(神经元Base* n, float weight, 突触Base::modelType model = 突触Base::modelType::Fixed);
+		__declspec(dllexport)  void DeleteSynapse(神经元Base* n);
 		__declspec(dllexport)  void GetLock();
 		__declspec(dllexport)  void ClearLock();
-		__declspec(dllexport)  std::vector<SynapseBase> GetSynapses();
-		__declspec(dllexport)  std::vector<SynapseBase> GetSynapsesFrom();
+		__declspec(dllexport)  std::vector<突触Base> GetSynapses();
+		__declspec(dllexport)  std::vector<突触Base> GetSynapsesFrom();
 		__declspec(dllexport)  int GetSynapseCount();
 
 		__declspec(dllexport)  bool GetInUse();
@@ -86,15 +86,15 @@ namespace NeuronEngine
 		void Fire2();
 		void Fire3();
 
-		float NewHebbianWeight(float y, float offset, SynapseBase::modelType model, int numberOfSynapses);
+		float NewHebbianWeight(float y, float offset, 突触Base::modelType model, int numberOfSynapses);
 
-		NeuronBase(const NeuronBase& t)
+		神经元Base(const 神经元Base& t)
 		{
 			model = t.model;
 			id = t.id;
 			leakRate = t.leakRate;
 		}
-		NeuronBase& operator = (const NeuronBase& t)
+		神经元Base& operator = (const 神经元Base& t)
 		{
 			return *this;
 		}

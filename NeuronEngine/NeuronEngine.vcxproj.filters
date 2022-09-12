@@ -21,13 +21,13 @@
     <ClInclude Include="pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="NeuronArrayBase.h">
+    <ClInclude Include="神经元列表Base.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="NeuronBase.h">
+    <ClInclude Include="神经元Base.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SynapseBase.h">
+    <ClInclude Include="突触Base.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -38,13 +38,13 @@
     <ClCompile Include="pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="NeuronArrayBase.cpp">
+    <ClCompile Include="神经元列表Base.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="NeuronBase.cpp">
+    <ClCompile Include="神经元Base.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SynapseBase.cpp">
+    <ClCompile Include="突触Base.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

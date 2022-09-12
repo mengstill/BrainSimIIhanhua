@@ -131,7 +131,7 @@ namespace BrainSimulator
                     myClipBoard.模块.Add(newMV);
                 }
             }
-            xml文件.Save(myClipBoard, "剪切板");
+            xml文件.保存(myClipBoard, "剪切板");
         }
 
         private int 获取剪切板Id(int X1o, int Y1o, int nID)
@@ -191,7 +191,7 @@ namespace BrainSimulator
             if (targetNeuronIndex == -1) return;
             if (myClipBoard == null) return;
 
-            if (!xml文件.WindowsClipboardContainsNeuronArray()) return;
+            if (!xml文件.Windows剪贴板是否包含神经元数组()) return;
 
             myClipBoard = MainWindow.myClipBoard;
             //We are pasting neurons from the clipboard.  
@@ -230,7 +230,7 @@ namespace BrainSimulator
                 {
                     int destID = 获取神经元数组ID(i);
                     MainWindow.此神经元数组.获取神经元(destID).添加撤销信息();
-                    神经元 n = myClipBoard.GetCompleteNeuron(i,true);
+                    神经元 n = myClipBoard.获取完整的神经元(i,true);
                     n.Owner = myClipBoard;
                     n.突触列表 = myClipBoard.获取突触列表(i);
 

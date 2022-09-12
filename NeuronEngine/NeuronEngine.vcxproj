@@ -158,22 +158,22 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="framework.h" />
-    <ClInclude Include="NeuronArrayBase.h" />
-    <ClInclude Include="NeuronBase.h" />
+    <ClInclude Include="神经元列表Base.h" />
+    <ClInclude Include="神经元Base.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="SynapseBase.h" />
+    <ClInclude Include="突触Base.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />
-    <ClCompile Include="NeuronArrayBase.cpp" />
-    <ClCompile Include="NeuronBase.cpp" />
+    <ClCompile Include="神经元列表Base.cpp" />
+    <ClCompile Include="神经元Base.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="SynapseBase.cpp" />
+    <ClCompile Include="突触Base.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

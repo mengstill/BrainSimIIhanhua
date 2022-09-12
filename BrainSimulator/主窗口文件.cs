@@ -40,7 +40,7 @@ namespace BrainSimulator
 
             ReloadNetwork.IsEnabled = true;
             Reload_network.IsEnabled = true;
-            if (xml文件.CanWriteTo(currentFileName))
+            if (xml文件.能否写入(currentFileName))
                 SaveButton.IsEnabled = true;
             else
                 SaveButton.IsEnabled = false;
@@ -129,7 +129,7 @@ namespace BrainSimulator
             }
 
             此神经元数组.displayParams = 此神经元数组视图.Dp;
-            if (xml文件.Save(此神经元数组, fileName))
+            if (xml文件.保存(此神经元数组, fileName))
             {
                 currentFileName = fileName;
                 SetCurrentFileNameToProperties();
@@ -151,7 +151,7 @@ namespace BrainSimulator
                     na.TheModule.SetUpBeforeSave();
             }
 
-            if (xml文件.Save(myClipBoard, fileName))
+            if (xml文件.保存(myClipBoard, fileName))
                 currentFileName = fileName;
         }
 
@@ -185,7 +185,7 @@ namespace BrainSimulator
             if (neuronInUseCount == 0) return false;
             if (此神经元数组.获取撤销数量() == undoCountAtLastSave) return false; //no changes have been made
 
-            bool canWrite = xml文件.CanWriteTo(currentFileName, out string message);
+            bool canWrite = xml文件.能否写入(currentFileName, out string message);
 
             暂停引擎();
 

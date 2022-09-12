@@ -28,10 +28,10 @@ namespace CsEngineTest
             MessageBox.Show("已删除任何现有阵列");
             theNeuronArray.Initialize(neuronCount);
             MessageBox.Show("数组分配完成");
-            int test = theNeuronArray.GetArraySize();
-            int threads = theNeuronArray.GetThreadCount();
-            theNeuronArray.SetThreadCount(16);
-            threads = theNeuronArray.GetThreadCount();
+            int test = theNeuronArray.获取数组大小();
+            int threads = theNeuronArray.获取线程数();
+            theNeuronArray.设置线程数量(16);
+            threads = theNeuronArray.获取线程数();
 
             theNeuronArray.SetNeuronCurrentCharge(1, 1.4f);
             theNeuronArray.SetNeuronCurrentCharge(2, 0.9f);
@@ -39,34 +39,34 @@ namespace CsEngineTest
             float a = theNeuronArray.GetNeuronLastCharge(1);
             float b = theNeuronArray.GetNeuronLastCharge(2);
 
-            string s0 = theNeuronArray.GetNeuronLabel(1);
-            theNeuronArray.SetNeuronLabel(1, "Fred");
-            string s1 = theNeuronArray.GetNeuronLabel(1);
-            theNeuronArray.SetNeuronLabel(1, "George");
-            string s2 = theNeuronArray.GetNeuronLabel(1);
+            string s0 = theNeuronArray.获取神经元标签(1);
+            theNeuronArray.设置神经元标签(1, "Fred");
+            string s1 = theNeuronArray.获取神经元标签(1);
+            theNeuronArray.设置神经元标签(1, "George");
+            string s2 = theNeuronArray.获取神经元标签(1);
 
-            theNeuronArray.AddSynapse(2, 4, .75f, 1, false);
+            theNeuronArray.添加突触(2, 4, .75f, 1, false);
             List<Synapse> synapses2 = theNeuronArray.GetSynapsesList(2);
-            theNeuronArray.AddSynapse(1, 2, .5f, 0, false);
+            theNeuronArray.添加突触(1, 2, .5f, 0, false);
             List<Synapse> synapses1 = theNeuronArray.GetSynapsesList(1);
-            theNeuronArray.AddSynapse(1, 3, .6f, 0, false);
+            theNeuronArray.添加突触(1, 3, .6f, 0, false);
             synapses1 = theNeuronArray.GetSynapsesList(1);
-            theNeuronArray.AddSynapse(1, 4, .75f, 1, false);
+            theNeuronArray.添加突触(1, 4, .75f, 1, false);
             synapses1 = theNeuronArray.GetSynapsesList(1);
-            theNeuronArray.AddSynapse(2, 4, .75f, 1, false);
-            long count = theNeuronArray.GetTotalSynapses();
+            theNeuronArray.添加突触(2, 4, .75f, 1, false);
+            long count = theNeuronArray.获取总突触数();
             List<Synapse> synapses0 = theNeuronArray.GetSynapsesList(0);
             synapses1 = theNeuronArray.GetSynapsesList(1);
             List<Synapse> synapsesFrom = theNeuronArray.GetSynapsesFromList(4);
 
             NeuronPartial n = theNeuronArray.GetPartialNeuron(1);
             theNeuronArray.Fire();
-            long gen = theNeuronArray.GetGeneration();
+            long gen = theNeuronArray.获取次代();
             NeuronPartial n1 = theNeuronArray.GetPartialNeuron(1);
             NeuronPartial n2 = theNeuronArray.GetPartialNeuron(2);
             NeuronPartial n3 = theNeuronArray.GetPartialNeuron(3);
-            theNeuronArray.DeleteSynapse(1, 3);
-            theNeuronArray.DeleteSynapse(1, 2);
+            theNeuronArray.删除突触(1, 3);
+            theNeuronArray.删除突触(1, 2);
 
 
             MessageBox.Show("分配突触");
@@ -77,9 +77,9 @@ namespace CsEngineTest
                 for (int j = 0; j < synapsesPerNeuron; j++)
                 {
                     int target = x + j;
-                    if (target >= theNeuronArray.GetArraySize()) target -= theNeuronArray.GetArraySize();
-                    if (target < 0) target += theNeuronArray.GetArraySize();
-                    theNeuronArray.AddSynapse(x, target, 1.0f, 0, true);
+                    if (target >= theNeuronArray.获取数组大小()) target -= theNeuronArray.获取数组大小();
+                    if (target < 0) target += theNeuronArray.获取数组大小();
+                    theNeuronArray.添加突触(x, target, 1.0f, 0, true);
                 }
             });
             for (int i = 0; i < neuronCount / 100; i++)
@@ -92,18 +92,18 @@ namespace CsEngineTest
                 sw.Start();
                 theNeuronArray.Fire();
                 sw.Stop();
-                msg += "Gen: " + theNeuronArray.GetGeneration() + "  FireCount: " + theNeuronArray.GetFiredCount() + " time: " + sw.Elapsed.Milliseconds.ToString() + "\n";
+                msg += "Gen: " + theNeuronArray.获取次代() + "  FireCount: " + theNeuronArray.获取激活的神经元数量() + " time: " + sw.Elapsed.Milliseconds.ToString() + "\n";
                 sw.Reset();
             }
             sw.Stop();
-            MessageBox.Show("Done firing 10x\n" + msg);
+            MessageBox.Show("完成激活10x\n" + msg);
         }
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog1 = new OpenFileDialog
             {
                 Filter = "XML Network Files|*.xml",
-                Title = "Select a Brain Simulator File"
+                Title = "选择大脑模拟器文件"
             };
             // Show the Dialog.  
             // If the user clicked OK in the dialog and  
@@ -124,7 +124,7 @@ namespace CsEngineTest
             OpenFileDialog openFileDialog1 = new OpenFileDialog
             {
                 Filter = "XML Network Files|*.xml",
-                Title = "Select a Brain Simulator File"
+                Title = "选择大脑模拟器文件"
             };
             // Show the Dialog.  
             // If the user clicked OK in the dialog and  

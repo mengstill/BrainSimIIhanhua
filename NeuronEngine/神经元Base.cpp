@@ -1,83 +1,83 @@
 ﻿#include "pch.h"
 
-#include "NeuronBase.h"
-#include "SynapseBase.h"
-#include "NeuronArrayBase.h"
+#include "神经元Base.h"
+#include "突触Base.h"
+#include "神经元列表Base.h"
 #include <cmath>
 
 namespace NeuronEngine
 {
-	NeuronBase::NeuronBase(int ID)
+	神经元Base::神经元Base(int ID)
 	{
 		leakRate = 0.1f;
 		nextFiring = 0;
 		id = ID;
 	}
 
-	NeuronBase::~NeuronBase()
+	神经元Base::~神经元Base()
 	{
 		delete synapses;
 		delete synapsesFrom;
 		delete label;
 	}
 
-	int NeuronBase::GetId()
+	int 神经元Base::GetId()
 	{
 		return id;
 	}
 
-	NeuronBase::modelType NeuronBase::GetModel()
+	神经元Base::modelType 神经元Base::GetModel()
 	{
 		return model;
 	}
 
-	void NeuronBase::SetModel(modelType value)
+	void 神经元Base::SetModel(modelType value)
 	{
 		model = value;
 	}
-	float NeuronBase::GetLastCharge()
+	float 神经元Base::GetLastCharge()
 	{
 		return lastCharge;
 	}
-	void NeuronBase::SetLastCharge(float value)
+	void 神经元Base::SetLastCharge(float value)
 	{
-		NeuronArrayBase::clearFireListNeeded = true;
+		神经元列表Base::是否需要清除激活列表组 = true;
 		lastCharge = value;
 	}
-	float NeuronBase::GetCurrentCharge()
+	float 神经元Base::GetCurrentCharge()
 	{
 		return currentCharge;
 	}
-	void NeuronBase::SetCurrentCharge(float value)
+	void 神经元Base::SetCurrentCharge(float value)
 	{
-		NeuronArrayBase::clearFireListNeeded = true;
+		神经元列表Base::是否需要清除激活列表组 = true;
 		currentCharge = value;
 	}
-	float NeuronBase::GetLeakRate()
+	float 神经元Base::GetLeakRate()
 	{
 		return leakRate;
 	}
-	void NeuronBase::SetLeakRate(float value)
+	void 神经元Base::SetLeakRate(float value)
 	{
 		leakRate = value;
 	}
-	int NeuronBase::GetAxonDelay()
+	int 神经元Base::GetAxonDelay()
 	{
 		return axonDelay;
 	}
-	void NeuronBase::SetAxonDelay(int value)
+	void 神经元Base::SetAxonDelay(int value)
 	{
 		axonDelay = value;
 	}
-	long long NeuronBase::GetLastFired()
+	long long 神经元Base::GetLastFired()
 	{
 		return lastFired;
 	}
-	wchar_t* NeuronBase::GetLabel()
+	wchar_t* 神经元Base::GetLabel()
 	{
 		return label;
 	}
-	void NeuronBase::SetLabel(const wchar_t* newLabel)
+	void 神经元Base::SetLabel(const wchar_t* newLabel)
 	{
 		delete label;
 		label = NULL;
@@ -88,25 +88,25 @@ namespace NeuronEngine
 			wcscpy_s(label, len + 2, newLabel);
 		}
 	}
-	bool NeuronBase::GetInUse()
+	bool 神经元Base::GetInUse()
 	{
 		bool retVal = (label != NULL) || (synapses != NULL && synapses->size() != 0) || (synapsesFrom != NULL && synapsesFrom->size() != 0) || (model != modelType::Std);
 
 		return retVal;
 	}
 
-	void NeuronBase::AddSynapseFrom(NeuronBase* n, float weight, SynapseBase::modelType model)
+	void 神经元Base::AddSynapseFrom(神经元Base* n, float weight, 突触Base::modelType model)
 	{
 		while (vectorLock.exchange(1) == 1) {}
 
-		SynapseBase s1;
+		突触Base s1;
 		s1.SetWeight(weight);
 		s1.SetTarget(n);
 		s1.SetModel(model);
 
 		if (synapsesFrom == NULL)
 		{
-			synapsesFrom = new std::vector<SynapseBase>();
+			synapsesFrom = new std::vector<突触Base>();
 			synapsesFrom->reserve(10);
 		}
 		for (int i = 0; i < synapsesFrom->size(); i++)
@@ -125,18 +125,18 @@ namespace NeuronEngine
 		vectorLock = 0;
 	}
 
-	void NeuronBase::AddSynapse(NeuronBase* n, float weight, SynapseBase::modelType model, bool noBackPtr)
+	void 神经元Base::AddSynapse(神经元Base* n, float weight, 突触Base::modelType model, bool noBackPtr)
 	{
 		while (vectorLock.exchange(1) == 1) {}
 
-		SynapseBase s1;
+		突触Base s1;
 		s1.SetWeight(weight);
 		s1.SetTarget(n);
 		s1.SetModel(model);
 
 		if (synapses == NULL)
 		{
-			synapses = new std::vector<SynapseBase>();
+			synapses = new std::vector<突触Base>();
 			synapses->reserve(100);
 		}
 		for (int i = 0; i < synapses->size(); i++)
@@ -161,19 +161,19 @@ namespace NeuronEngine
 		//The previous does not lock because you don't write to the same neuron from multiple threads
 
 		while (n->vectorLock.exchange(1) == 1) {}
-		SynapseBase s2;
+		突触Base s2;
 		s2.SetTarget(this);
 		s2.SetWeight(weight);
 		s2.SetModel(model);
 
 		if (n->synapsesFrom == NULL)
 		{
-			n->synapsesFrom = new std::vector<SynapseBase>();
+			n->synapsesFrom = new std::vector<突触Base>();
 			n->synapsesFrom->reserve(10);
 		}
 		for (int i = 0; i < n->synapsesFrom->size(); i++)
 		{
-			SynapseBase s = n->synapsesFrom->at(i);
+			突触Base s = n->synapsesFrom->at(i);
 			if (n->synapsesFrom->at(i).GetTarget() == this)
 			{
 				n->synapsesFrom->at(i).SetWeight(weight);
@@ -186,7 +186,7 @@ namespace NeuronEngine
 		n->vectorLock = 0;
 		return;
 	}
-	void NeuronBase::DeleteSynapse(NeuronBase* n)
+	void 神经元Base::DeleteSynapse(神经元Base* n)
 	{
 		while (vectorLock.exchange(1) == 1) {}
 		if (synapses != NULL)
@@ -212,7 +212,7 @@ namespace NeuronEngine
 		{
 			for (int i = 0; i < n->synapsesFrom->size(); i++)
 			{
-				SynapseBase s = n->synapsesFrom->at(i);
+				突触Base s = n->synapsesFrom->at(i);
 				if (s.GetTarget() == this)
 				{
 					n->synapsesFrom->erase(n->synapsesFrom->begin() + i);
@@ -227,45 +227,45 @@ namespace NeuronEngine
 		}
 		n->vectorLock = 0;
 	}
-	int NeuronBase::GetSynapseCount()
+	int 神经元Base::GetSynapseCount()
 	{
 		if (synapses == NULL) return 0;
 		return (int)synapses->size();
 	}
-	std::vector<SynapseBase> NeuronBase::GetSynapses()
+	std::vector<突触Base> 神经元Base::GetSynapses()
 	{
 		if (synapses == NULL)
 		{
-			std::vector<SynapseBase> tempVec = std::vector<SynapseBase>();
+			std::vector<突触Base> tempVec = std::vector<突触Base>();
 			return tempVec;
 		}
-		std::vector<SynapseBase> tempVec = std::vector<SynapseBase>(*synapses);
+		std::vector<突触Base> tempVec = std::vector<突触Base>(*synapses);
 		return tempVec;
 	}
-	std::vector<SynapseBase> NeuronBase::GetSynapsesFrom()
+	std::vector<突触Base> 神经元Base::GetSynapsesFrom()
 	{
 		if (synapsesFrom == NULL)
 		{
-			std::vector<SynapseBase> tempVec = std::vector<SynapseBase>();
+			std::vector<突触Base> tempVec = std::vector<突触Base>();
 			return tempVec;
 		}
-		std::vector<SynapseBase> tempVec = std::vector<SynapseBase>(*synapsesFrom);
+		std::vector<突触Base> tempVec = std::vector<突触Base>(*synapsesFrom);
 		return tempVec;
 	}
-	void NeuronBase::GetLock()
+	void 神经元Base::GetLock()
 	{
 		while (vectorLock.exchange(1) == 1) {}
 	}
-	void NeuronBase::ClearLock()
+	void 神经元Base::ClearLock()
 	{
 		vectorLock = 0;
 	}
 
-	void NeuronBase::AddToCurrentValue(float weight)
+	void 神经元Base::AddToCurrentValue(float weight)
 	{
 		currentCharge = currentCharge + weight;
 		if (currentCharge >= threshold)
-			NeuronArrayBase::AddNeuronToFireList1(id);
+			神经元列表Base::添加神经元到激活列表组(id);
 
 	}
 
@@ -302,12 +302,12 @@ namespace NeuronEngine
 
 	//神经元放电是两相的，因此网络独立于神经元顺序
 	//调用此函数时，调用方将神经元添加到fireList2。
-	bool NeuronBase::Fire1(long long cycle)
+	bool 神经元Base::Fire1(long long cycle)
 	{
 		if (signbit(leakRate))return false;
 		if (model == modelType::Color)
 		{
-			NeuronArrayBase::AddNeuronToFireList1(id);
+			神经元列表Base::添加神经元到激活列表组(id);
 			return true;
 		}
 		//if (model == modelType::FloatValue) return false;
@@ -319,7 +319,7 @@ namespace NeuronEngine
 				currentCharge = currentCharge + threshold;
 			}
 			if (leakRate >= 0) //负泄漏率表示“禁用”
-				NeuronArrayBase::AddNeuronToFireList1(id);
+				神经元列表Base::添加神经元到激活列表组(id);
 		}
 		if (model == modelType::Random)
 		{
@@ -329,7 +329,7 @@ namespace NeuronEngine
 				currentCharge = currentCharge + threshold;
 			}
 			if (leakRate >= 0) //负泄漏率表示“禁用”
-				NeuronArrayBase::AddNeuronToFireList1(id);
+				神经元列表Base::添加神经元到激活列表组(id);
 		}
 		if (model == modelType::Burst)
 		{
@@ -348,16 +348,16 @@ namespace NeuronEngine
 					if (axonCounter > 0)
 						nextFiring = (int)leakRate;
 				}
-				NeuronArrayBase::AddNeuronToFireList1(id);
+				神经元列表Base::添加神经元到激活列表组(id);
 			}
 			else if (axonCounter == 0) axonCounter--;
 		}
 
 		//code to implement a refractory period
-		if (cycle < lastFired + NeuronArrayBase::GetRefractoryDelay())
+		if (cycle < lastFired + 神经元列表Base::GetRefractoryDelay())
 		{
 			currentCharge = 0;
-			NeuronArrayBase::AddNeuronToFireList1(id);
+			神经元列表Base::添加神经元到激活列表组(id);
 		}
 
 		//check for firing
@@ -365,13 +365,13 @@ namespace NeuronEngine
 		if (currentCharge != lastCharge)
 		{
 			lastCharge = currentCharge;
-			NeuronArrayBase::AddNeuronToFireList1(id);
+			神经元列表Base::添加神经元到激活列表组(id);
 		}
 
 		if (model == modelType::LIF && axonCounter != 0)
 		{
 			axonCounter = axonCounter >> 1;
-			NeuronArrayBase::AddNeuronToFireList1(id);
+			神经元列表Base::添加神经元到激活列表组(id);
 			if ((axonCounter & 0x001) != 0)
 			{
 				return true;
@@ -385,7 +385,7 @@ namespace NeuronEngine
 				axonCounter |= (1 << axonDelay);
 				lastFired = cycle;
 				currentCharge = 0;
-				NeuronArrayBase::AddNeuronToFireList1(id);
+				神经元列表Base::添加神经元到激活列表组(id);
 				return false;
 			}
 			if (model == modelType::Burst && axonCounter < 0)
@@ -412,30 +412,30 @@ namespace NeuronEngine
 		if (model == modelType::LIF)
 		{
 			currentCharge = currentCharge * (1 - leakRate);
-			NeuronArrayBase::AddNeuronToFireList1(id);
+			神经元列表Base::添加神经元到激活列表组(id);
 		}
 		return false;
 	}
 
 
-	void NeuronBase::Fire2()
+	void 神经元Base::Fire2()
 	{
 		if (model == modelType::FloatValue) return;
 		if (model == modelType::Color && lastCharge != 0)
 			return;
 		else if (model != modelType::Color && lastCharge < threshold && (axonCounter & 0x1) == 0)
 			return; //did the neuron fire?
-		NeuronArrayBase::AddNeuronToFireList1(id);
+		神经元列表Base::添加神经元到激活列表组(id);
 		if (synapses != NULL)
 		{
 			while (vectorLock.exchange(1) == 1) {} //prevent the vector of synapses from changing while we're looking at it
 			for (int i = 0; i < synapses->size(); i++) //process all the synapses sourced by this neuron
 			{
-				SynapseBase s = synapses->at(i);
-				NeuronBase* nTarget = s.GetTarget();
+				突触Base s = synapses->at(i);
+				神经元Base* nTarget = s.GetTarget();
 				if (((long long)nTarget >> 63) != 0) //does this synapse go to another server
 				{
-					NeuronArrayBase::remoteQueue.push(s);
+					神经元列表Base::remoteQueue.push(s);
 				}
 				else
 				{	//nTarget->currentCharge += s.GetWeight(); //not supported until C++20
@@ -449,7 +449,7 @@ namespace NeuronEngine
 
 					//if (desired >= threshold) //this conditional improves performance but 
 					//introduces a potental bug where accumulated charge might be negative
-					NeuronArrayBase::AddNeuronToFireList1(nTarget->id);
+					神经元列表Base::添加神经元到激活列表组(nTarget->id);
 					/*
 					if (s.GetModel() == SynapseBase::modelType::Hebbian1)
 					{
@@ -549,7 +549,7 @@ namespace NeuronEngine
 	double negIncr2[ranges2] = { -.25, -.05, -.025, -.025,  -.025, -.05,  -.1 };
 	//	double negIncr2[ranges2] = { -.125, -.025, -.0125, -.0125,  -.0125, -.025,  -.05 };
 
-	void NeuronBase::Fire3()
+	void 神经元Base::Fire3()
 	{
 		if (model == modelType::FloatValue) return;
 		if (model == modelType::Color && lastCharge != 0)
@@ -559,10 +559,10 @@ namespace NeuronEngine
 			while (vectorLock.exchange(1) == 1) {} //prevent the vector of synapses from changing while we're looking at it
 			for (int i = 0; i < synapses->size(); i++) //process all the synapses sourced by this neuron
 			{
-				SynapseBase s = synapses->at(i);
-				NeuronBase* nTarget = s.GetTarget();
+				突触Base s = synapses->at(i);
+				神经元Base* nTarget = s.GetTarget();
 
-				if (s.GetModel() == SynapseBase::modelType::Hebbian1)
+				if (s.GetModel() == 突触Base::modelType::Hebbian1)
 				{
 					//did the target neuron fire after this stimulation?
 					float weight = s.GetWeight();
@@ -589,8 +589,8 @@ namespace NeuronEngine
 			while (vectorLock.exchange(1) == 1) {} //prevent the vector of synapses from changing while we're looking at it
 			for (int i = 0; i < synapsesFrom->size(); i++) //process all the synapses sourced by this neuron
 			{
-				SynapseBase s = synapsesFrom->at(i);
-				if (s.GetModel() != SynapseBase::modelType::Fixed)
+				突触Base s = synapsesFrom->at(i);
+				if (s.GetModel() != 突触Base::modelType::Fixed)
 				{
 					numHebbian++;
 					if (s.GetWeight() >= 0) numPosHebbian++;
@@ -598,17 +598,17 @@ namespace NeuronEngine
 			}
 			for (int i = 0; i < synapsesFrom->size(); i++) //process all the synapses sourced by this neuron
 			{
-				SynapseBase s = synapsesFrom->at(i);
-				if (s.GetModel() == SynapseBase::modelType::Hebbian2 || s.GetModel() == SynapseBase::modelType::Binary)
+				突触Base s = synapsesFrom->at(i);
+				if (s.GetModel() == 突触Base::modelType::Hebbian2 || s.GetModel() == 突触Base::modelType::Binary)
 				{
-					NeuronBase* nTarget = s.GetTarget();
+					神经元Base* nTarget = s.GetTarget();
 					//did this neuron fire coincident or just after the target (the source since these are FROM synapses)
 					float weight = s.GetWeight();
 					int delay = 0;
-					if (s.GetModel() == SynapseBase::modelType::Hebbian2) delay = 6;
+					if (s.GetModel() == 突触Base::modelType::Hebbian2) delay = 6;
 
-					if (s.GetModel() == SynapseBase::modelType::Hebbian2 ||
-						s.GetModel() == SynapseBase::modelType::Binary)
+					if (s.GetModel() == 突触Base::modelType::Hebbian2 ||
+						s.GetModel() == 突触Base::modelType::Binary)
 					{
 						if (nTarget->lastFired >= lastFired - delay)
 						{
@@ -640,16 +640,16 @@ namespace NeuronEngine
 		}
 	}
 
-	float NeuronBase::NewHebbianWeight(float weight, float offset, SynapseBase::modelType model, int numberOfSynapses1) //sign of float is all that's presently used
+	float 神经元Base::NewHebbianWeight(float weight, float offset, 突触Base::modelType model, int numberOfSynapses1) //sign of float is all that's presently used
 	{
 		float numberOfSynapses = numberOfSynapses1 / 2.0f;
 		float y = weight * numberOfSynapses;
-		if (model == SynapseBase::modelType::Binary)
+		if (model == 突触Base::modelType::Binary)
 		{
 			if (offset > 0)return 1.0f / (float)numberOfSynapses;
 			return 0;
 		}
-		else if (model == SynapseBase::modelType::Hebbian1)
+		else if (model == 突触Base::modelType::Hebbian1)
 		{
 			int i = 0;
 			y = weight;
@@ -667,7 +667,7 @@ namespace NeuronEngine
 				}
 			}
 		}
-		else if (model == SynapseBase::modelType::Hebbian2)
+		else if (model == 突触Base::modelType::Hebbian2)
 		{
 
 			float maxVal = 1.0f / numberOfSynapses;

@@ -136,7 +136,7 @@ namespace BrainSimulator
 
         public 神经元 获取神经元(int id, bool fromClipboard = false)
         {
-            神经元 n = GetCompleteNeuron(id, fromClipboard);
+            神经元 n = 获取完整的神经元(id, fromClipboard);
             return n;
         }
         public 神经元 GetNeuron(string label)
@@ -166,8 +166,8 @@ namespace BrainSimulator
             }
             else
             {
-                synapseCount = GetTotalSynapses();
-                useCount = GetTotalNeuronsInUse();
+                synapseCount = 获取总突触数();
+                useCount = 获取使用中的神经元总数();
             }
         }
         /// <summary>
@@ -186,8 +186,8 @@ namespace BrainSimulator
             else
             {
                 base.Fire();
-                Generation = GetGeneration();
-                lastFireCount = GetFiredCount();
+                Generation = 获取次代();
+                lastFireCount = 获取激活的神经元数量();
             }
             处理程序动作();
             神经冲动历史.更新神经脉冲历史();
@@ -197,14 +197,14 @@ namespace BrainSimulator
             if (MainWindow.useServers && this == MainWindow.此神经元数组)
                 神经元客户端.添加突触(src, dest, weight, model, noBackPtr);
             else
-                base.AddSynapse(src, dest, weight, (int)model, noBackPtr);
+                base.添加突触(src, dest, weight, (int)model, noBackPtr);
         }
         new public void DeleteSynapse(int src, int dest)
         {
             if (MainWindow.useServers && this == MainWindow.此神经元数组)
                 神经元客户端.删除突触(src, dest);
             else
-                base.DeleteSynapse(src, dest);
+                base.删除突触(src, dest);
         }
 
         //fires all the modules

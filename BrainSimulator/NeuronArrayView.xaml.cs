@@ -247,7 +247,7 @@ namespace BrainSimulator
                                 {
                                     int k = width * y + x;
                                     int index = theSelection.selectedRectangles[i].获取神经元索引((int)(x / hRatio), (int)(y / vRatio));
-                                    神经元 n = MainWindow.此神经元数组.GetNeuronForDrawing(index);
+                                    神经元 n = MainWindow.此神经元数组.获取用于绘图的神经元(index);
                                     uint val = (uint)跨语言接口.ColorToInt(神经元视图.GetNeuronColor(n).Color);
                                     pixels[k] = val;
                                 }
@@ -302,7 +302,7 @@ namespace BrainSimulator
                             }
                             else
                             {
-                                n = theNeuronArray.GetCompleteNeuron(neuronID);
+                                n = theNeuronArray.获取完整的神经元(neuronID);
                             }
                             UIElement l = 神经元视图.GetNeuronView(n, this, out TextBlock lbl);
                             if (l != null)
@@ -412,7 +412,7 @@ namespace BrainSimulator
             if (neuronsOnScreen.Count == 0) return;
             if (MainWindow.thisWindow.progressDialog.Visibility == Visibility.Visible)
                 return;
-            神经元 n = MainWindow.此神经元数组.GetCompleteNeuron(neuronID);
+            神经元 n = MainWindow.此神经元数组.获取完整的神经元(neuronID);
             UIElement l = 神经元视图.GetNeuronView(n, this, out TextBlock lbl);
             theCanvas.Children.Add(l);
             if (lbl != null)    
@@ -471,7 +471,7 @@ namespace BrainSimulator
                 for (int i = 0; i < neuronsOnScreen.Count; i++)
                 {
                     NeuronOnScreen a = neuronsOnScreen[i];
-                    神经元 n = MainWindow.此神经元数组.GetNeuronForDrawing(a.neuronIndex);
+                    神经元 n = MainWindow.此神经元数组.获取用于绘图的神经元(a.neuronIndex);
                     if (neuronsOnScreen[i].synapsesOnScreen != null)
                     {
                         n.突触列表 = MainWindow.此神经元数组.获取突触列表(n.id);
@@ -561,7 +561,7 @@ namespace BrainSimulator
                             {
                                 int k = width * y + x;
                                 int index = theSelection.selectedRectangles[i].获取神经元索引((int)(x / hRatio), (int)(y / vRatio));
-                                神经元 n = MainWindow.此神经元数组.GetNeuronForDrawing(index);
+                                神经元 n = MainWindow.此神经元数组.获取用于绘图的神经元(index);
                                 uint val = (uint)跨语言接口.ColorToInt(神经元视图.GetNeuronColor(n).Color);
                                 pixels[k] = val;
                             }

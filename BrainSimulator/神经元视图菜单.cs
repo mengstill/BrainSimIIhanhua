@@ -186,7 +186,7 @@ namespace BrainSimulator
             cm.Items.Add(mi);
 
             mi = new MenuItem { Header = "Paste Here" };
-            if (!xml文件.WindowsClipboardContainsNeuronArray()) mi.IsEnabled = false;
+            if (!xml文件.Windows剪贴板是否包含神经元数组()) mi.IsEnabled = false;
             mi.Click += Mi_Click;
             cm.Items.Add(mi);
 

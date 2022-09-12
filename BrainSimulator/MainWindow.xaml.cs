@@ -395,13 +395,13 @@ namespace BrainSimulator
             LoadMRUMenu();
             LoadFindMenus();
 
-            if (此神经元数组 != null && !useServers) ThreadCount.Text = 此神经元数组.GetThreadCount().ToString();
+            if (此神经元数组 != null && !useServers) ThreadCount.Text = 此神经元数组.获取线程数().ToString();
             else ThreadCount.Text = "";
             if (此神经元数组 != null) Refractory.Text = 此神经元数组.GetRefractoryDelay().ToString();
             else Refractory.Text = "";
 
             if (currentFileName != "" &&
-                xml文件.CanWriteTo(currentFileName, out string message)
+                xml文件.能否写入(currentFileName, out string message)
                 && 此神经元数组 != null)
             {
                 EnableMenuItem(MainMenu.Items, "_保存", true);
@@ -477,7 +477,7 @@ namespace BrainSimulator
                     EnableMenuItem(MainMenu.Items, " 移动", true);
                 EnableMenuItem(MainMenu.Items, " 清除选择", true);
             }
-            if (神经元数组视图.targetNeuronIndex < 0 || !xml文件.WindowsClipboardContainsNeuronArray())
+            if (神经元数组视图.targetNeuronIndex < 0 || !xml文件.Windows剪贴板是否包含神经元数组())
             {
                 EnableMenuItem(MainMenu.Items, " 粘贴", false);
             }

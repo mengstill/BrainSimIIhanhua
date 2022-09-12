@@ -32,23 +32,23 @@ namespace CsEngineTest
         public long lastFired;
     };
 
-    public class NeuronHandler : NeuronArrayBase
+    public class NeuronHandler : 神经元列表Base
     {
         public NeuronPartial GetPartialNeuron(int i)
         {
-            return ConvertToNeuron(GetNeuron(i));
+            return ConvertToNeuron(获取神经元(i));
         }
         public Neuron GetCompleteNeuron(int i)
         {
-            Neuron retVal = (Neuron)ConvertToNeuron(GetNeuron(i));
-            retVal.label = GetNeuronLabel(i);
+            Neuron retVal = (Neuron)ConvertToNeuron(获取神经元(i));
+            retVal.label = 获取神经元标签(i);
             retVal.synapses = GetSynapsesList(i);
             retVal.synapsesFrom = GetSynapsesFromList(i);
             return retVal;
         }
         public List<Synapse> GetSynapsesList(int i)
         {
-            return ConvertToSynapseList(GetSynapses(i));
+            return ConvertToSynapseList(获取突触数组(i));
         }
         public List<Synapse> GetSynapsesFromList(int i)
         {

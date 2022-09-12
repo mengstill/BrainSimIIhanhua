@@ -36,13 +36,17 @@ namespace BrainSimulator
             StringCollection MRUList = (StringCollection)Properties.Settings.Default["MRUList"];
             if (MRUList == null)
                 MRUList = new StringCollection();
-            MRUList.Remove(filePath); //remove it if it's already there
+            MRUList.Remove(filePath); //remove it if it's already there如果已经存在，请将其删除
             Properties.Settings.Default["MRUList"] = MRUList;
             Properties.Settings.Default.Save();
         }
 
-        //this checks to see if the Windows Clipboard contains neurons and loads them if it does
-        public static bool WindowsClipboardContainsNeuronArray()
+        /// <summary>
+        /// this checks to see if the Windows Clipboard contains neurons and loads them if it does
+        /// 这将检查Windows剪贴板是否包含神经元，如果包含，则加载神经元
+        /// </summary>
+        /// <returns></returns>
+        public static bool Windows剪贴板是否包含神经元数组()
         {
             bool retVal = false;
             try
@@ -242,11 +246,11 @@ namespace BrainSimulator
             return true;
         }
 
-        public static bool CanWriteTo(string fileName)
+        public static bool 能否写入(string fileName)
         {
-            return CanWriteTo(fileName, out _);
+            return 能否写入(fileName, out _);
         }
-        public static bool CanWriteTo(string fileName, out string message)
+        public static bool 能否写入(string fileName, out string message)
         {
             FileStream file1;
             message = "";
@@ -268,8 +272,14 @@ namespace BrainSimulator
 
         }
 
-        //if you pass in the fileName 'ClipBoard', the save is to the windows clipboard
-        public static bool Save(NeuronArray theNeuronArray, string fileName)
+        /// <summary>
+        /// if you pass in the fileName 'ClipBoard', the save is to the windows clipboard
+        /// 如果传入文件名“剪贴板”，则保存到windows剪贴板
+        /// </summary>
+        /// <param name="此神经元列表"></param>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
+        public static bool 保存(NeuronArray 此神经元列表, string fileName)
         {
             Stream file;
             string tempFile = "";
@@ -277,13 +287,13 @@ namespace BrainSimulator
             if (!fromClipboard)
             {
                 //Check for file access
-                if (!CanWriteTo(fileName, out string message))
+                if (!能否写入(fileName, out string message))
                 {
-                    MessageBox.Show("Could not save file because: " + message);
+                    MessageBox.Show("无法保存文件，因为： " + message);
                     return false;
                 }
 
-                MainWindow.thisWindow.设置程序(0, "Saving Network File");
+                MainWindow.thisWindow.设置程序(0, "保存网络文件");
 
                 tempFile = System.IO.Path.GetTempFileName();
                 file = File.Create(tempFile);
@@ -296,31 +306,31 @@ namespace BrainSimulator
             try
             {
                 XmlSerializer writer = new XmlSerializer(typeof(NeuronArray), extraTypes);
-                writer.Serialize(file, theNeuronArray);
+                writer.Serialize(file, 此神经元列表);
             }
             catch (Exception e)
             {
                 if (e.InnerException != null)
-                    MessageBox.Show("Xml file write failed because: " + e.InnerException.Message);
+                    MessageBox.Show("Xml文件写入失败，因为: " + e.InnerException.Message);
                 else
-                    MessageBox.Show("Xml file write failed because: " + e.Message);
+                    MessageBox.Show("Xml文件写入失败，因为: " + e.Message);
                 MainWindow.thisWindow.设置程序(100,"");
                 return false;
             }
             file.Position = 0; ;
 
-            XmlDocument xmldoc = new XmlDocument();
-            xmldoc.Load(file);
+            XmlDocument xml文档 = new XmlDocument();
+            xml文档.Load(file);
 
-            XmlElement root = xmldoc.DocumentElement;
-            XmlNode neuronsNode = xmldoc.CreateNode("element", "Neurons", "");
+            XmlElement root = xml文档.DocumentElement;
+            XmlNode neuronsNode = xml文档.CreateNode("element", "Neurons", "");
             root.AppendChild(neuronsNode);
 
-            for (int i = 0; i < theNeuronArray.arraySize; i++)
+            for (int i = 0; i < 此神经元列表.arraySize; i++)
             {
                 if (!fromClipboard)
                 {
-                    var progress = i / (float)theNeuronArray.arraySize;
+                    var progress = i / (float)此神经元列表.arraySize;
                     progress *= 100;
                     if (MainWindow.thisWindow.设置程序(progress, ""))
                     {
@@ -328,12 +338,12 @@ namespace BrainSimulator
                         return false;
                     }
                 }
-                神经元 n = theNeuronArray.GetNeuronForDrawing(i);
-                if (fromClipboard) n.Owner = theNeuronArray;
+                神经元 n = 此神经元列表.获取用于绘图的神经元(i);
+                if (fromClipboard) n.Owner = 此神经元列表;
                 if (n.是否使用 || n.标签名 != "" || fromClipboard)
                 {
-                    n = theNeuronArray.GetCompleteNeuron(i, fromClipboard);
-                    n.Owner = theNeuronArray;
+                    n = 此神经元列表.获取完整的神经元(i, fromClipboard);
+                    n.Owner = 此神经元列表;
                     string label = n.标签名;
                     if (n.ToolTip != "") label += 神经元.toolTipSeparator + n.ToolTip;
                     //this is needed bacause inUse is true if any synapse points to this neuron--
@@ -341,84 +351,84 @@ namespace BrainSimulator
                     if (n.突触列表.Count != 0 || label != "" || n.最后更改 != 0 || n.leakRate泄露速度 != 0.1f
                         || n.模型 != 神经元.模型类型.IF)
                     {
-                        XmlNode neuronNode = xmldoc.CreateNode("element", "Neuron", "");
+                        XmlNode neuronNode = xml文档.CreateNode("element", "Neuron", "");
                         neuronsNode.AppendChild(neuronNode);
 
-                        XmlNode attrNode = xmldoc.CreateNode("element", "Id", "");
+                        XmlNode attrNode = xml文档.CreateNode("element", "Id", "");
                         attrNode.InnerText = n.id.ToString();
                         neuronNode.AppendChild(attrNode);
 
                         if (n.模型 != 神经元.模型类型.IF)
                         {
-                            attrNode = xmldoc.CreateNode("element", "Model", "");
+                            attrNode = xml文档.CreateNode("element", "Model", "");
                             attrNode.InnerText = n.模型.ToString();
                             neuronNode.AppendChild(attrNode);
                         }
                         if (n.模型 != 神经元.模型类型.Color && n.最后更改 != 0)
                         {
-                            attrNode = xmldoc.CreateNode("element", "LastCharge", "");
+                            attrNode = xml文档.CreateNode("element", "LastCharge", "");
                             attrNode.InnerText = n.最后更改.ToString();
                             neuronNode.AppendChild(attrNode);
                         }
                         if (n.模型 == 神经元.模型类型.Color && n.LastChargeInt != 0)
                         {
-                            attrNode = xmldoc.CreateNode("element", "LastCharge", "");
+                            attrNode = xml文档.CreateNode("element", "LastCharge", "");
                             attrNode.InnerText = n.LastChargeInt.ToString();
                             neuronNode.AppendChild(attrNode);
                         }
                         if (n.leakRate泄露速度 != 0.1f)
                         {
-                            attrNode = xmldoc.CreateNode("element", "LeakRate", "");
+                            attrNode = xml文档.CreateNode("element", "LeakRate", "");
                             attrNode.InnerText = n.leakRate泄露速度.ToString();
                             neuronNode.AppendChild(attrNode);
                         }
                         if (n.突触延迟 != 0)
                         {
-                            attrNode = xmldoc.CreateNode("element", "AxonDelay", "");
+                            attrNode = xml文档.CreateNode("element", "AxonDelay", "");
                             attrNode.InnerText = n.突触延迟.ToString();
                             neuronNode.AppendChild(attrNode);
                         }
                         if (label != "")
                         {
-                            attrNode = xmldoc.CreateNode("element", "Label", "");
+                            attrNode = xml文档.CreateNode("element", "Label", "");
                             attrNode.InnerText = label;
                             neuronNode.AppendChild(attrNode);
                         }
                         if (n.ShowSynapses)
                         {
-                            attrNode = xmldoc.CreateNode("element", "ShowSynapses", "");
+                            attrNode = xml文档.CreateNode("element", "ShowSynapses", "");
                             attrNode.InnerText = "True";
                             neuronNode.AppendChild(attrNode);
                         }
                         if (n.RecordHistory && !fromClipboard)
                         {
-                            attrNode = xmldoc.CreateNode("element", "RecordHistory", "");
+                            attrNode = xml文档.CreateNode("element", "RecordHistory", "");
                             attrNode.InnerText = "True";
                             neuronNode.AppendChild(attrNode);
                         }
                         if (n.突触列表.Count > 0)
                         {
-                            XmlNode synapsesNode = xmldoc.CreateNode("element", "Synapses", "");
+                            XmlNode synapsesNode = xml文档.CreateNode("element", "Synapses", "");
                             neuronNode.AppendChild(synapsesNode);
                             foreach (突触 s in n.突触列表)
                             {
-                                XmlNode synapseNode = xmldoc.CreateNode("element", "Synapse", "");
+                                XmlNode synapseNode = xml文档.CreateNode("element", "Synapse", "");
                                 synapsesNode.AppendChild(synapseNode);
 
                                 if (s.weight != 1)
                                 {
-                                    attrNode = xmldoc.CreateNode("element", "Weight", "");
+                                    attrNode = xml文档.CreateNode("element", "Weight", "");
                                     attrNode.InnerText = s.weight.ToString();
                                     synapseNode.AppendChild(attrNode);
                                 }
 
-                                attrNode = xmldoc.CreateNode("element", "TargetNeuron", "");
+                                attrNode = xml文档.CreateNode("element", "TargetNeuron", "");
                                 attrNode.InnerText = s.targetNeuron.ToString();
                                 synapseNode.AppendChild(attrNode);
 
                                 if (s.model != 突触.modelType.Fixed)
                                 {
-                                    attrNode = xmldoc.CreateNode("element", "Model", "");
+                                    attrNode = xml文档.CreateNode("element", "Model", "");
                                     attrNode.InnerText = s.model.ToString();
                                     synapseNode.AppendChild(attrNode);
                                 }
@@ -429,7 +439,7 @@ namespace BrainSimulator
             }
 
             file.Position = 0;
-            xmldoc.Save(file);
+            xml文档.Save(file);
             if (!fromClipboard)
             {
                 file.Close();
@@ -442,7 +452,7 @@ namespace BrainSimulator
                 catch (Exception e)
                 {
                     MainWindow.thisWindow.设置程序(100, "");
-                    MessageBox.Show("Could not save file because: " + e.Message);
+                    MessageBox.Show("无法保存文件，因为： " + e.Message);
                     return false;
                 }
             }
