@@ -154,12 +154,13 @@ namespace BrainSimulator
                 XmlElement neuronNode = (XmlElement)neuronNodes[i];
                 XmlNodeList idNodes = neuronNode.GetElementsByTagName("Id");
                 int id = i; //this is a hack to read obsolete files where all neurons were included but no Id's
+                            //这是一种破解方法，可以读取包含所有神经元但没有Id的过时文件
                 if (idNodes.Count > 0)
                     int.TryParse(idNodes[0].InnerText, out id);
                 if (id == -1) continue;
 
                 神经元 n = theNeuronArray.获取神经元(id);
-                n.Owner = theNeuronArray;
+                n.所有者 = theNeuronArray;
                 n.id = id;
 
                 foreach (XmlElement node in neuronNode.ChildNodes)
@@ -172,7 +173,7 @@ namespace BrainSimulator
                             break;
                         case "Model":
                             Enum.TryParse(node.InnerText, out 神经元.模型类型 theModel);
-                            n.模型 = theModel;
+                            n.模型字段 = theModel;
                             break;
                         case "LeakRate":
                             float.TryParse(node.InnerText, out float leakRate);
@@ -183,7 +184,7 @@ namespace BrainSimulator
                             n.突触延迟 = axonDelay;
                             break;
                         case "LastCharge":
-                            if (n.模型 != 神经元.模型类型.Color)
+                            if (n.模型字段 != 神经元.模型类型.Color)
                             {
                                 float.TryParse(node.InnerText, out float lastCharge);
                                 n.LastCharge = lastCharge;
@@ -198,7 +199,7 @@ namespace BrainSimulator
                             break;
                         case "ShowSynapses":
                             bool.TryParse(node.InnerText, out bool showSynapses);
-                            n.ShowSynapses = showSynapses;
+                            n.显示突触 = showSynapses;
                             break;
                         case "RecordHistory":
                             bool.TryParse(node.InnerText, out bool recordHistory);
@@ -217,24 +218,24 @@ namespace BrainSimulator
                                     {
                                         case "TargetNeuron":
                                             int.TryParse(synapseAttribNode.InnerText, out int target);
-                                            s.targetNeuron = target;
+                                            s.目标神经元字段 = target;
                                             break;
                                         case "Weight":
                                             float.TryParse(synapseAttribNode.InnerText, out float weight);
-                                            s.weight = weight;
+                                            s.权重字段 = weight;
                                             break;
                                         case "IsHebbian": //Obsolete: backwards compatibility
                                             bool.TryParse(synapseAttribNode.InnerText, out bool isheb);
-                                            if (isheb) s.model = 突触.modelType.Hebbian1;
-                                            else s.model = 突触.modelType.Fixed;
+                                            if (isheb) s.模型字段 = 突触.modelType.Hebbian1;
+                                            else s.模型字段 = 突触.modelType.Fixed;
                                             break;
                                         case "Model":
                                             Enum.TryParse(synapseAttribNode.InnerText, out 突触.modelType model);
-                                            s.model = model;
+                                            s.模型字段 = model;
                                             break;
                                     }
                                 }
-                                n.添加突触(s.targetNeuron, s.weight, s.model);
+                                n.添加突触(s.目标神经元字段, s.权重字段, s.模型字段);
                             }
                             break;
                     }
@@ -305,6 +306,8 @@ namespace BrainSimulator
             Type[] extraTypes = 获取模型类型数组();
             try
             {
+                //想要更改为json文档,就要在这里入手了,首先将神经元变成相应的参数,然后都塞入
+                //神经元数组中的参数数组,最后在序列化类,最后保存即可
                 XmlSerializer writer = new XmlSerializer(typeof(NeuronArray), extraTypes);
                 writer.Serialize(file, 此神经元列表);
             }
@@ -317,7 +320,7 @@ namespace BrainSimulator
                 MainWindow.thisWindow.设置程序(100,"");
                 return false;
             }
-            file.Position = 0; ;
+            file.Position = 0; 
 
             XmlDocument xml文档 = new XmlDocument();
             xml文档.Load(file);
@@ -339,17 +342,17 @@ namespace BrainSimulator
                     }
                 }
                 神经元 n = 此神经元列表.获取用于绘图的神经元(i);
-                if (fromClipboard) n.Owner = 此神经元列表;
+                if (fromClipboard) n.所有者 = 此神经元列表;
                 if (n.是否使用 || n.标签名 != "" || fromClipboard)
                 {
                     n = 此神经元列表.获取完整的神经元(i, fromClipboard);
-                    n.Owner = 此神经元列表;
+                    n.所有者 = 此神经元列表;
                     string label = n.标签名;
                     if (n.ToolTip != "") label += 神经元.toolTipSeparator + n.ToolTip;
                     //this is needed bacause inUse is true if any synapse points to this neuron--
                     //we don't need to bother with that if it's the only thing 
-                    if (n.突触列表.Count != 0 || label != "" || n.最后更改 != 0 || n.leakRate泄露速度 != 0.1f
-                        || n.模型 != 神经元.模型类型.IF)
+                    if (n.synapses.Count != 0 || label != "" || n.最后更改 != 0 || n.leakRate泄露速度 != 0.1f
+                        || n.模型字段 != 神经元.模型类型.IF)
                     {
                         XmlNode neuronNode = xml文档.CreateNode("element", "Neuron", "");
                         neuronsNode.AppendChild(neuronNode);
@@ -358,19 +361,19 @@ namespace BrainSimulator
                         attrNode.InnerText = n.id.ToString();
                         neuronNode.AppendChild(attrNode);
 
-                        if (n.模型 != 神经元.模型类型.IF)
+                        if (n.模型字段 != 神经元.模型类型.IF)
                         {
                             attrNode = xml文档.CreateNode("element", "Model", "");
-                            attrNode.InnerText = n.模型.ToString();
+                            attrNode.InnerText = n.模型字段.ToString();
                             neuronNode.AppendChild(attrNode);
                         }
-                        if (n.模型 != 神经元.模型类型.Color && n.最后更改 != 0)
+                        if (n.模型字段 != 神经元.模型类型.Color && n.最后更改 != 0)
                         {
                             attrNode = xml文档.CreateNode("element", "LastCharge", "");
                             attrNode.InnerText = n.最后更改.ToString();
                             neuronNode.AppendChild(attrNode);
                         }
-                        if (n.模型 == 神经元.模型类型.Color && n.LastChargeInt != 0)
+                        if (n.模型字段 == 神经元.模型类型.Color && n.LastChargeInt != 0)
                         {
                             attrNode = xml文档.CreateNode("element", "LastCharge", "");
                             attrNode.InnerText = n.LastChargeInt.ToString();
@@ -394,7 +397,7 @@ namespace BrainSimulator
                             attrNode.InnerText = label;
                             neuronNode.AppendChild(attrNode);
                         }
-                        if (n.ShowSynapses)
+                        if (n.显示突触)
                         {
                             attrNode = xml文档.CreateNode("element", "ShowSynapses", "");
                             attrNode.InnerText = "True";
@@ -406,30 +409,30 @@ namespace BrainSimulator
                             attrNode.InnerText = "True";
                             neuronNode.AppendChild(attrNode);
                         }
-                        if (n.突触列表.Count > 0)
+                        if (n.synapses.Count > 0)
                         {
                             XmlNode synapsesNode = xml文档.CreateNode("element", "Synapses", "");
                             neuronNode.AppendChild(synapsesNode);
-                            foreach (突触 s in n.突触列表)
+                            foreach (突触 s in n.synapses)
                             {
                                 XmlNode synapseNode = xml文档.CreateNode("element", "Synapse", "");
                                 synapsesNode.AppendChild(synapseNode);
 
-                                if (s.weight != 1)
+                                if (s.权重字段 != 1)
                                 {
                                     attrNode = xml文档.CreateNode("element", "Weight", "");
-                                    attrNode.InnerText = s.weight.ToString();
+                                    attrNode.InnerText = s.权重字段.ToString();
                                     synapseNode.AppendChild(attrNode);
                                 }
 
                                 attrNode = xml文档.CreateNode("element", "TargetNeuron", "");
-                                attrNode.InnerText = s.targetNeuron.ToString();
+                                attrNode.InnerText = s.目标神经元字段.ToString();
                                 synapseNode.AppendChild(attrNode);
 
-                                if (s.model != 突触.modelType.Fixed)
+                                if (s.模型字段 != 突触.modelType.Fixed)
                                 {
                                     attrNode = xml文档.CreateNode("element", "Model", "");
-                                    attrNode.InnerText = s.model.ToString();
+                                    attrNode.InnerText = s.模型字段.ToString();
                                     synapseNode.AppendChild(attrNode);
                                 }
                             }

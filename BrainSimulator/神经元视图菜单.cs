@@ -117,7 +117,7 @@ namespace BrainSimulator
                     Width = 100,
                 });
             }
-            cb.SelectedIndex = (int)n.Model;
+            cb.SelectedIndex = (int)n.模型;
             cb.SelectionChanged += Cb_SelectionChanged;
             sp.Children.Add(cb);
             cm.Items.Add(new MenuItem { StaysOpenOnClick = true, Header = sp });
@@ -169,7 +169,7 @@ namespace BrainSimulator
             mi.Header = "Synapses Out";
             mi.Width = 250;
             mi.HorizontalAlignment = HorizontalAlignment.Left;
-            foreach (突触 s in n.Synapses)
+            foreach (突触 s in n.突触列表)
             {
                 AddSynapseEntryToMenu(mi, s);
             }
@@ -179,7 +179,7 @@ namespace BrainSimulator
             mi.Header = "Synapses In";
             mi.Width = 250;
             mi.HorizontalAlignment = HorizontalAlignment.Left;
-            foreach (突触 s in n.SynapsesFrom)
+            foreach (突触 s in n.突触来源列表)
             {
                 AddSynapseEntryToMenu(mi, s);
             }
@@ -219,23 +219,23 @@ namespace BrainSimulator
 
             cm.Items.Add(new MenuItem { Header = sp, StaysOpenOnClick = true });
 
-            SetCustomCMItems(cm, n, n.模型);
+            SetCustomCMItems(cm, n, n.模型字段);
 
             return cm;
         }
 
         private static void AddSynapseEntryToMenu(MenuItem mi, 突触 s)
         {
-            string targetLabel = MainWindow.此神经元数组.获取神经元(s.targetNeuron).标签名;
+            string targetLabel = MainWindow.此神经元数组.获取神经元(s.目标神经元字段).标签名;
             StackPanel sp0 = new StackPanel { Orientation = Orientation.Horizontal };
-            TextBlock tbWeight = new TextBlock { Text = s.Weight.ToString("F3").PadLeft(9) };
+            TextBlock tbWeight = new TextBlock { Text = s.权重.ToString("F3").PadLeft(9) };
             tbWeight.MouseEnter += SynapseEntry_MouseEnter;
             tbWeight.MouseLeave += SynapseEntry_MouseLeave;
             tbWeight.ToolTip = "Click to edit synapse";
             tbWeight.MouseDown += SynapseEntry_MouseDown;
             tbWeight.Name = "weight";
 
-            TextBlock tbTarget = new TextBlock { Text = s.targetNeuron.ToString().PadLeft(8) + " " + targetLabel };
+            TextBlock tbTarget = new TextBlock { Text = s.目标神经元字段.ToString().PadLeft(8) + " " + targetLabel };
             sp0.Children.Add(tbWeight);
             sp0.Children.Add(tbTarget);
             tbTarget.MouseEnter += SynapseEntry_MouseEnter;
@@ -559,7 +559,7 @@ namespace BrainSimulator
                     神经元.模型类型 nm = (神经元.模型类型)System.Enum.Parse(typeof(神经元.模型类型), lbi.Content.ToString());
                     if (modelChanged)
                     {
-                        n.模型 = nm;
+                        n.模型字段 = nm;
                         if (applyToAll)
                             SetValueInSelectedNeurons(n, "model");
                     }
@@ -567,7 +567,7 @@ namespace BrainSimulator
                 cc = 跨语言接口.FindByName(cm, "CurrentCharge");
                 if (cc is ComboBox cbb1)
                 {
-                    if (n.模型 == 神经元.模型类型.Color)
+                    if (n.模型字段 == 神经元.模型类型.Color)
                     {
                         try
                         {
@@ -602,14 +602,14 @@ namespace BrainSimulator
                     float.TryParse(tb2.Text, out float leakRate);
                     if (leakRateChanged)
                     {
-                        n.LeakRate = leakRate;
+                        n.泄露率 = leakRate;
                         if (applyToAll)
                             SetValueInSelectedNeurons(n, "leakRate");
-                        if (n.模型 == 神经元.模型类型.LIF)
+                        if (n.模型字段 == 神经元.模型类型.LIF)
                             跨语言接口.AddToValues(leakRate, leakRateValues);
-                        if (n.模型 == 神经元.模型类型.Random)
+                        if (n.模型字段 == 神经元.模型类型.Random)
                             跨语言接口.AddToValues(leakRate, stdDevValues);
-                        if (n.模型 == 神经元.模型类型.Burst)
+                        if (n.模型字段 == 神经元.模型类型.Burst)
                             跨语言接口.AddToValues(leakRate, axonDelayValues);
                     }
                 }
@@ -624,11 +624,11 @@ namespace BrainSimulator
                         n.突触延迟 = axonDelay;
                         if (applyToAll)
                             SetValueInSelectedNeurons(n, "axonDelay");
-                        if (n.模型 == 神经元.模型类型.Random)
+                        if (n.模型字段 == 神经元.模型类型.Random)
                             跨语言接口.AddToValues(axonDelay, meanValues);
-                        else if (n.模型 == 神经元.模型类型.Always)
+                        else if (n.模型字段 == 神经元.模型类型.Always)
                             跨语言接口.AddToValues(axonDelay, alwaysDelayValues);
-                        else if (n.模型 == 神经元.模型类型.Burst)
+                        else if (n.模型字段 == 神经元.模型类型.Burst)
                             跨语言接口.AddToValues(axonDelay, alwaysDelayValues);
                         else
                             跨语言接口.AddToValues(axonDelay, axonDelayValues);
@@ -639,7 +639,7 @@ namespace BrainSimulator
                 {
                     if (synapsesChanged)
                     {
-                        n.ShowSynapses = (bool)cb2.IsChecked;
+                        n.显示突触 = (bool)cb2.IsChecked;
                         //if (cb2.IsChecked == true)
                         //{
                         //    MainWindow.arrayView.AddShowSynapses(n.id);
@@ -828,7 +828,7 @@ namespace BrainSimulator
                     switch (property)
                     {
                         case "currentCharge":
-                            if (n.模型 == 神经元.模型类型.Color)
+                            if (n.模型字段 == 神经元.模型类型.Color)
                                 n1.SetValueInt(n.LastChargeInt);
                             else
                             {
@@ -836,16 +836,16 @@ namespace BrainSimulator
                                 n1.最后更改 = n.当前更改;
                             }
                             break;
-                        case "clear": n1.ClearWithUndo(); break;
+                        case "clear": n1.撤销并清空(); break;
                         case "leakRate": n1.leakRate泄露速度 = n.leakRate泄露速度; break;
                         case "axonDelay": n1.突触延迟 = n.突触延迟; break;
-                        case "model": n1.模型 = n.模型; break;
+                        case "model": n1.模型字段 = n.模型字段; break;
                         case "enable": n1.leakRate泄露速度 = n.leakRate泄露速度; break;
                         case "history":
                             n1.RecordHistory = n.RecordHistory;
                             break;
                         case "synapses":
-                            n1.ShowSynapses = n.ShowSynapses;
+                            n1.显示突触 = n.显示突触;
                             //if (MainWindow.arrayView.IsShowingSynapses(n.id))
                             //{
                             //    MainWindow.arrayView.AddShowSynapses(n1.id);
@@ -931,7 +931,7 @@ namespace BrainSimulator
             if ((string)mi.Header == "Clear Synapses")
             {
                 MainWindow.此神经元数组.设置撤消点();
-                n.ClearWithUndo();
+                n.撤销并清空();
                 Control cc = 跨语言接口.FindByName(cm, "ApplyToSelection");
                 if (cc is CheckBox cb)
                     if (cb.IsChecked == true)

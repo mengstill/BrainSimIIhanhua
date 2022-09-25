@@ -79,18 +79,18 @@ namespace BrainSimulator
             神经元 n = MainWindow.此神经元数组.获取神经元(mouseDownNeuronIndex);
             if (n != null)
             {
-                if (n.Model == 神经元.模型类型.Random || n.模型 == 神经元.模型类型.Always)
+                if (n.模型 == 神经元.模型类型.Random || n.模型字段 == 神经元.模型类型.Always)
                 {
-                    if (n.LeakRate < 0)
-                        n.LeakRate = -n.LeakRate;
+                    if (n.泄露率 < 0)
+                        n.泄露率 = -n.泄露率;
                     else
                     {
                         n.CurrentCharge = 0;
                         n.LastCharge = 0;
-                        n.LeakRate = -n.LeakRate;
+                        n.泄露率 = -n.泄露率;
                     }
                 }
-                else if (n.Model != 神经元.模型类型.Color)
+                else if (n.模型 != 神经元.模型类型.Color)
                 {
                     if (n.LastCharge < .99)
                     {

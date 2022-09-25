@@ -468,14 +468,14 @@ namespace BrainSimulator
                         foreach (int Id in sr.矩阵中的神经元())
                         {
                             神经元 n = MainWindow.此神经元数组.获取神经元(Id);
-                            foreach (突触 s in n.Synapses)
+                            foreach (突触 s in n.突触列表)
                             {
-                                if (s.model != 突触.modelType.Fixed)
+                                if (s.模型字段 != 突触.modelType.Fixed)
                                 {
                                     //TODO: Add some UI for this:
                                     //s.model = Synapse.modelType.Hebbian2;
-                                    n.撤销与添加突触(s.targetNeuron, 0, s.model);
-                                    s.Weight = 0;
+                                    n.撤销与添加突触(s.目标神经元字段, 0, s.模型字段);
+                                    s.权重 = 0;
                                 }
                             }
                         }

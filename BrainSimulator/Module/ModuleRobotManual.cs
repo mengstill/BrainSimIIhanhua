@@ -50,8 +50,8 @@ namespace BrainSimulator.Modules
                         switch (j)
                         {
                             case 0:
-                                if (nTarget.LeakRate < 0) nTarget.LeakRate = 0;
-                                else nTarget.LeakRate = -1;
+                                if (nTarget.泄露率 < 0) nTarget.泄露率 = 0;
+                                else nTarget.泄露率 = -1;
                                 break;
                             case 1: nTarget.SetValue(nTarget.LastCharge - 0.1f); break;
                             case 2: nTarget.SetValue(nTarget.LastCharge - 0.01f); break;

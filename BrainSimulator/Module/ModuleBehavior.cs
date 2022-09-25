@@ -77,15 +77,15 @@ namespace BrainSimulator.Modules
             mv.GetNeuronAt(0, 0).标签名 = "Stop";
             mv.GetNeuronAt(1, 0).标签名 = "Done";
             mv.GetNeuronAt(2, 0).标签名 = "TurnTo";
-            mv.GetNeuronAt(3, 0).Model = 神经元.模型类型.FloatValue;
+            mv.GetNeuronAt(3, 0).模型 = 神经元.模型类型.FloatValue;
             mv.GetNeuronAt(3, 0).标签名 = "Theta";
             mv.GetNeuronAt(4, 0).标签名 = "MoveTo";
-            mv.GetNeuronAt(5, 0).Model = 神经元.模型类型.FloatValue;
+            mv.GetNeuronAt(5, 0).模型 = 神经元.模型类型.FloatValue;
             mv.GetNeuronAt(5, 0).标签名 = "R";
             mv.GetNeuronAt(6, 0).标签名 = "Scan";
             mv.GetNeuronAt(9, 0).标签名 = "Coll";
             mv.GetNeuronAt(10, 0).标签名 = "CollAngle";
-            mv.GetNeuronAt(10, 0).Model = 神经元.模型类型.FloatValue;
+            mv.GetNeuronAt(10, 0).模型 = 神经元.模型类型.FloatValue;
 
             //Connect Neurons to the UKS
             神经元 nUKSDone = GetNeuron("Module2DUKS", "Done");

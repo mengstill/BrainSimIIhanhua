@@ -153,7 +153,7 @@ int main(int argc, char* argv[], char* envp[])
 				//int target = j;
 				if (target >= neuronArray->获取数组大小()) target -= neuronArray->获取数组大小();
 				if (target < 0) target += neuronArray->获取数组大小();
-				n->AddSynapse(neuronArray->获取神经元(target), 1, 突触Base::modelType::Fixed, true);
+				n->添加突触(neuronArray->获取神经元(target), 1, 突触Base::modelType::Fixed, true);
 				count++;
 				if (count % synapsesPerDot == 0) printf(".");
 			}
@@ -180,7 +180,7 @@ int main(int argc, char* argv[], char* envp[])
 	{
 		int count = 0;
 		neuronArray->Fire();
-		string s = "fired: " + to_string(neuronArray->GetFiredCount()) + " neurons,  ";
+		string s = "fired: " + to_string(neuronArray->获取激活数量()) + " neurons,  ";
 		outputElapsedTime(s);
 	}
 	outputElapsedTime("Done");

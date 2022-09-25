@@ -56,7 +56,7 @@ namespace BrainSimulator.Modules
 
         public override void Initialize()
         {
-            mv.GetNeuronAt(2, 0).Model = 神经元.模型类型.FloatValue;
+            mv.GetNeuronAt(2, 0).模型 = 神经元.模型类型.FloatValue;
             mv.GetNeuronAt(0, 0).标签名 = "<<";
             mv.GetNeuronAt(1, 0).标签名 = "<";
             mv.GetNeuronAt(3, 0).标签名 = ">";

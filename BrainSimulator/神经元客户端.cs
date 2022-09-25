@@ -163,7 +163,7 @@ namespace BrainSimulator
         {
             string command = "SetNeuron ";
             command += n.id + " ";
-            command += (int)n.模型 + " ";
+            command += (int)n.模型字段 + " ";
             command += n.当前更改 + " ";
             command += n.最后更改 + " ";
             command += n.leakRate泄露速度 + " ";
@@ -262,7 +262,7 @@ namespace BrainSimulator
                     神经元 n = new 神经元();
                     int.TryParse(commands[1], out n.id);
                     int.TryParse(commands[2], out int tempModel);
-                    n.模型 = (神经元.模型类型)tempModel;
+                    n.模型字段 = (神经元.模型类型)tempModel;
                     float.TryParse(commands[3], out n.最后更改);
                     float.TryParse(commands[4], out n.leakRate泄露速度);
                     int.TryParse(commands[5], out n.突触延迟);
@@ -277,7 +277,7 @@ namespace BrainSimulator
                         n = new 神经元();
                         int.TryParse(commands[i], out n.id);
                         int.TryParse(commands[i+1], out tempModel);
-                        n.模型 = (神经元.模型类型)tempModel;
+                        n.模型字段 = (神经元.模型类型)tempModel;
                         float.TryParse(commands[i+2], out n.最后更改);
                         float.TryParse(commands[i+3], out n.leakRate泄露速度);
                         int.TryParse(commands[i+4], out n.突触延迟);
@@ -292,10 +292,10 @@ namespace BrainSimulator
                     for (int i = 2; i < commands.Length; i += 3)
                     {
                         突触 s = new 突触();
-                        int.TryParse(commands[i], out s.targetNeuron);
-                        float.TryParse(commands[i + 1], out s.weight);
+                        int.TryParse(commands[i], out s.目标神经元字段);
+                        float.TryParse(commands[i + 1], out s.权重字段);
                         int.TryParse(commands[i + 2], out int modelInt);
-                        s.model = (突触.modelType)modelInt;
+                        s.模型字段 = (突触.modelType)modelInt;
                         synapses.Add(s);
                     }
                     tempSynapses = synapses;
@@ -307,10 +307,10 @@ namespace BrainSimulator
                     for (int i = 2; i < commands.Length; i += 3)
                     {
                         突触 s = new 突触();
-                        int.TryParse(commands[i], out s.targetNeuron);
-                        float.TryParse(commands[i + 1], out s.weight);
+                        int.TryParse(commands[i], out s.目标神经元字段);
+                        float.TryParse(commands[i + 1], out s.权重字段);
                         int.TryParse(commands[i + 2], out int modelInt);
-                        s.model = (突触.modelType)modelInt;
+                        s.模型字段 = (突触.modelType)modelInt;
                         synapses.Add(s);
                     }
                     tempSynapses = synapses;

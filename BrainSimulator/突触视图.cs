@@ -43,19 +43,19 @@ namespace BrainSimulator
         public static Shape GetSynapseView(int i, Point p1, 突触 s, 神经元数组视图 theNeuronArrayView1)
         {
             theNeuronArrayView = theNeuronArrayView1;
-            Point p2 = dp.神经元坐标(s.TargetNeuron);
+            Point p2 = dp.神经元坐标(s.目前神经元);
             if (!PtOnScreen(p1) && !PtOnScreen(p2)) return null;
 
-            Shape l = GetSynapseShape(p1, p2, s.model);
-            l.Stroke = new SolidColorBrush(跨语言接口.RainbowColorFromValue(s.weight));
+            Shape l = GetSynapseShape(p1, p2, s.模型字段);
+            l.Stroke = new SolidColorBrush(跨语言接口.RainbowColorFromValue(s.权重字段));
             if (l is Ellipse E)
             { }
             else
                 l.Fill = l.Stroke;
             l.SetValue(SourceIDProperty, i);
-            l.SetValue(TargetIDProperty, s.TargetNeuron);
-            l.SetValue(WeightValProperty, s.Weight);
-            l.SetValue(ModelProperty, s.model);
+            l.SetValue(TargetIDProperty, s.目前神经元);
+            l.SetValue(WeightValProperty, s.权重);
+            l.SetValue(ModelProperty, s.模型字段);
             l.SetValue(神经元数组视图.ShapeType, 神经元数组视图.shapeType.Synapse);
 
             return l;
@@ -158,21 +158,21 @@ namespace BrainSimulator
             weightChanged = false;
 
             //set defaults for next synapse add
-            theNeuronArrayView.末尾突触模型 = s.model;
-            theNeuronArrayView.末尾突触权重 = s.weight;
+            theNeuronArrayView.末尾突触模型 = s.模型字段;
+            theNeuronArrayView.末尾突触权重 = s.权重字段;
 
 
             cm.SetValue(SourceIDProperty, i);
-            cm.SetValue(TargetIDProperty, s.TargetNeuron);
-            cm.SetValue(WeightValProperty, s.Weight);
-            cm.SetValue(ModelProperty, s.model);
+            cm.SetValue(TargetIDProperty, s.目前神经元);
+            cm.SetValue(WeightValProperty, s.权重);
+            cm.SetValue(ModelProperty, s.模型字段);
 
             cm.Closed += Cm_Closed;
             cm.PreviewKeyDown += Cm_PreviewKeyDown;
             cm.Opened += Cm_Opened;
 
             神经元 nSource = MainWindow.此神经元数组.获取神经元(i);
-            神经元 nTarget = MainWindow.此神经元数组.获取神经元(s.targetNeuron);
+            神经元 nTarget = MainWindow.此神经元数组.获取神经元(s.目标神经元字段);
             StackPanel sp = new StackPanel { Orientation = Orientation.Horizontal, Margin = new Thickness(0, 3, 3, 3) };
             sp.Children.Add(new Label { Content = "Source: ", Padding = new Thickness(0) });
             string source = nSource.id.ToString();
@@ -211,11 +211,11 @@ namespace BrainSimulator
                     Width = 100,
                 });
             }
-            cb.SelectedIndex = (int)s.model;
+            cb.SelectedIndex = (int)s.模型字段;
             sp.Children.Add(cb);
             cm.Items.Add(new MenuItem { Header = sp, StaysOpenOnClick = true });
 
-            cm.Items.Add(跨语言接口.CreateComboBoxMenuItem("SynapseWeight", s.weight, synapseWeightValues, "F3", "Weight: ", 100, ComboBox_ContentChanged));
+            cm.Items.Add(跨语言接口.CreateComboBoxMenuItem("SynapseWeight", s.权重字段, synapseWeightValues, "F3", "Weight: ", 100, ComboBox_ContentChanged));
 
             MenuItem mi = new MenuItem();
             mi.Header = "Delete";

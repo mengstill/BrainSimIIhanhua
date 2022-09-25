@@ -49,11 +49,11 @@ namespace BrainSimulator
                 //copy the source neuron to the clipboard
                 神经元 sourceNeuron = MainWindow.此神经元数组.获取神经元(nID);
                 神经元 destNeuron = sourceNeuron.Clone();
-                destNeuron.Owner = myClipBoard;
+                destNeuron.所有者 = myClipBoard;
                 destNeuron.Id = destId;
                 destNeuron.标签名 = sourceNeuron.标签名;
                 destNeuron.ToolTip= sourceNeuron.ToolTip;
-                destNeuron.ShowSynapses = sourceNeuron.ShowSynapses;
+                destNeuron.显示突触 = sourceNeuron.显示突触;
                 myClipBoard.SetNeuron(destId, destNeuron);
             }
 
@@ -63,49 +63,49 @@ namespace BrainSimulator
                 神经元 sourceNeuron = MainWindow.此神经元数组.获取神经元(nID);
                 if (MainWindow.useServers)
                 {
-                    sourceNeuron.突触列表 = 神经元客户端.GetSynapses(sourceNeuron.id);
+                    sourceNeuron.synapses = 神经元客户端.GetSynapses(sourceNeuron.id);
                 }
 
                 int destId = 获取剪切板Id(X1o, Y1o, nID);
                 神经元 destNeuron = myClipBoard.获取神经元(destId);
-                destNeuron.Owner = myClipBoard;
-                if (sourceNeuron.Synapses != null)
-                    foreach (突触 s in sourceNeuron.Synapses)
+                destNeuron.所有者 = myClipBoard;
+                if (sourceNeuron.突触列表 != null)
+                    foreach (突触 s in sourceNeuron.突触列表)
                     {
                         //only copy synapses with both ends in the selection
-                        if (neuronsToCopy.Contains(s.TargetNeuron))
+                        if (neuronsToCopy.Contains(s.目前神经元))
                         {
-                            destNeuron.添加突触(获取剪切板Id(X1o, Y1o, s.TargetNeuron), s.Weight, s.model);
+                            destNeuron.添加突触(获取剪切板Id(X1o, Y1o, s.目前神经元), s.权重, s.模型字段);
                         }
                         else
                         {
-                            string targetName = MainWindow.此神经元数组.获取神经元(s.targetNeuron).标签;
+                            string targetName = MainWindow.此神经元数组.获取神经元(s.目标神经元字段).标签;
                             if (targetName != "")
                             {
                                 boundarySynapsesOut.Add(new BoundarySynapse
                                 {
                                     innerNeuronID = destNeuron.id,
-                                    outerNeuronID = s.targetNeuron,
-                                    weight = s.weight,
-                                    model = s.model
+                                    outerNeuronID = s.目标神经元字段,
+                                    weight = s.权重字段,
+                                    model = s.模型字段
                                 });
                             }
                         }
                     }
-                if (sourceNeuron.SynapsesFrom != null)
-                    foreach (突触 s in sourceNeuron.SynapsesFrom)
+                if (sourceNeuron.突触来源列表 != null)
+                    foreach (突触 s in sourceNeuron.突触来源列表)
                     {
-                        if (!neuronsToCopy.Contains(s.TargetNeuron))
+                        if (!neuronsToCopy.Contains(s.目前神经元))
                         {
-                            string sourceName = MainWindow.此神经元数组.获取神经元(s.targetNeuron).标签;
+                            string sourceName = MainWindow.此神经元数组.获取神经元(s.目标神经元字段).标签;
                             if (sourceName != "")
                             {
                                 boundarySynapsesIn.Add(new BoundarySynapse
                                 {
                                     innerNeuronID = destNeuron.id,
-                                    outerNeuronID = s.targetNeuron,
-                                    weight = s.weight,
-                                    model = s.model
+                                    outerNeuronID = s.目标神经元字段,
+                                    weight = s.权重字段,
+                                    model = s.模型字段
                                 }); ;
                             }
                         }
@@ -231,8 +231,8 @@ namespace BrainSimulator
                     int destID = 获取神经元数组ID(i);
                     MainWindow.此神经元数组.获取神经元(destID).添加撤销信息();
                     神经元 n = myClipBoard.获取完整的神经元(i,true);
-                    n.Owner = myClipBoard;
-                    n.突触列表 = myClipBoard.获取突触列表(i);
+                    n.所有者 = myClipBoard;
+                    n.synapses = myClipBoard.获取突触列表(i);
 
                     神经元 sourceNeuron = n.Clone();
                     sourceNeuron.id = destID;
@@ -250,17 +250,17 @@ namespace BrainSimulator
                         num++;
                         sourceNeuron.标签 = sourceNeuron.标签 + num.ToString();
                     }
-                    sourceNeuron.Owner = MainWindow.此神经元数组;
+                    sourceNeuron.所有者 = MainWindow.此神经元数组;
                     sourceNeuron.标签名 = sourceNeuron.标签;
                     sourceNeuron.ToolTip = n.ToolTip;
-                    sourceNeuron.ShowSynapses = n.ShowSynapses;
+                    sourceNeuron.显示突触 = n.显示突触;
                     MainWindow.此神经元数组.SetNeuron(destID, sourceNeuron);
 
 
-                    foreach (突触 s in n.Synapses)
+                    foreach (突触 s in n.突触列表)
                     {
                         MainWindow.此神经元数组.获取神经元(destID).
-                            撤销与添加突触(获取神经元数组ID(s.TargetNeuron), s.Weight, s.model);
+                            撤销与添加突触(获取神经元数组ID(s.目前神经元), s.权重, s.模型字段);
                     }
                 }
             }
@@ -343,21 +343,21 @@ namespace BrainSimulator
                 神经元 n = MainWindow.此神经元数组.获取神经元(nID);
                 if (deleteBoundarySynapses)
                 {
-                    foreach(突触 s in n.突触来源列表)
+                    foreach(突触 s in n.synapsesFrom)
                     {
-                        神经元 source = MainWindow.此神经元数组.获取神经元(s.targetNeuron);
+                        神经元 source = MainWindow.此神经元数组.获取神经元(s.目标神经元字段);
                         if (source != null && theSelection.NeuronInSelection(source.id)==0)
                         {
                             source.撤销并且删除突触(n.id);
                         }
                     }
                 }
-                for (int i = 0; i < n.突触列表.Count; i++)
-                    n.撤销并且删除突触(n.突触列表[i].targetNeuron);
+                for (int i = 0; i < n.synapses.Count; i++)
+                    n.撤销并且删除突触(n.synapses[i].目标神经元字段);
                 n.添加撤销信息();
                 n.CurrentCharge = 0;
                 n.LastCharge = 0;
-                n.Model = 神经元.模型类型.IF;
+                n.模型 = 神经元.模型类型.IF;
 
                 n.标签名 = "";
                 n.ToolTip = "";
@@ -470,12 +470,12 @@ namespace BrainSimulator
             }
             if(MainWindow.useServers)
             {
-                n.突触列表 = 神经元客户端.GetSynapses(n.id);
-                n.突触来源列表 = 神经元客户端.获取突触(n.id);
+                n.synapses = 神经元客户端.GetSynapses(n.id);
+                n.synapsesFrom = 神经元客户端.获取突触(n.id);
             }
 
             //copy the neuron attributes and delete them from the old neuron.
-            n.Copy(nNewLocation);
+            n.复制(nNewLocation);
             MainWindow.此神经元数组.设置所有神经元(nNewLocation);
             //nNewLocation.RecordHistory = n.RecordHistory;
             //n.recordHistory = false;
@@ -487,48 +487,48 @@ namespace BrainSimulator
 
             //for all the synapses going out this neuron, change to going from new location
             //don't use a foreach here because the body of the loop may delete a list entry
-            for (int k = 0; k < n.Synapses.Count; k++)
+            for (int k = 0; k < n.突触列表.Count; k++)
             {
-                突触 s = n.Synapses[k];
+                突触 s = n.突触列表[k];
                 if (addUndo)
                 {
-                    if (s.targetNeuron != n.id)
-                        nNewLocation.撤销与添加突触(s.targetNeuron, s.weight, s.model);
+                    if (s.目标神经元字段 != n.id)
+                        nNewLocation.撤销与添加突触(s.目标神经元字段, s.权重字段, s.模型字段);
                     else
-                        nNewLocation.撤销与添加突触(nNewLocation.id, s.weight, s.model);
-                    n.撤销并且删除突触(n.突触列表[k].targetNeuron);
+                        nNewLocation.撤销与添加突触(nNewLocation.id, s.权重字段, s.模型字段);
+                    n.撤销并且删除突触(n.synapses[k].目标神经元字段);
                 }
                 else
                 {
-                    if (s.targetNeuron != n.id)
-                        nNewLocation.添加突触(s.targetNeuron, s.weight, s.model);
+                    if (s.目标神经元字段 != n.id)
+                        nNewLocation.添加突触(s.目标神经元字段, s.权重字段, s.模型字段);
                     else
-                        nNewLocation.添加突触(nNewLocation.id, s.weight, s.model);
-                    n.删除突触(n.突触列表[k].targetNeuron);
+                        nNewLocation.添加突触(nNewLocation.id, s.权重字段, s.模型字段);
+                    n.删除突触(n.synapses[k].目标神经元字段);
                 }
             }
 
             //for all the synapses coming into this neuron, change the synapse target to new location
-            for (int k = 0; k < n.SynapsesFrom.Count; k++)
+            for (int k = 0; k < n.突触来源列表.Count; k++)
             {
-                突触 reverseSynapse = n.SynapsesFrom[k]; //(from synapses are sort-of backward
-                if (reverseSynapse.targetNeuron != -1) //?
+                突触 reverseSynapse = n.突触来源列表[k]; //(from synapses are sort-of backward
+                if (reverseSynapse.目标神经元字段 != -1) //?
                 {
-                    神经元 sourceNeuron = MainWindow.此神经元数组.获取神经元(reverseSynapse.targetNeuron);
+                    神经元 sourceNeuron = MainWindow.此神经元数组.获取神经元(reverseSynapse.目标神经元字段);
                     sourceNeuron.撤销并且删除突触(n.id);
                     if (sourceNeuron.id != n.id)
                         if (addUndo)
                         {
-                            sourceNeuron.撤销与添加突触(nNewLocation.id, reverseSynapse.weight, reverseSynapse.model);
+                            sourceNeuron.撤销与添加突触(nNewLocation.id, reverseSynapse.权重字段, reverseSynapse.模型字段);
                         }
                         else
                         {
-                            sourceNeuron.添加突触(nNewLocation.id, reverseSynapse.weight, reverseSynapse.model);
+                            sourceNeuron.添加突触(nNewLocation.id, reverseSynapse.权重字段, reverseSynapse.模型字段);
                         }
                 }
             }
 
-            n.Clear();
+            n.清空();
         }
 
         public void StepAndRepeat(int source, int target, float weight, 突触.modelType model)

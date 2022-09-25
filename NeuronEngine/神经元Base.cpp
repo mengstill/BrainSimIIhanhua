@@ -21,17 +21,17 @@ namespace NeuronEngine
 		delete label;
 	}
 
-	int 神经元Base::GetId()
+	int 神经元Base::获取ID()
 	{
 		return id;
 	}
 
-	神经元Base::modelType 神经元Base::GetModel()
+	神经元Base::modelType 神经元Base::获取模型()
 	{
 		return model;
 	}
 
-	void 神经元Base::SetModel(modelType value)
+	void 神经元Base::设置模型(modelType value)
 	{
 		model = value;
 	}
@@ -53,11 +53,11 @@ namespace NeuronEngine
 		神经元列表Base::是否需要清除激活列表组 = true;
 		currentCharge = value;
 	}
-	float 神经元Base::GetLeakRate()
+	float 神经元Base::获取泄露率()
 	{
 		return leakRate;
 	}
-	void 神经元Base::SetLeakRate(float value)
+	void 神经元Base::设置泄露率(float value)
 	{
 		leakRate = value;
 	}
@@ -73,11 +73,11 @@ namespace NeuronEngine
 	{
 		return lastFired;
 	}
-	wchar_t* 神经元Base::GetLabel()
+	wchar_t* 神经元Base::获取标签()
 	{
 		return label;
 	}
-	void 神经元Base::SetLabel(const wchar_t* newLabel)
+	void 神经元Base::设置标签(const wchar_t* newLabel)
 	{
 		delete label;
 		label = NULL;
@@ -100,9 +100,9 @@ namespace NeuronEngine
 		while (vectorLock.exchange(1) == 1) {}
 
 		突触Base s1;
-		s1.SetWeight(weight);
-		s1.SetTarget(n);
-		s1.SetModel(model);
+		s1.设置权重(weight);
+		s1.设置目标神经元(n);
+		s1.设置模型(model);
 
 		if (synapsesFrom == NULL)
 		{
@@ -111,11 +111,11 @@ namespace NeuronEngine
 		}
 		for (int i = 0; i < synapsesFrom->size(); i++)
 		{
-			if (synapsesFrom->at(i).GetTarget() == n)
+			if (synapsesFrom->at(i).获取目标神经元() == n)
 			{
 				//update an existing synapse
-				synapsesFrom->at(i).SetWeight(weight);
-				synapsesFrom->at(i).SetModel(model);
+				synapsesFrom->at(i).设置权重(weight);
+				synapsesFrom->at(i).设置模型(model);
 				goto alreadyInList;
 			}
 		}
@@ -125,14 +125,14 @@ namespace NeuronEngine
 		vectorLock = 0;
 	}
 
-	void 神经元Base::AddSynapse(神经元Base* n, float weight, 突触Base::modelType model, bool noBackPtr)
+	void 神经元Base::添加突触(神经元Base* n, float weight, 突触Base::modelType model, bool noBackPtr)
 	{
 		while (vectorLock.exchange(1) == 1) {}
 
 		突触Base s1;
-		s1.SetWeight(weight);
-		s1.SetTarget(n);
-		s1.SetModel(model);
+		s1.设置权重(weight);
+		s1.设置目标神经元(n);
+		s1.设置模型(model);
 
 		if (synapses == NULL)
 		{
@@ -141,11 +141,11 @@ namespace NeuronEngine
 		}
 		for (int i = 0; i < synapses->size(); i++)
 		{
-			if (synapses->at(i).GetTarget() == n)
+			if (synapses->at(i).获取目标神经元() == n)
 			{
 				//update an existing synapse
-				synapses->at(i).SetWeight(weight);
-				synapses->at(i).SetModel(model);
+				synapses->at(i).设置权重(weight);
+				synapses->at(i).设置模型(model);
 				goto alreadyInList;
 			}
 		}
@@ -162,9 +162,9 @@ namespace NeuronEngine
 
 		while (n->vectorLock.exchange(1) == 1) {}
 		突触Base s2;
-		s2.SetTarget(this);
-		s2.SetWeight(weight);
-		s2.SetModel(model);
+		s2.设置目标神经元(this);
+		s2.设置权重(weight);
+		s2.设置模型(model);
 
 		if (n->synapsesFrom == NULL)
 		{
@@ -174,10 +174,10 @@ namespace NeuronEngine
 		for (int i = 0; i < n->synapsesFrom->size(); i++)
 		{
 			突触Base s = n->synapsesFrom->at(i);
-			if (n->synapsesFrom->at(i).GetTarget() == this)
+			if (n->synapsesFrom->at(i).获取目标神经元() == this)
 			{
-				n->synapsesFrom->at(i).SetWeight(weight);
-				n->synapsesFrom->at(i).SetModel(model);
+				n->synapsesFrom->at(i).设置权重(weight);
+				n->synapsesFrom->at(i).设置模型(model);
 				goto alreadyInList2;
 			}
 		}
@@ -186,14 +186,14 @@ namespace NeuronEngine
 		n->vectorLock = 0;
 		return;
 	}
-	void 神经元Base::DeleteSynapse(神经元Base* n)
+	void 神经元Base::删除突触(神经元Base* n)
 	{
 		while (vectorLock.exchange(1) == 1) {}
 		if (synapses != NULL)
 		{
 			for (int i = 0; i < synapses->size(); i++)
 			{
-				if (synapses->at(i).GetTarget() == n)
+				if (synapses->at(i).获取目标神经元() == n)
 				{
 					synapses->erase(synapses->begin() + i);
 					break;
@@ -213,7 +213,7 @@ namespace NeuronEngine
 			for (int i = 0; i < n->synapsesFrom->size(); i++)
 			{
 				突触Base s = n->synapsesFrom->at(i);
-				if (s.GetTarget() == this)
+				if (s.获取目标神经元() == this)
 				{
 					n->synapsesFrom->erase(n->synapsesFrom->begin() + i);
 					if (n->synapsesFrom->size() == 0)
@@ -227,12 +227,12 @@ namespace NeuronEngine
 		}
 		n->vectorLock = 0;
 	}
-	int 神经元Base::GetSynapseCount()
+	int 神经元Base::获取突触数量()
 	{
 		if (synapses == NULL) return 0;
 		return (int)synapses->size();
 	}
-	std::vector<突触Base> 神经元Base::GetSynapses()
+	std::vector<突触Base> 神经元Base::获取突触数组()
 	{
 		if (synapses == NULL)
 		{
@@ -432,7 +432,7 @@ namespace NeuronEngine
 			for (int i = 0; i < synapses->size(); i++) //process all the synapses sourced by this neuron
 			{
 				突触Base s = synapses->at(i);
-				神经元Base* nTarget = s.GetTarget();
+				神经元Base* nTarget = s.获取目标神经元();
 				if (((long long)nTarget >> 63) != 0) //does this synapse go to another server
 				{
 					神经元列表Base::remoteQueue.push(s);
@@ -440,11 +440,11 @@ namespace NeuronEngine
 				else
 				{	//nTarget->currentCharge += s.GetWeight(); //not supported until C++20
 					auto current = nTarget->currentCharge.load(std::memory_order_relaxed);
-					float desired = current + s.GetWeight();
+					float desired = current + s.获取权重();
 					while (!nTarget->currentCharge.compare_exchange_weak(current, desired))
 					{
 						current = nTarget->currentCharge.load(std::memory_order_relaxed);
-						desired = current + s.GetWeight();
+						desired = current + s.获取权重();
 					}
 
 					//if (desired >= threshold) //this conditional improves performance but 
@@ -560,24 +560,24 @@ namespace NeuronEngine
 			for (int i = 0; i < synapses->size(); i++) //process all the synapses sourced by this neuron
 			{
 				突触Base s = synapses->at(i);
-				神经元Base* nTarget = s.GetTarget();
+				神经元Base* nTarget = s.获取目标神经元();
 
-				if (s.GetModel() == 突触Base::modelType::Hebbian1)
+				if (s.获取模型() == 突触Base::modelType::Hebbian1)
 				{
 					//did the target neuron fire after this stimulation?
-					float weight = s.GetWeight();
+					float weight = s.获取权重();
 					if (nTarget->currentCharge >= 1 && currentCharge >= 1)
 					{
 						//strengthen the synapse
-						weight = NewHebbianWeight(weight, .1f, s.GetModel(), 1);
+						weight = 新建赫布权重(weight, .1f, s.获取模型(), 1);
 					}
 					if (nTarget->currentCharge >= 1 && currentCharge < 1 ||
 						nTarget->currentCharge < 1 && currentCharge >= 1)
 					{
 						//weaken the synapse
-						weight = NewHebbianWeight(weight, -.1f, s.GetModel(), 1);
+						weight = 新建赫布权重(weight, -.1f, s.获取模型(), 1);
 					}
-					synapses->at(i).SetWeight(weight);
+					synapses->at(i).设置权重(weight);
 				}
 			}
 			vectorLock = 0;
@@ -590,45 +590,45 @@ namespace NeuronEngine
 			for (int i = 0; i < synapsesFrom->size(); i++) //process all the synapses sourced by this neuron
 			{
 				突触Base s = synapsesFrom->at(i);
-				if (s.GetModel() != 突触Base::modelType::Fixed)
+				if (s.获取模型() != 突触Base::modelType::Fixed)
 				{
 					numHebbian++;
-					if (s.GetWeight() >= 0) numPosHebbian++;
+					if (s.获取权重() >= 0) numPosHebbian++;
 				}
 			}
 			for (int i = 0; i < synapsesFrom->size(); i++) //process all the synapses sourced by this neuron
 			{
 				突触Base s = synapsesFrom->at(i);
-				if (s.GetModel() == 突触Base::modelType::Hebbian2 || s.GetModel() == 突触Base::modelType::Binary)
+				if (s.获取模型() == 突触Base::modelType::Hebbian2 || s.获取模型() == 突触Base::modelType::Binary)
 				{
-					神经元Base* nTarget = s.GetTarget();
+					神经元Base* nTarget = s.获取目标神经元();
 					//did this neuron fire coincident or just after the target (the source since these are FROM synapses)
-					float weight = s.GetWeight();
+					float weight = s.获取权重();
 					int delay = 0;
-					if (s.GetModel() == 突触Base::modelType::Hebbian2) delay = 6;
+					if (s.获取模型() == 突触Base::modelType::Hebbian2) delay = 6;
 
-					if (s.GetModel() == 突触Base::modelType::Hebbian2 ||
-						s.GetModel() == 突触Base::modelType::Binary)
+					if (s.获取模型() == 突触Base::modelType::Hebbian2 ||
+						s.获取模型() == 突触Base::modelType::Binary)
 					{
 						if (nTarget->lastFired >= lastFired - delay)
 						{
 							//strengthen the synapse
-							weight = NewHebbianWeight(weight, .1f, s.GetModel(), numHebbian);
+							weight = 新建赫布权重(weight, .1f, s.获取模型(), numHebbian);
 						}
 						else
 						{
 							//weaken the synapse
-							weight = NewHebbianWeight(weight, -.1f, s.GetModel(), numHebbian);
+							weight = 新建赫布权重(weight, -.1f, s.获取模型(), numHebbian);
 						}
 						//update the synapse in "From"
-						synapsesFrom->at(i).SetWeight(weight);
+						synapsesFrom->at(i).设置权重(weight);
 						//update the synapse in "To"
 						for (int i = 0; i < nTarget->synapses->size(); i++)
 						{
-							if (nTarget->synapses->at(i).GetTarget() == this)
+							if (nTarget->synapses->at(i).获取目标神经元() == this)
 							{
 								while (nTarget->vectorLock.exchange(1) == 1) {}
-								nTarget->synapses->at(i).SetWeight(weight);
+								nTarget->synapses->at(i).设置权重(weight);
 								nTarget->vectorLock = 0;
 							}
 						}
@@ -640,7 +640,7 @@ namespace NeuronEngine
 		}
 	}
 
-	float 神经元Base::NewHebbianWeight(float weight, float offset, 突触Base::modelType model, int numberOfSynapses1) //sign of float is all that's presently used
+	float 神经元Base::新建赫布权重(float weight, float offset, 突触Base::modelType model, int numberOfSynapses1) //sign of float is all that's presently used
 	{
 		float numberOfSynapses = numberOfSynapses1 / 2.0f;
 		float y = weight * numberOfSynapses;

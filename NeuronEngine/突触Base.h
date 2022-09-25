@@ -9,12 +9,12 @@ namespace NeuronEngine
 	public:
 		enum class modelType { Fixed, Binary, Hebbian1, Hebbian2,Hebbian3};
 
-		void SetTarget(神经元Base * target);
-		神经元Base* GetTarget();
-		float GetWeight();
-		void SetWeight(float value);
-		void SetModel(modelType value);
-		modelType GetModel();
+		void 设置目标神经元(神经元Base * target);
+		神经元Base* 获取目标神经元();
+		float 获取权重();
+		void 设置权重(float value);
+		void 设置模型(modelType value);
+		modelType 获取模型();
 
 	private:
 		神经元Base* targetNeuron = 0; //指向目标神经元的指针

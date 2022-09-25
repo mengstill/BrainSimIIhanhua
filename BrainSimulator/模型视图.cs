@@ -60,7 +60,7 @@ namespace BrainSimulator
                 for (int row = value; row < height; row++)
                 {
                     for (int col = 0; col < width; col++)
-                        GetNeuronAt(col, row).Clear();
+                        GetNeuronAt(col, row).清空();
                 }
                 height = value;
                 if (TheModule != null) TheModule.SizeChanged();
@@ -74,7 +74,7 @@ namespace BrainSimulator
                 for (int col = value; col < width; col++)
                 {
                     for (int row = 0; row < height; row++)
-                        GetNeuronAt(col, row).Clear();
+                        GetNeuronAt(col, row).清空();
                 }
                 width = value;
                 if (TheModule != null) TheModule.SizeChanged();

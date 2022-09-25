@@ -13,6 +13,7 @@
     <AssemblyVersion>1.6.8</AssemblyVersion>
     <ApplicationIcon>favicon.ico</ApplicationIcon>
     <SourceRevisionId>build$([System.DateTime]::UtcNow.ToString("yyyyMMddHHmmss"))</SourceRevisionId>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>

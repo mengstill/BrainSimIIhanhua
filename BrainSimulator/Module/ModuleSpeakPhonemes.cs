@@ -41,7 +41,7 @@ namespace BrainSimulator.Modules
                         phraseToSpeak += n.标签名;
                         paused = false;
                     }
-                    if (n.Synapses.Count == 0)
+                    if (n.突触列表.Count == 0)
                     {
                         //if a neuron fired and it has no connection, connect it to the knowledge store
                         //connection to KB 
@@ -147,7 +147,7 @@ namespace BrainSimulator.Modules
         public override void Initialize()
         {
             foreach (神经元 n in mv.Neurons)
-                n.Clear();
+                n.清空();
             InitVoice();
 
             mv.GetNeuronAt(0).标签名 = "Enable";

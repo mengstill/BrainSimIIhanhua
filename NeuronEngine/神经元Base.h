@@ -52,30 +52,30 @@ namespace NeuronEngine
 		__declspec(dllexport)  神经元Base(int ID);
 		__declspec(dllexport)  ~神经元Base();
 
-		__declspec(dllexport)  int GetId();
-		__declspec(dllexport)  modelType GetModel();
-		__declspec(dllexport)  void SetModel(modelType value);
+		__declspec(dllexport)  int 获取ID();
+		__declspec(dllexport)  modelType 获取模型();
+		__declspec(dllexport)  void 设置模型(modelType value);
 		__declspec(dllexport)  float GetLastCharge();
 		__declspec(dllexport)  void SetLastCharge(float value);
 		__declspec(dllexport)  float GetCurrentCharge();
 		__declspec(dllexport)  void SetCurrentCharge(float value);
 
-		__declspec(dllexport)  void AddSynapse(神经元Base* n, float weight, 突触Base::modelType model = 突触Base::modelType::Fixed, bool noBackPtr = true);
+		__declspec(dllexport)  void 添加突触(神经元Base* n, float weight, 突触Base::modelType model = 突触Base::modelType::Fixed, bool noBackPtr = true);
 		__declspec(dllexport)  void AddSynapseFrom(神经元Base* n, float weight, 突触Base::modelType model = 突触Base::modelType::Fixed);
-		__declspec(dllexport)  void DeleteSynapse(神经元Base* n);
+		__declspec(dllexport)  void 删除突触(神经元Base* n);
 		__declspec(dllexport)  void GetLock();
 		__declspec(dllexport)  void ClearLock();
-		__declspec(dllexport)  std::vector<突触Base> GetSynapses();
+		__declspec(dllexport)  std::vector<突触Base> 获取突触数组();
 		__declspec(dllexport)  std::vector<突触Base> GetSynapsesFrom();
-		__declspec(dllexport)  int GetSynapseCount();
+		__declspec(dllexport)  int 获取突触数量();
 
 		__declspec(dllexport)  bool GetInUse();
-		__declspec(dllexport)  wchar_t* GetLabel();
-		__declspec(dllexport)  void SetLabel(const wchar_t*);
+		__declspec(dllexport)  wchar_t* 获取标签();
+		__declspec(dllexport)  void 设置标签(const wchar_t*);
 
 
-		__declspec(dllexport)  float GetLeakRate();
-		__declspec(dllexport)  void SetLeakRate(float value);
+		__declspec(dllexport)  float 获取泄露率();
+		__declspec(dllexport)  void 设置泄露率(float value);
 		__declspec(dllexport)  int GetAxonDelay();
 		__declspec(dllexport)  void SetAxonDelay(int value);
 		__declspec(dllexport)  long long GetLastFired();
@@ -86,7 +86,7 @@ namespace NeuronEngine
 		void Fire2();
 		void Fire3();
 
-		float NewHebbianWeight(float y, float offset, 突触Base::modelType model, int numberOfSynapses);
+		float 新建赫布权重(float y, float offset, 突触Base::modelType model, int numberOfSynapses);
 
 		神经元Base(const 神经元Base& t)
 		{

@@ -129,7 +129,7 @@ namespace BrainSimulator
         }
         public void 添加神经元撤销(神经元 n)
         {
-            神经元 n1 = n.Copy();
+            神经元 n1 = n.复制();
             神经元撤销信息.Add(new 神经元撤消 { 以前的神经元 = n1, neuronIsShowingSynapses = MainWindow.神经元数组视图.IsShowingSynapses(n1.id) });
         }
         public void 添加选择撤销()
@@ -168,7 +168,7 @@ namespace BrainSimulator
             if (神经元撤销信息.Count == 0) return;
             神经元撤消 n = 神经元撤销信息.Last();
             神经元撤销信息.RemoveAt(神经元撤销信息.Count - 1);
-            神经元 n1 = n.以前的神经元.Copy();
+            神经元 n1 = n.以前的神经元.复制();
             if (n1.标签名 != "") 从缓存中移除标签(n1.Id);
             if (n1.标签 != "") 向缓存中添加标签(n1.Id, n1.标签);
 

@@ -109,7 +109,7 @@ namespace BrainSimulator.Modules
         {
             if (mv == null) return; //this is called the first time before the module actually exists
             foreach (神经元 n in mv.Neurons)
-                n.Model = 神经元.模型类型.Color;
+                n.模型 = 神经元.模型类型.Color;
 
             //This gets the wifi IP address
             foreach (NetworkInterface item in NetworkInterface.GetAllNetworkInterfaces())
@@ -233,7 +233,7 @@ namespace BrainSimulator.Modules
         {
             if (mv == null) return; //this is called the first time before the module actually exists
             foreach (神经元 n in mv.Neurons)
-                n.Model = 神经元.模型类型.Color;
+                n.模型 = 神经元.模型类型.Color;
         }
     }
 }

@@ -66,8 +66,8 @@ namespace BrainSimulator.Modules
                 神经元 n1 = mv.GetNeuronAt(1, i);
                 神经元 n2 = mv.GetNeuronAt(2, i);
                 n2.标签名 = "O" + (i - 1).ToString();
-                n2.Model = 神经元.模型类型.LIF;
-                n2.LeakRate = 0.9f;
+                n2.模型 = 神经元.模型类型.LIF;
+                n2.泄露率 = 0.9f;
 
                 GetNeuron("Rd").添加突触(n1.id, 0.9f);
                 GetNeuron("Clr").添加突触(n1.id, -1);

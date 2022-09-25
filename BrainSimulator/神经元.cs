@@ -10,12 +10,72 @@ using System.Xml.Serialization;
 
 namespace BrainSimulator
 {
+    public class 神经元参数
+    {
+        public string Label { get; set; }
+        public 神经元.模型类型 Model { get; set; }
+        public float LeakRate { get; set; }
+        public int AxonDelay { get; set; }
+        public float LastCharge { get; set; }
+        public int LastChargeInt { get; set; }
+        public bool ShowSynapses { get; set; }
+        public bool RecordHistory { get; set; }
+        public List<突触参数> Synapses { get; set; } = new List<突触参数>();
+
+        public 神经元参数() { }
+        public 神经元参数(神经元 神经元)
+        {
+            Label = 神经元.标签名;
+            Model = 神经元.模型字段;
+            LeakRate = 神经元.leakRate泄露速度;
+            AxonDelay = 神经元.突触延迟;
+            LastCharge = 神经元.LastCharge;
+            LastChargeInt = 神经元.LastChargeInt;
+            ShowSynapses = 神经元.显示突触;
+            RecordHistory = 神经元.RecordHistory;
+            foreach(突触 突触 in 神经元.synapses)
+            {
+                Synapses.Add(突触.转突触参数());
+            }
+
+
+        }
+        public void 神经元初始化(神经元 神经元)
+        {
+            神经元.标签名 = Label;
+            神经元.模型字段 = Model;
+            神经元.leakRate泄露速度 = LeakRate;
+            神经元.突触延迟 = AxonDelay;
+            if(神经元.模型字段 != 神经元.模型类型.Color)
+            {
+                神经元.LastCharge = LastCharge;
+                神经元.当前更改 = LastCharge;
+            }
+            else
+            {
+                神经元.LastChargeInt = LastChargeInt;
+                神经元.当前更改 = LastChargeInt;
+            }
+            神经元.显示突触 = ShowSynapses;
+            神经元.RecordHistory = RecordHistory;
+            foreach(突触参数 参数 in Synapses)
+            {
+                突触 s = new 突触();
+                s.目标神经元字段=参数.TargetNeuron;
+                s.权重字段 = 参数.Weight;
+                if (参数.IsHebbian) s.模型字段 = 突触.modelType.Hebbian1;
+                else s.模型字段 = 参数.Model;
+                神经元.添加突触(s.目标神经元字段, s.权重字段, s.模型字段);
+            }
+        }
+    }
+
     public class 神经元 : 神经元部分参数
     {
         public string 标签 = "";
 
-        public List<突触> 突触列表 = new List<突触>();
-        public List<突触> 突触来源列表 = new List<突触>();
+        public List<突触> synapses = new List<突触>();
+        public List<突触> synapsesFrom = new List<突触>();
         NeuronArray 所有者数组 = MainWindow.此神经元数组;
 
         //这仅在 NeuronView 中使用，但在这里，您可以在添加神经元类型时添加工具提示
@@ -29,7 +89,7 @@ namespace BrainSimulator
             "Always fire",
         };
 
-        public NeuronArray Owner { get => 所有者数组; set => 所有者数组 = value; }
+        public NeuronArray 所有者 { get => 所有者数组; set => 所有者数组 = value; }
 
         //IMPORTANT:
         //Lastcharge is a stable readable value of the output of a neuron
@@ -62,12 +122,12 @@ namespace BrainSimulator
         /// <summary>
         /// 突触列表
         /// </summary>
-        public List<突触> Synapses { get => 突触列表; }
+        public List<突触> 突触列表 { get => synapses; }
         /// <summary>
         /// 突触来源列表
         /// </summary>
         [XmlIgnore]
-        public List<突触> SynapsesFrom { get => 突触来源列表; }
+        public List<突触> 突触来源列表 { get => synapsesFrom; }
 
         public long LastFired { get => lastFired; }
 
@@ -76,7 +136,7 @@ namespace BrainSimulator
         public void SetValue(float value)
         {
             当前更改 = value;
-            if (模型 == 模型类型.FloatValue)
+            if (模型字段 == 模型类型.FloatValue)
                 最后更改 = value;
             更新();
         }
@@ -173,7 +233,7 @@ namespace BrainSimulator
             }
         }
 
-        public bool ShowSynapses
+        public bool 显示突触
         {
             get
             {
@@ -188,14 +248,14 @@ namespace BrainSimulator
             }
         }
 
-        public float LeakRate { get => leakRate泄露速度; set { leakRate泄露速度 = value; 更新(); } }
+        public float 泄露率 { get => leakRate泄露速度; set { leakRate泄露速度 = value; 更新(); } }
         public int AxonDelay
         {
             get => 突触延迟;
             set { 突触延迟 = value; 更新(); }
         }
 
-        public 模型类型 Model { get => (神经元.模型类型)模型; set { 模型 = (模型类型)value; 更新(); } }
+        public 模型类型 模型 { get => (神经元.模型类型)模型字段; set { 模型字段 = (模型类型)value; 更新(); } }
 
         public void 更新()
         {
@@ -210,13 +270,13 @@ namespace BrainSimulator
         //一个神经元被定义为正在使用，如果它有任何连接到它的突触或者它有一个标签
         public bool InUse()
         {
-            return ((Synapses != null && Synapses.Count != 0) || (SynapsesFrom != null && SynapsesFrom.Count != 0) || 标签名 != "");
+            return ((突触列表 != null && 突触列表.Count != 0) || (突触来源列表 != null && 突触来源列表.Count != 0) || 标签名 != "");
         }
 
         public void Reset()
         {
             标签名 = "";
-            模型 = 模型类型.IF;
+            模型字段 = 模型类型.IF;
             SetValue(0);
         }
 
@@ -234,7 +294,7 @@ namespace BrainSimulator
             //TODO，先检查一下突触是否已经存在，保存旧的权重
             突触 s = 查找突触(targetNeuron);
             if (s != null)
-                MainWindow.此神经元数组.添加突触撤销(Id, targetNeuron, s.weight, s.model, false, false);
+                MainWindow.此神经元数组.添加突触撤销(Id, targetNeuron, s.权重字段, s.模型字段, false, false);
             else
                 MainWindow.此神经元数组.添加突触撤销(Id, targetNeuron, 0, 突触.modelType.Fixed, true, false);
 
@@ -251,17 +311,17 @@ namespace BrainSimulator
         {
             if (deleteOutgoing)
             {
-                foreach (突触 s in Synapses)
-                    删除突触(s.targetNeuron);
-                Synapses.Clear();
+                foreach (突触 s in 突触列表)
+                    删除突触(s.目标神经元字段);
+                突触列表.Clear();
             }
             if (deleteIncoming)
             {
-                foreach (突触 s in 突触来源列表)
+                foreach (突触 s in synapsesFrom)
                 {
-                    所有者数组.DeleteSynapse(s.targetNeuron, id);
+                    所有者数组.DeleteSynapse(s.目标神经元字段, id);
                 }
-                突触来源列表.Clear();
+                synapsesFrom.Clear();
             }
         }
 
@@ -273,7 +333,7 @@ namespace BrainSimulator
         {
             突触 s = 查找突触(targetNeuron);
             if (s != null)
-                MainWindow.此神经元数组.添加突触撤销(id, targetNeuron, s.weight, s.model, false, true);
+                MainWindow.此神经元数组.添加突触撤销(id, targetNeuron, s.权重字段, s.模型字段, false, true);
 
             删除突触(targetNeuron);
         }
@@ -284,21 +344,21 @@ namespace BrainSimulator
 
         public 突触 查找突触(int targetNeuron)
         {
-            if (Synapses == null) return null;
-            for (int i = 0; i < Synapses.Count; i++)
+            if (突触列表 == null) return null;
+            for (int i = 0; i < 突触列表.Count; i++)
             {
-                if (((突触)Synapses[i]).TargetNeuron == targetNeuron)
-                    return (突触)Synapses[i];
+                if (((突触)突触列表[i]).目前神经元 == targetNeuron)
+                    return (突触)突触列表[i];
             }
             return null;
         }
         public 突触 查找突触来源列表(int fromNeuron)
         {
-            if (SynapsesFrom == null) return null;
-            for (int i = 0; i < SynapsesFrom.Count; i++)
+            if (突触来源列表 == null) return null;
+            for (int i = 0; i < 突触来源列表.Count; i++)
             {
-                if (((突触)SynapsesFrom[i]).TargetNeuron == fromNeuron)
-                    return (突触)SynapsesFrom[i];
+                if (((突触)突触来源列表[i]).目前神经元 == fromNeuron)
+                    return (突触)突触来源列表[i];
             }
             return null;
         }
@@ -307,69 +367,74 @@ namespace BrainSimulator
         {
             神经元 n = (神经元)this.MemberwiseClone();
             n.标签 = 标签名;
-            n.突触列表 = new List<突触>();
-            n.突触来源列表 = new List<突触>();
+            n.synapses = new List<突触>();
+            n.synapsesFrom = new List<突触>();
             n.RecordHistory = RecordHistory;
-            n.ShowSynapses = ShowSynapses;
+            n.显示突触 = 显示突触;
             return n;
         }
         //将此内容复制到 n
-        public void Copy(神经元 n)
+        public void 复制(神经元 n)
         {
             n.标签名 = this.标签名;
             n.ToolTip = this.ToolTip;
             n.最后更改 = this.最后更改;
             n.当前更改 = this.当前更改;
-            n.LeakRate = this.LeakRate;
+            n.泄露率 = this.泄露率;
             n.突触延迟 = this.突触延迟;
-            n.模型 = this.模型;
+            n.模型字段 = this.模型字段;
             n.RecordHistory = this.RecordHistory;
-            n.ShowSynapses = this.ShowSynapses;
-            n.突触来源列表 = new List<突触>(); ;
+            n.显示突触 = this.显示突触;
+            n.synapsesFrom = new List<突触>(); ;
         }
-        public 神经元 Copy()
+        public 神经元 复制()
         {
             神经元 n = new 神经元();
             n.id = this.id;
             n.标签 = this.标签;
             n.最后更改 = this.最后更改;
             n.当前更改 = this.当前更改;
-            n.LeakRate = this.LeakRate;
+            n.泄露率 = this.泄露率;
             n.突触延迟 = this.突触延迟;
-            n.模型 = this.模型;
+            n.模型字段 = this.模型字段;
             n.RecordHistory = this.RecordHistory;
-            n.ShowSynapses = this.ShowSynapses;
+            n.显示突触 = this.显示突触;
             return n;
         }
-        public void ClearWithUndo()
+        public void 撤销并清空()
         {
             MainWindow.此神经元数组.添加神经元撤销(this);
-            for (int i = 0; i < 突触列表.Count; i++)
+            for (int i = 0; i < synapses.Count; i++)
             {
-                撤销并且删除突触(突触列表[i].targetNeuron);
+                撤销并且删除突触(synapses[i].目标神经元字段);
             }
-            for (int i = 0; i < 突触来源列表.Count; i++)
+            for (int i = 0; i < synapsesFrom.Count; i++)
             {
-                MainWindow.此神经元数组.获取神经元(突触来源列表[i].targetNeuron).
+                MainWindow.此神经元数组.获取神经元(synapsesFrom[i].目标神经元字段).
                     撤销并且删除突触(this.id);
             }
-            Clear();
+            清空();
         }
-        public void Clear()
+        public void 清空()
         {
             标签名 = "";
             ToolTip = "";
             当前更改 = 0;
             最后更改 = 0;
-            模型 = 模型类型.IF;
-            LeakRate = 0.1f;
+            模型字段 = 模型类型.IF;
+            泄露率 = 0.1f;
             AxonDelay = 0;
             删除所有突触();
             MainWindow.此神经元数组.设置所有神经元(this);
-            突触列表 = new List<突触>();
-            突触来源列表 = new List<突触>();
+            synapses = new List<突触>();
+            synapsesFrom = new List<突触>();
             RecordHistory = false;
-            ShowSynapses = false;
+            显示突触 = false;
+        }
+
+        public 神经元参数 转神经元参数()
+        {
+            return new 神经元参数();
         }
     }
 }

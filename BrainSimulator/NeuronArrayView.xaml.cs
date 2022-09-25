@@ -331,9 +331,9 @@ namespace BrainSimulator
                                         n = theNeuronArray.添加突触(n);
                                     Point p1 = dp.神经元坐标(neuronID);
 
-                                    if (n.突触列表 != null)
+                                    if (n.synapses != null)
                                     {
-                                        foreach (突触 s in n.突触列表)
+                                        foreach (突触 s in n.synapses)
                                         {
                                             Shape l1 = 突触视图.GetSynapseView(neuronID, p1, s, this);
                                             if (l1 != null)
@@ -343,26 +343,26 @@ namespace BrainSimulator
                                                 else
                                                     allSynapsesCanvas.Children.Add(l1);
                                                 synapseCount++;
-                                                if (neuronScreenCache != null && s.model != 突触.modelType.Fixed)
+                                                if (neuronScreenCache != null && s.模型字段 != 突触.modelType.Fixed)
                                                 {
                                                     if (neuronScreenCache.synapsesOnScreen == null)
                                                         neuronScreenCache.synapsesOnScreen = new List<NeuronOnScreen.synapseOnScreen>();
                                                     neuronScreenCache.synapsesOnScreen.Add(
-                                                        new NeuronOnScreen.synapseOnScreen { target = s.targetNeuron, prevWeight = s.weight, graphic = l1 });
+                                                        new NeuronOnScreen.synapseOnScreen { target = s.目标神经元字段, prevWeight = s.权重字段, graphic = l1 });
                                                 }
                                             }
                                         }
                                     }
-                                    if (n.SynapsesFrom != null)
+                                    if (n.突触来源列表 != null)
                                     {
-                                        foreach (突触 s in n.SynapsesFrom)
+                                        foreach (突触 s in n.突触来源列表)
                                         {
                                             //check the synapesFrom to draw synapes which source outside the window
-                                            dp.GetAbsNeuronLocation(s.targetNeuron, out int x, out int y);
+                                            dp.GetAbsNeuronLocation(s.目标神经元字段, out int x, out int y);
                                             if (x >= startCol && x < endCol && y >= startRow && y < endRow) continue;
-                                            Point p2 = dp.神经元坐标(s.targetNeuron);
-                                            突触 s1 = new 突触() { targetNeuron = neuronID, Weight = s.Weight };
-                                            Shape l1 = 突触视图.GetSynapseView(s.targetNeuron, p2, s1, this);
+                                            Point p2 = dp.神经元坐标(s.目标神经元字段);
+                                            突触 s1 = new 突触() { 目标神经元字段 = neuronID, 权重 = s.权重 };
+                                            Shape l1 = 突触视图.GetSynapseView(s.目标神经元字段, p2, s1, this);
                                             if (l1 != null)
                                                 allSynapsesCanvas.Children.Add(l1);
                                         }
@@ -474,18 +474,18 @@ namespace BrainSimulator
                     神经元 n = MainWindow.此神经元数组.获取用于绘图的神经元(a.neuronIndex);
                     if (neuronsOnScreen[i].synapsesOnScreen != null)
                     {
-                        n.突触列表 = MainWindow.此神经元数组.获取突触列表(n.id);
+                        n.synapses = MainWindow.此神经元数组.获取突触列表(n.id);
                         for (int j = 0; j < neuronsOnScreen[i].synapsesOnScreen.Count; j++)
                         {
                             NeuronOnScreen.synapseOnScreen sOnS = neuronsOnScreen[i].synapsesOnScreen[j];
-                            foreach (突触 s in n.突触列表)
+                            foreach (突触 s in n.synapses)
                             {
-                                if (sOnS.target == s.targetNeuron)
+                                if (sOnS.target == s.目标神经元字段)
                                 {
-                                    if (sOnS.prevWeight != s.weight)
+                                    if (sOnS.prevWeight != s.权重字段)
                                     {
-                                        sOnS.graphic.Stroke = sOnS.graphic.Fill = new SolidColorBrush(跨语言接口.RainbowColorFromValue(s.weight));
-                                        sOnS.prevWeight = s.weight;
+                                        sOnS.graphic.Stroke = sOnS.graphic.Fill = new SolidColorBrush(跨语言接口.RainbowColorFromValue(s.权重字段));
+                                        sOnS.prevWeight = s.权重字段;
                                     }
                                     break;
                                 }

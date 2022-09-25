@@ -25,8 +25,8 @@ namespace BrainSimulator.Modules
             if (GetNeuronValue("Enable") == 1)
             {
                 神经元 n = GetNeuron("Output");
-                if (n == null || n.突触列表.Count == 0) return;
-                int startID = n.突触列表[0].targetNeuron;
+                if (n == null || n.synapses.Count == 0) return;
+                int startID = n.synapses[0].目标神经元字段;
                 //for up to 32 bits
                 byte[] buf = new byte[4];
                 uint randNumber;

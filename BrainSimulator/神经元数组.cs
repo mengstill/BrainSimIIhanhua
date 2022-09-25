@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Windows;
 using System.Xml.Serialization;
 
@@ -61,7 +62,12 @@ namespace BrainSimulator
         public int Cols { get => arraySize / rows; }
         private bool loadComplete = false;
         [XmlIgnore]
+        [JsonIgnore]
         public bool 加载完成 { get => loadComplete; set => loadComplete = value; }
+
+        private int refractoryDelay = 0;
+        public int RefractoryDelay{ get => refractoryDelay; set { refractoryDelay = value; SetRefractoryDelay(refractoryDelay); } }
+        public List<神经元参数> 参数数组 { get; set; } = new List<神经元参数>() { };
         /// <summary>
         /// 模型
         /// </summary>
@@ -111,11 +117,6 @@ namespace BrainSimulator
         {
             return 标签缓存.Keys.ToList();
         }
-
-
-        private int refractoryDelay = 0;
-        public int RefractoryDelay
-        { get => refractoryDelay; set { refractoryDelay = value; SetRefractoryDelay(refractoryDelay); } }
 
         public void 初始化(int count, int in行数, bool clipBoard = false)
         {
@@ -199,7 +200,7 @@ namespace BrainSimulator
             else
                 base.添加突触(src, dest, weight, (int)model, noBackPtr);
         }
-        new public void DeleteSynapse(int src, int dest)
+        public void DeleteSynapse(int src, int dest)
         {
             if (MainWindow.useServers && this == MainWindow.此神经元数组)
                 神经元客户端.删除突触(src, dest);

@@ -39,14 +39,14 @@ namespace BrainSimulator.Modules
             }
             foreach (神经元 n in naSource.Neurons)
             {
-                n.Clear();
-                n.Model = 神经元.模型类型.Color;
+                n.清空();
+                n.模型 = 神经元.模型类型.Color;
             }
             foreach (神经元 n in mv.Neurons)
             {
-                n.Clear();
-                n.Model = 神经元.模型类型.LIF;
-                n.LeakRate = 1f;
+                n.清空();
+                n.模型 = 神经元.模型类型.LIF;
+                n.泄露率 = 1f;
             }
 
             theNeuronArray.获取神经元位置(mv.FirstNeuron, out int col, out int row);

@@ -72,8 +72,8 @@ namespace BrainSimulator.Modules
                 {
                     mv.GetNeuronAt(mv.Width - 1, j).标签名 = (j + 1).ToString();
                     mv.GetNeuronAt(mv.Width - 2, j).标签名 = "i" + (j + 1).ToString();
-                    mv.GetNeuronAt(mv.Width-2,j).Model = 神经元.模型类型.LIF;
-                    mv.GetNeuronAt(mv.Width- 2,j).LeakRate = 1f;
+                    mv.GetNeuronAt(mv.Width-2,j).模型 = 神经元.模型类型.LIF;
+                    mv.GetNeuronAt(mv.Width- 2,j).泄露率 = 1f;
                 }
             }
             else
@@ -86,8 +86,8 @@ namespace BrainSimulator.Modules
                 {
                     mv.GetNeuronAt(j, mv.Height - 1).标签名 = (j + 1).ToString();
                     mv.GetNeuronAt(j, mv.Height - 2).标签名 = "i" + (j + 1).ToString();
-                    mv.GetNeuronAt(j, mv.Height - 2).Model = 神经元.模型类型.LIF;
-                    mv.GetNeuronAt(j, mv.Height - 2).LeakRate = 1f;
+                    mv.GetNeuronAt(j, mv.Height - 2).模型 = 神经元.模型类型.LIF;
+                    mv.GetNeuronAt(j, mv.Height - 2).泄露率 = 1f;
                 }
             }
 

@@ -14,7 +14,7 @@ namespace BrainSimulator
         public float 当前更改;
         public float leakRate泄露速度;
         public int 突触延迟;
-        public 神经元.模型类型 模型;
+        public 神经元.模型类型 模型字段;
         public int dummy; //TODO :Don't know why this is here, it is not required for alignment
                           //TODO : 不知道为什么会在这里，不需要对齐
         public long lastFired;
@@ -28,7 +28,7 @@ namespace BrainSimulator
         }
         public void 设置所有神经元( 神经元 n)
         {
-            if (MainWindow.useServers && n.Owner == MainWindow.此神经元数组)
+            if (MainWindow.useServers && n.所有者 == MainWindow.此神经元数组)
             {
                 神经元客户端.设置神经元(n);
             }
@@ -39,7 +39,7 @@ namespace BrainSimulator
                 SetNeuronLastCharge(i, n.最后更改);
                 设置神经元标签(i, n.标签);
                 SetNeuronLeakRate(i, n.leakRate泄露速度);
-                设置神经元模型(i, (int)n.模型);
+                设置神经元模型(i, (int)n.模型字段);
                 SetNeuronAxonDelay(i, n.突触延迟);
             }
         }
@@ -57,7 +57,7 @@ namespace BrainSimulator
                 retVal.LastCharge = GetNeuronLastCharge(i);
                 retVal.是否使用 = 获取神经元是否使用中(i);
                 retVal.标签 = 获取神经元标签(i);
-                retVal.模型 = (神经元.模型类型)获取神经元模型(i);
+                retVal.模型字段 = (神经元.模型类型)获取神经元模型(i);
                 retVal.leakRate泄露速度 = GetNeuronLeakRate(i);
                 retVal.突触延迟 = GetNeuronAxonDelay(i);
                 return retVal;
@@ -65,10 +65,10 @@ namespace BrainSimulator
         }
         public 神经元 添加突触(神经元 n)
         {
-            if (MainWindow.useServers && n.Owner == MainWindow.此神经元数组)
+            if (MainWindow.useServers && n.所有者 == MainWindow.此神经元数组)
             {
-                n.突触列表 = 神经元客户端.GetSynapses(n.id);
-                n.突触来源列表 = 神经元客户端.获取突触(n.id);
+                n.synapses = 神经元客户端.GetSynapses(n.id);
+                n.synapsesFrom = 神经元客户端.获取突触(n.id);
             }
             return n;
         }
@@ -93,15 +93,15 @@ namespace BrainSimulator
                 retVal.lastFired = n.lastFired;
                 retVal.是否使用 = n.是否使用;
                 retVal.leakRate泄露速度 = n.leakRate泄露速度;
-                retVal.模型 = n.模型;
+                retVal.模型字段 = n.模型字段;
                 retVal.突触延迟 = n.突触延迟;
 
                 retVal.标签 = retVal.标签名;// GetNeuronLabel(i);
                 if (retVal.ToolTip != "")
                     retVal.标签 += 神经元.toolTipSeparator + retVal.ToolTip;
 
-                retVal.突触列表 = 获取突触列表(i);
-                retVal.突触来源列表 = 从列表中获取突触(i);
+                retVal.synapses = 获取突触列表(i);
+                retVal.synapsesFrom = 从列表中获取突触(i);
                 return retVal;
             }
         }

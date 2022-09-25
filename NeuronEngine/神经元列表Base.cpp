@@ -27,9 +27,9 @@ namespace NeuronEngine
 		int count = 0;
 		while (remoteQueue.try_pop(s) && count++ < 90) //splits up long strings for transmission
 		{
-			retVal += std::to_string(-(long long)s.GetTarget()) + " ";
-			retVal += std::to_string((float)s.GetWeight()) + " ";
-			retVal += std::to_string((int)s.GetModel()) + " ";
+			retVal += std::to_string(-(long long)s.获取目标神经元()) + " ";
+			retVal += std::to_string((float)s.获取权重()) + " ";
+			retVal += std::to_string((int)s.获取模型()) + " ";
 		}
 		return retVal;
 	}
@@ -40,7 +40,7 @@ namespace NeuronEngine
 		{
 			return s;
 		}
-		s.SetTarget(NULL);
+		s.设置目标神经元(NULL);
 		return s;
 	}
 
@@ -103,13 +103,13 @@ namespace NeuronEngine
 			GetBounds(value, start, end);
 			for (int i = start; i < end; i++)
 			{
-				count += (long long)获取神经元(i)->GetSynapseCount();;
+				count += (long long)获取神经元(i)->获取突触数量();;
 			}
 			});
 		return count;;
 	}
 
-	long 神经元列表Base::GetNeuronsInUseCount()
+	long 神经元列表Base::获取使用中神经元数量()
 	{
 		std::atomic<long> count = 0;
 		parallel_for(0, 线程总数, [&](int value) {
@@ -201,7 +201,7 @@ namespace NeuronEngine
 			神经元进程3(0);
 			
 	}
-	int 神经元列表Base::GetFiredCount()
+	int 神经元列表Base::获取激活数量()
 	{
 		return 激活数量;
 	}

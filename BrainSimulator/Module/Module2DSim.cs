@@ -641,11 +641,11 @@ namespace BrainSimulator.Modules
             {
                 mv.GetNeuronLocation(n, out int x1, out int y1);
                 TransformPoint(ref x1, ref y1);
-                foreach (突触 s in n.Synapses)
+                foreach (突触 s in n.突触列表)
                 {
-                    if (s.Weight == 10)
+                    if (s.权重 == 10)
                     {
-                        mv.GetNeuronLocation(s.TargetNeuron, out int x2, out int y2);
+                        mv.GetNeuronLocation(s.目前神经元, out int x2, out int y2);
                         TransformPoint(ref x2, ref y2);
                         Segment retVal = new Segment()
                         {
@@ -773,11 +773,11 @@ namespace BrainSimulator.Modules
             {
                 mv.GetNeuronLocation(n, out int x1, out int y1);
                 TransformPoint(ref x1, ref y1);
-                foreach (突触 s in n.Synapses)
+                foreach (突触 s in n.突触列表)
                 {
-                    if (s.TargetNeuron != n.Id)// && s.Weight != 10)
+                    if (s.目前神经元 != n.Id)// && s.Weight != 10)
                     {
-                        mv.GetNeuronLocation(s.TargetNeuron, out int x2, out int y2);
+                        mv.GetNeuronLocation(s.目前神经元, out int x2, out int y2);
                         TransformPoint(ref x2, ref y2);
                         physObject newObject = new physObject
                         {
@@ -786,12 +786,12 @@ namespace BrainSimulator.Modules
                             theColor = theColors[colorCount],
                             Aroma = -1,
                             Temperature = 10,
-                            isMobile = (s.Weight == 1) ? true : false,
+                            isMobile = (s.权重 == 1) ? true : false,
                         };
-                        if (s.Weight < 1)
-                            newObject.motion = new Vector(s.Weight - .5f, 0);
-                        if (s.Weight < 0)
-                            newObject.motion = new Vector(0, -.5f - s.Weight);
+                        if (s.权重 < 1)
+                            newObject.motion = new Vector(s.权重 - .5f, 0);
+                        if (s.权重 < 0)
+                            newObject.motion = new Vector(0, -.5f - s.权重);
                         objects.Add(newObject);
                         colorCount = (colorCount + 1) % theColors.Count;
                         int currentColorInt = 跨语言接口.ColorToInt(currentColor);

@@ -72,7 +72,7 @@ namespace BrainSimulator.Modules
             mv.GetNeuronAt(10, 0).标签名 = "mθ";
             mv.GetNeuronAt(11, 0).标签名 = "mф";
             foreach (神经元 n in mv.Neurons)
-                n.Model = 神经元.模型类型.FloatValue;
+                n.模型 = 神经元.模型类型.FloatValue;
         }
     }
 

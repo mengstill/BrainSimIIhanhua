@@ -24,11 +24,11 @@ namespace NeuronEngine
 		__declspec(dllexport) 神经元Base* 获取神经元(int i);
 		__declspec(dllexport) int 获取数组大小();
 		__declspec(dllexport) long long GetTotalSynapseCount();
-		__declspec(dllexport) long GetNeuronsInUseCount();
+		__declspec(dllexport) long 获取使用中神经元数量();
 		__declspec(dllexport) void Fire();
 		__declspec(dllexport) long long 获取次代();
 		__declspec(dllexport) void 设置次代(long long i);
-		__declspec(dllexport) int GetFiredCount();
+		__declspec(dllexport) int 获取激活数量();
 		__declspec(dllexport) int 获取线程总数();
 		__declspec(dllexport) void 设置线程总数(int i);
 		__declspec(dllexport) void GetBounds(int taskID, int& start, int& end);

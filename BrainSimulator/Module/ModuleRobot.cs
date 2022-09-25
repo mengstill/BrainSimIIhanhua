@@ -185,7 +185,7 @@ Sensor Pitch x4 p3 t100 T200 e1 m1
                                 if (n != null)
                                 {
                                     n.标签名 = theParams[1];
-                                    n.Model = 神经元.模型类型.FloatValue;
+                                    n.模型 = 神经元.模型类型.FloatValue;
                                     n.SetValue(value);
                                 }
 
@@ -219,12 +219,12 @@ Sensor Pitch x4 p3 t100 T200 e1 m1
                                 if (n != null)
                                 {
                                     n.标签名 = theParams[1];
-                                    n.Model = 神经元.模型类型.FloatValue;
+                                    n.模型 = 神经元.模型类型.FloatValue;
                                     n.SetValue(value);
                                 }
                                 if (nPrev != null)
                                 {
-                                    nPrev.Model = 神经元.模型类型.FloatValue;
+                                    nPrev.模型 = 神经元.模型类型.FloatValue;
                                     nPrev.SetValue(0);
                                 }
 
@@ -282,11 +282,11 @@ Sensor Pitch x4 p3 t100 T200 e1 m1
                         }
                         nPrevious.SetValue(nCurrent.LastCharge);
                     }
-                    if (nCurrent.LeakRate != nPrevious.LeakRate)
+                    if (nCurrent.泄露率 != nPrevious.泄露率)
                     {
                         if (i == 0)
-                            SendActuatorEnabledToRobot(j - 1, nCurrent.LeakRate >= 0);
-                        nPrevious.LeakRate = nCurrent.LeakRate;
+                            SendActuatorEnabledToRobot(j - 1, nCurrent.泄露率 >= 0);
+                        nPrevious.泄露率 = nCurrent.泄露率;
                         MainWindow.Update();
                     }
                 }
