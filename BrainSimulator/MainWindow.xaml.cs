@@ -397,7 +397,7 @@ namespace BrainSimulator
 
             if (此神经元数组 != null && !useServers) ThreadCount.Text = 此神经元数组.获取线程数().ToString();
             else ThreadCount.Text = "";
-            if (此神经元数组 != null) Refractory.Text = 此神经元数组.GetRefractoryDelay().ToString();
+            if (此神经元数组 != null) Refractory.Text = 此神经元数组.GetRefractoryDelay获取耐火材料延迟().ToString();
             else Refractory.Text = "";
 
             if (currentFileName != "" &&

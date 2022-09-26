@@ -33,11 +33,11 @@ namespace CsEngineTest
             theNeuronArray.设置线程数量(16);
             threads = theNeuronArray.获取线程数();
 
-            theNeuronArray.SetNeuronCurrentCharge(1, 1.4f);
-            theNeuronArray.SetNeuronCurrentCharge(2, 0.9f);
+            theNeuronArray.SetNeuronCurrentCharge设置神经元当前的脉冲(1, 1.4f);
+            theNeuronArray.SetNeuronCurrentCharge设置神经元当前的脉冲(2, 0.9f);
             theNeuronArray.Fire(); //should transfer current chargest to last
-            float a = theNeuronArray.GetNeuronLastCharge(1);
-            float b = theNeuronArray.GetNeuronLastCharge(2);
+            float a = theNeuronArray.GetNeuronLastCharge获取神经元上一次的脉冲(1);
+            float b = theNeuronArray.GetNeuronLastCharge获取神经元上一次的脉冲(2);
 
             string s0 = theNeuronArray.获取神经元标签(1);
             theNeuronArray.设置神经元标签(1, "Fred");
@@ -83,7 +83,7 @@ namespace CsEngineTest
                 }
             });
             for (int i = 0; i < neuronCount / 100; i++)
-                theNeuronArray.SetNeuronCurrentCharge(100 * i, 1);
+                theNeuronArray.SetNeuronCurrentCharge设置神经元当前的脉冲(100 * i, 1);
             MessageBox.Show("突触和充电完成");
             Stopwatch sw = new Stopwatch();
             string msg = "";
