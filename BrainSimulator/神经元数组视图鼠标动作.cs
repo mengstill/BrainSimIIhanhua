@@ -154,7 +154,7 @@ namespace BrainSimulator
             int source = (int)theShape.GetValue(突触视图.SourceIDProperty);
             int target = (int)theShape.GetValue(突触视图.TargetIDProperty);
             末尾突触权重 = (float)theShape.GetValue(突触视图.WeightValProperty);
-            末尾突触模型 = (突触.modelType)theShape.GetValue(突触视图.ModelProperty);
+            末尾突触模型 = (突触.模型类型)theShape.GetValue(突触视图.ModelProperty);
             神经元 n = MainWindow.此神经元数组.获取神经元(source);
             n.删除突触(target);
             mouseDownNeuronIndex = source;

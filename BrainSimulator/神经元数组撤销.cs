@@ -11,7 +11,7 @@ using System.Xml.Serialization;
 
 namespace BrainSimulator
 {
-    public partial class NeuronArray : 神经元处理
+    public partial class NeuronArray : 神经元数组操作
     {
 
         /// UNDO Handling UNDO 处理
@@ -88,7 +88,7 @@ namespace BrainSimulator
             public float 权重;
             public bool 新突触;
             public bool 删除突触;
-            public 突触.modelType 模块;
+            public 突触.模型类型 模块;
         }
         struct 神经元撤消
         {
@@ -113,7 +113,7 @@ namespace BrainSimulator
         }
 
 
-        public void 添加突触撤销(int source, int target, float 权重, 突触.modelType 模块, bool 新突触, bool 删除突触)
+        public void 添加突触撤销(int source, int target, float 权重, 突触.模型类型 模块, bool 新突触, bool 删除突触)
         {
             突触撤销 s;
             s = new 突触撤销

@@ -100,12 +100,12 @@ namespace BrainSimulator
                 retVal = retVal.Remove(0, 1);
             if (n.模型字段 == 神经元.模型类型.LIF)
             {
-                if (n.leakRate泄露速度 == 0)
+                if (n.泄露率 == 0)
                     retVal += "\rD=" + n.突触延迟.ToString();
-                else if (n.leakRate泄露速度 < 1)
-                    retVal += "\rL=" + n.leakRate泄露速度.ToString("f2").Substring(1);
+                else if (n.泄露率 < 1)
+                    retVal += "\rL=" + n.泄露率.ToString("f2").Substring(1);
                 else
-                    retVal += "\rL=" + n.leakRate泄露速度.ToString("f1");
+                    retVal += "\rL=" + n.泄露率.ToString("f1");
             }
             if (n.模型字段 == 神经元.模型类型.Burst)
                 retVal += "\rB=" + n.突触延迟.ToString();
@@ -129,7 +129,7 @@ namespace BrainSimulator
             SolidColorBrush s1 = new SolidColorBrush(c);
             if (!n.是否使用 && n.模型 == 神经元.模型类型.IF && n.标签名 =="")
                 s1.Opacity = .50;
-            if ((n.leakRate泄露速度 < 0) || float.IsNegativeInfinity(1.0f / n.leakRate泄露速度))
+            if ((n.泄露率 < 0) || float.IsNegativeInfinity(1.0f / n.泄露率))
                 s1 = new SolidColorBrush(Colors.LightSalmon);
             return s1;
         }

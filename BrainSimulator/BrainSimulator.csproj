@@ -296,10 +296,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NeuronEngineWrapper\NeuronEngineWrapper.vcxproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Resource Include="Resources\charactergrowfont.png" />
     <Resource Include="Resources\charactershrinkfont.png" />
     <Resource Include="Resources\ClearHistory.png" />

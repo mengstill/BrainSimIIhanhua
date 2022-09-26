@@ -57,7 +57,7 @@ namespace BrainSimulator.Modules
 
             Angle rotation = 0;
             if (GetNeuron("Rot") is 神经元 n1)
-                rotation = n1.当前更改; //range (0,1)
+                rotation = n1.currentCharge; //range (0,1)
             rotation = rotation * 2 * (float)PI; //range (0,2Pi)
 
             //bitmap1 = RotateBitmap(bitmap1, rotation.ToDegrees());

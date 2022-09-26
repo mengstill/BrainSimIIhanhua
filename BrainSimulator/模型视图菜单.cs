@@ -470,7 +470,7 @@ namespace BrainSimulator
                             神经元 n = MainWindow.此神经元数组.获取神经元(Id);
                             foreach (突触 s in n.突触列表)
                             {
-                                if (s.模型字段 != 突触.modelType.Fixed)
+                                if (s.模型字段 != 突触.模型类型.Fixed)
                                 {
                                     //TODO: Add some UI for this:
                                     //s.model = Synapse.modelType.Hebbian2;

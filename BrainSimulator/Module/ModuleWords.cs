@@ -36,7 +36,7 @@ namespace BrainSimulator.Modules
             List<int> retVal = new List<int>();
             foreach(神经元 n in mv.Neurons)
             {
-                if (n.最后更改 >= 1)
+                if (n.lastCharge >= 1)
                     retVal.Add(n.Id);
             }
             return retVal;

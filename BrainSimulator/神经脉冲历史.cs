@@ -68,7 +68,7 @@ namespace BrainSimulator
             for (int i = 0; i < 历史列表.Count; i++)
             {
                 神经元历史记录 active = 历史列表[i];
-                float lastCharge = MainWindow.此神经元数组.获取神经元(active.神经元ID).最后更改;
+                float lastCharge = MainWindow.此神经元数组.获取神经元(active.神经元ID).lastCharge;
                 if (active.记录列表.Count > maxSamples)
                     active.记录列表.RemoveAt(0);
                 active.记录列表.Add(new 记录 { generation = MainWindow.此神经元数组.Generation, value = lastCharge });

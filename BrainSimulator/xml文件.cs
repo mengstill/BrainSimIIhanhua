@@ -177,7 +177,7 @@ namespace BrainSimulator
                             break;
                         case "LeakRate":
                             float.TryParse(node.InnerText, out float leakRate);
-                            n.leakRate泄露速度 = leakRate;
+                            n.泄露率 = leakRate;
                             break;
                         case "AxonDelay":
                             int.TryParse(node.InnerText, out int axonDelay);
@@ -188,13 +188,13 @@ namespace BrainSimulator
                             {
                                 float.TryParse(node.InnerText, out float lastCharge);
                                 n.LastCharge = lastCharge;
-                                n.当前更改 = lastCharge;
+                                n.currentCharge = lastCharge;
                             }
                             else //is color
                             {
                                 int.TryParse(node.InnerText, out int lastChargeInt);
                                 n.LastChargeInt = lastChargeInt;
-                                n.当前更改 = lastChargeInt; //current charge is not used on color neurons
+                                n.currentCharge = lastChargeInt; //current charge is not used on color neurons
                             }
                             break;
                         case "ShowSynapses":
@@ -226,11 +226,11 @@ namespace BrainSimulator
                                             break;
                                         case "IsHebbian": //Obsolete: backwards compatibility
                                             bool.TryParse(synapseAttribNode.InnerText, out bool isheb);
-                                            if (isheb) s.模型字段 = 突触.modelType.Hebbian1;
-                                            else s.模型字段 = 突触.modelType.Fixed;
+                                            if (isheb) s.模型字段 = 突触.模型类型.Hebbian1;
+                                            else s.模型字段 = 突触.模型类型.Fixed;
                                             break;
                                         case "Model":
-                                            Enum.TryParse(synapseAttribNode.InnerText, out 突触.modelType model);
+                                            Enum.TryParse(synapseAttribNode.InnerText, out 突触.模型类型 model);
                                             s.模型字段 = model;
                                             break;
                                     }
@@ -351,7 +351,7 @@ namespace BrainSimulator
                     if (n.ToolTip != "") label += 神经元.toolTipSeparator + n.ToolTip;
                     //this is needed bacause inUse is true if any synapse points to this neuron--
                     //we don't need to bother with that if it's the only thing 
-                    if (n.synapses.Count != 0 || label != "" || n.最后更改 != 0 || n.leakRate泄露速度 != 0.1f
+                    if (n.synapses.Count != 0 || label != "" || n.lastCharge != 0 || n.泄露率 != 0.1f
                         || n.模型字段 != 神经元.模型类型.IF)
                     {
                         XmlNode neuronNode = xml文档.CreateNode("element", "Neuron", "");
@@ -367,10 +367,10 @@ namespace BrainSimulator
                             attrNode.InnerText = n.模型字段.ToString();
                             neuronNode.AppendChild(attrNode);
                         }
-                        if (n.模型字段 != 神经元.模型类型.Color && n.最后更改 != 0)
+                        if (n.模型字段 != 神经元.模型类型.Color && n.lastCharge != 0)
                         {
                             attrNode = xml文档.CreateNode("element", "LastCharge", "");
-                            attrNode.InnerText = n.最后更改.ToString();
+                            attrNode.InnerText = n.lastCharge.ToString();
                             neuronNode.AppendChild(attrNode);
                         }
                         if (n.模型字段 == 神经元.模型类型.Color && n.LastChargeInt != 0)
@@ -379,10 +379,10 @@ namespace BrainSimulator
                             attrNode.InnerText = n.LastChargeInt.ToString();
                             neuronNode.AppendChild(attrNode);
                         }
-                        if (n.leakRate泄露速度 != 0.1f)
+                        if (n.泄露率 != 0.1f)
                         {
                             attrNode = xml文档.CreateNode("element", "LeakRate", "");
-                            attrNode.InnerText = n.leakRate泄露速度.ToString();
+                            attrNode.InnerText = n.泄露率.ToString();
                             neuronNode.AppendChild(attrNode);
                         }
                         if (n.突触延迟 != 0)
@@ -429,7 +429,7 @@ namespace BrainSimulator
                                 attrNode.InnerText = s.目标神经元字段.ToString();
                                 synapseNode.AppendChild(attrNode);
 
-                                if (s.模型字段 != 突触.modelType.Fixed)
+                                if (s.模型字段 != 突触.模型类型.Fixed)
                                 {
                                     attrNode = xml文档.CreateNode("element", "Model", "");
                                     attrNode.InnerText = s.模型字段.ToString();

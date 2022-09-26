@@ -16,7 +16,7 @@ namespace BrainSimulator
     /// <summary>
     /// 神经元数组
     /// </summary>
-    public partial class NeuronArray : 神经元处理
+    public partial class NeuronArray : 神经元数组操作
     {
         /// <summary>
         /// 网络节点
@@ -167,8 +167,8 @@ namespace BrainSimulator
             }
             else
             {
-                synapseCount = 获取总突触数();
-                useCount = 获取使用中的神经元总数();
+                synapseCount = 获取突触总数();
+                useCount = (int)获取使用中神经元数量();
             }
         }
         /// <summary>
@@ -188,12 +188,12 @@ namespace BrainSimulator
             {
                 base.Fire();
                 Generation = 获取次代();
-                lastFireCount = 获取激活的神经元数量();
+                lastFireCount = 获取激活神经元数量();
             }
             处理程序动作();
             神经冲动历史.更新神经脉冲历史();
         }
-        public void 添加突触(int src, int dest, float weight, 突触.modelType model, bool noBackPtr)
+        public void 添加突触(int src, int dest, float weight, 突触.模型类型 model, bool noBackPtr)
         {
             if (MainWindow.useServers && this == MainWindow.此神经元数组)
                 神经元客户端.添加突触(src, dest, weight, model, noBackPtr);

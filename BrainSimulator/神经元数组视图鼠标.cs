@@ -58,13 +58,13 @@ namespace BrainSimulator
                 }
             }
         }
-        public 突触.modelType 末尾突触模型
+        public 突触.模型类型 末尾突触模型
         {
             get
             {
-                if (Enum.TryParse(MainWindow.thisWindow.SynapseModel.Text, out 突触.modelType theModel))
+                if (Enum.TryParse(MainWindow.thisWindow.SynapseModel.Text, out 突触.模型类型 theModel))
                     return theModel;
-                return 突触.modelType.Fixed;
+                return 突触.模型类型.Fixed;
             }
             set
             {

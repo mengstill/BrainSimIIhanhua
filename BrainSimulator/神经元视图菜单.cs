@@ -129,7 +129,7 @@ namespace BrainSimulator
             MenuItem mi = new MenuItem();
             CheckBox cbEnableNeuron = new CheckBox
             {
-                IsChecked = (n.leakRate泄露速度 > 0) || float.IsPositiveInfinity(1.0f / n.leakRate泄露速度),
+                IsChecked = (n.泄露率 > 0) || float.IsPositiveInfinity(1.0f / n.泄露率),
                 Content = "Enabled",
                 Name = "Enabled",
             };
@@ -290,18 +290,18 @@ namespace BrainSimulator
             else if (newModel == 神经元.模型类型.FloatValue)
             {
                 cm.Items.Insert(insertPosition,
-                    跨语言接口.CreateComboBoxMenuItem("CurrentCharge", n.最后更改, currentChargeValues, floatValueFormatString, "Content: ", 80, ComboBox_ContentChanged));
+                    跨语言接口.CreateComboBoxMenuItem("CurrentCharge", n.lastCharge, currentChargeValues, floatValueFormatString, "Content: ", 80, ComboBox_ContentChanged));
             }
             else
             {
                 cm.Items.Insert(insertPosition,
-                    跨语言接口.CreateComboBoxMenuItem("CurrentCharge", n.最后更改, currentChargeValues, floatFormatString, "Charge: ", 80, ComboBox_ContentChanged));
+                    跨语言接口.CreateComboBoxMenuItem("CurrentCharge", n.lastCharge, currentChargeValues, floatFormatString, "Charge: ", 80, ComboBox_ContentChanged));
             }
 
             if (newModel == 神经元.模型类型.LIF)
             {
                 cm.Items.Insert(insertPosition + 1,
-                    跨语言接口.CreateComboBoxMenuItem("LeakRate", Math.Abs(n.leakRate泄露速度), leakRateValues, floatFormatString, "Leak Rate: ", 80, ComboBox_ContentChanged));
+                    跨语言接口.CreateComboBoxMenuItem("LeakRate", Math.Abs(n.泄露率), leakRateValues, floatFormatString, "Leak Rate: ", 80, ComboBox_ContentChanged));
                 cm.Items.Insert(insertPosition + 2,
                     跨语言接口.CreateComboBoxMenuItem("AxonDelay", n.突触延迟, axonDelayValues, intFormatString, "AxonDelay: ", 80, ComboBox_ContentChanged));
             }
@@ -321,14 +321,14 @@ namespace BrainSimulator
                 cm.Items.Insert(insertPosition + 1,
                     跨语言接口.CreateComboBoxMenuItem("AxonDelay", n.突触延迟, meanValues, intFormatString, "Mean: ", 80, ComboBox_ContentChanged));
                 cm.Items.Insert(insertPosition + 2,
-                    跨语言接口.CreateComboBoxMenuItem("LeakRate", Math.Abs(n.leakRate泄露速度), stdDevValues, floatFormatString, "Std Dev: ", 80, ComboBox_ContentChanged));
+                    跨语言接口.CreateComboBoxMenuItem("LeakRate", Math.Abs(n.泄露率), stdDevValues, floatFormatString, "Std Dev: ", 80, ComboBox_ContentChanged));
             }
             else if (newModel == 神经元.模型类型.Burst)
             {
                 cm.Items.Insert(insertPosition + 1,
                     跨语言接口.CreateComboBoxMenuItem("AxonDelay", n.突触延迟, alwaysDelayValues, intFormatString, "Count: ", 80, ComboBox_ContentChanged));
                 cm.Items.Insert(insertPosition + 2,
-                    跨语言接口.CreateComboBoxMenuItem("LeakRate", Math.Abs(n.leakRate泄露速度), axonDelayValues, intFormatString, "Rate: ", 80, ComboBox_ContentChanged));
+                    跨语言接口.CreateComboBoxMenuItem("LeakRate", Math.Abs(n.泄露率), axonDelayValues, intFormatString, "Rate: ", 80, ComboBox_ContentChanged));
             }
         }
 
@@ -575,7 +575,7 @@ namespace BrainSimulator
                             if (chargeChanged)
                             {
                                 n.SetValueInt((int)newCharge);
-                                n.最后更改 = newCharge;
+                                n.lastCharge = newCharge;
                                 if (applyToAll)
                                     SetValueInSelectedNeurons(n, "currentCharge");
                                 跨语言接口.AddToValues(newCharge, colorValues);
@@ -589,7 +589,7 @@ namespace BrainSimulator
                         if (chargeChanged)
                         {
                             n.SetValue(newCharge);
-                            n.最后更改 = newCharge;
+                            n.lastCharge = newCharge;
                             if (applyToAll)
                                 SetValueInSelectedNeurons(n, "currentCharge");
                             跨语言接口.AddToValues(newCharge, currentChargeValues);
@@ -614,7 +614,7 @@ namespace BrainSimulator
                     }
                 }
                 else
-                    n.leakRate泄露速度 = 0;
+                    n.泄露率 = 0;
                 cc = 跨语言接口.FindByName(cm, "AxonDelay");
                 if (cc is ComboBox tb3)
                 {
@@ -657,9 +657,9 @@ namespace BrainSimulator
                     if (enabledChanged)
                     {
                         if (cb1.IsChecked == true)
-                            n.leakRate泄露速度 = Math.Abs(n.leakRate泄露速度);
+                            n.泄露率 = Math.Abs(n.泄露率);
                         else
-                            n.leakRate泄露速度 = Math.Abs(n.leakRate泄露速度) * -1.0f;
+                            n.泄露率 = Math.Abs(n.泄露率) * -1.0f;
 
                         if (applyToAll)
                             SetValueInSelectedNeurons(n, "enable");
@@ -832,15 +832,15 @@ namespace BrainSimulator
                                 n1.SetValueInt(n.LastChargeInt);
                             else
                             {
-                                n1.当前更改 = n.当前更改;
-                                n1.最后更改 = n.当前更改;
+                                n1.currentCharge = n.currentCharge;
+                                n1.lastCharge = n.currentCharge;
                             }
                             break;
                         case "clear": n1.撤销并清空(); break;
-                        case "leakRate": n1.leakRate泄露速度 = n.leakRate泄露速度; break;
+                        case "leakRate": n1.泄露率 = n.泄露率; break;
                         case "axonDelay": n1.突触延迟 = n.突触延迟; break;
                         case "model": n1.模型字段 = n.模型字段; break;
-                        case "enable": n1.leakRate泄露速度 = n.leakRate泄露速度; break;
+                        case "enable": n1.泄露率 = n.泄露率; break;
                         case "history":
                             n1.RecordHistory = n.RecordHistory;
                             break;

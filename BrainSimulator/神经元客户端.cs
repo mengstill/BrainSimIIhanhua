@@ -14,7 +14,7 @@ namespace BrainSimulator
 
         static UdpClient serverClient = null; //listen only
         static UdpClient clientServer; //send/broadcast only
-        static IPAddress broadCastAddress; 
+        static IPAddress broadCastAddress;
 
         const int clientServerPort = 49002;
         const int serverClientPort = 49003;
@@ -29,7 +29,7 @@ namespace BrainSimulator
                 if (ip.AddressFamily == AddressFamily.InterNetwork)
                 {
                     byte[] ips = ip.GetAddressBytes();
-                    broadCastAddress = IPAddress.Parse(ips[0] +"."+ ips[1] + "."+ips[2]+".255");
+                    broadCastAddress = IPAddress.Parse(ips[0] + "." + ips[1] + "." + ips[2] + ".255");
                 }
             }
 
@@ -75,12 +75,12 @@ namespace BrainSimulator
         private static extern void GetSystemTimePreciseAsFileTime(out long filetime);
         static long returnTime;
         public static long pingCount = 0;
-        public static long Ping(IPAddress targetIp,string payload)
+        public static long Ping(IPAddress targetIp, string payload)
         {
             //run the test
             returnTime = 0;
             GetSystemTimePreciseAsFileTime(out long startTime);
-            向服务器发送消息(targetIp,"Ping " + payload);
+            向服务器发送消息(targetIp, "Ping " + payload);
             while (returnTime == 0) Thread.Sleep(1);
             long elapsed = returnTime - startTime;
             return elapsed;
@@ -97,9 +97,9 @@ namespace BrainSimulator
             return payload;
         }
 
-        public static void 初始化服务器(int synapsesPerNeuron,int arraySize)
+        public static void 初始化服务器(int synapsesPerNeuron, int arraySize)
         {
-            string message = "InitServers "+synapsesPerNeuron + " " + arraySize + " ";
+            string message = "InitServers " + synapsesPerNeuron + " " + arraySize + " ";
             for (int i = 0; i < 服务列表.Count; i++)
             {
                 message += 服务列表[i].ipAddress + " " + 服务列表[i].firstNeuron + " " + 服务列表[i].lastNeuron + " ";
@@ -126,7 +126,7 @@ namespace BrainSimulator
         {
             tempNeuron = null;
             广播("GetNeuron " + id);
-            while (tempNeuron == null) 
+            while (tempNeuron == null)
                 Thread.Sleep(1);
             return tempNeuron;
 
@@ -154,7 +154,7 @@ namespace BrainSimulator
             }
 
             广播("GetNeurons " + start + " " + remaining);
-            while (tempNeurons.Count < count) 
+            while (tempNeurons.Count < count)
                 Thread.Sleep(1);
             tempNeurons.Sort((t1, t2) => t1.id.CompareTo(t2.id)); //the neurons may be returned in different order
             return tempNeurons;
@@ -164,9 +164,9 @@ namespace BrainSimulator
             string command = "SetNeuron ";
             command += n.id + " ";
             command += (int)n.模型字段 + " ";
-            command += n.当前更改 + " ";
-            command += n.最后更改 + " ";
-            command += n.leakRate泄露速度 + " ";
+            command += n.currentCharge + " ";
+            command += n.lastCharge + " ";
+            command += n.泄露率 + " ";
             command += n.突触延迟 + " ";
             广播(command);
         }
@@ -177,7 +177,7 @@ namespace BrainSimulator
                 if (neuronID >= 服务列表[i].firstNeuron && neuronID < 服务列表[i].lastNeuron) return i;
             return -1;
         }
-        public static void 添加突触(int src, int dest, float weight, 突触.modelType model, bool noBackPtr)
+        public static void 添加突触(int src, int dest, float weight, 突触.模型类型 model, bool noBackPtr)
         {
             string command = "AddSynapse ";
             command += src + " ";
@@ -263,8 +263,8 @@ namespace BrainSimulator
                     int.TryParse(commands[1], out n.id);
                     int.TryParse(commands[2], out int tempModel);
                     n.模型字段 = (神经元.模型类型)tempModel;
-                    float.TryParse(commands[3], out n.最后更改);
-                    float.TryParse(commands[4], out n.leakRate泄露速度);
+                    float.TryParse(commands[3], out n.lastCharge);
+                    float.TryParse(commands[4], out n.泄露率);
                     int.TryParse(commands[5], out n.突触延迟);
                     bool.TryParse(commands[6], out n.是否使用);
                     tempNeuron = n;
@@ -276,12 +276,12 @@ namespace BrainSimulator
                     {
                         n = new 神经元();
                         int.TryParse(commands[i], out n.id);
-                        int.TryParse(commands[i+1], out tempModel);
+                        int.TryParse(commands[i + 1], out tempModel);
                         n.模型字段 = (神经元.模型类型)tempModel;
-                        float.TryParse(commands[i+2], out n.最后更改);
-                        float.TryParse(commands[i+3], out n.leakRate泄露速度);
-                        int.TryParse(commands[i+4], out n.突触延迟);
-                        bool.TryParse(commands[i+5], out n.是否使用);
+                        float.TryParse(commands[i + 2], out n.lastCharge);
+                        float.TryParse(commands[i + 3], out n.泄露率);
+                        int.TryParse(commands[i + 4], out n.突触延迟);
+                        bool.TryParse(commands[i + 5], out n.是否使用);
                         tempNeurons.Add(n);
                     }
                     break;
@@ -295,7 +295,7 @@ namespace BrainSimulator
                         int.TryParse(commands[i], out s.目标神经元字段);
                         float.TryParse(commands[i + 1], out s.权重字段);
                         int.TryParse(commands[i + 2], out int modelInt);
-                        s.模型字段 = (突触.modelType)modelInt;
+                        s.模型字段 = (突触.模型类型)modelInt;
                         synapses.Add(s);
                     }
                     tempSynapses = synapses;
@@ -310,7 +310,7 @@ namespace BrainSimulator
                         int.TryParse(commands[i], out s.目标神经元字段);
                         float.TryParse(commands[i + 1], out s.权重字段);
                         int.TryParse(commands[i + 2], out int modelInt);
-                        s.模型字段 = (突触.modelType)modelInt;
+                        s.模型字段 = (突触.模型类型)modelInt;
                         synapses.Add(s);
                     }
                     tempSynapses = synapses;

@@ -51,7 +51,7 @@ namespace BrainSimulator.Modules
                             for (int j = 0; j < n.synapsesFrom.Count; j++)
                             {
                                 突触 s = n.synapsesFrom[j];
-                                if (s.模型字段 != 突触.modelType.Fixed)
+                                if (s.模型字段 != 突触.模型类型.Fixed)
                                 {
                                     神经元 nSource = MainWindow.此神经元数组.获取神经元(s.目前神经元);
                                     if (nSource.LastFired > MainWindow.此神经元数组.Generation - 4)
@@ -68,7 +68,7 @@ namespace BrainSimulator.Modules
                             for (int j = 0; j < n.synapsesFrom.Count; j++)
                             {
                                 突触 s = n.synapsesFrom[j];
-                                if (s.模型字段 != 突触.modelType.Fixed)
+                                if (s.模型字段 != 突触.模型类型.Fixed)
                                 {
                                     神经元 nSource = MainWindow.此神经元数组.获取神经元(s.目前神经元);
                                     if (nSource.LastFired > MainWindow.此神经元数组.Generation - 4)
@@ -87,7 +87,7 @@ namespace BrainSimulator.Modules
                             {
                                 if (mv.GetNeuronAt(0, k) is 神经元 n5)
                                 {
-                                    n5.当前更改 = 0;
+                                    n5.currentCharge = 0;
                                     n5.更新();
                                 }
                             }
@@ -101,13 +101,13 @@ namespace BrainSimulator.Modules
                 {
                     waitingForInput = maxTries; //countdown tries to read
                                          //fire rdOut
-                    nRdOut.当前更改 = 1;
+                    nRdOut.currentCharge = 1;
                     nRdOut.更新();
                 }
                 if (waitingForInput > 1 && (MainWindow.此神经元数组.Generation % 6) == 0)
                 {
                     waitingForInput--;
-                    nRdOut.当前更改 = 1;
+                    nRdOut.currentCharge = 1;
                     nRdOut.更新();
                 }
                 //if we get here, no neuron has fired yet
@@ -144,7 +144,7 @@ namespace BrainSimulator.Modules
                         for (int j = 0; j < prevSynapses.Count; j++)
                         {
                             float theWeight = prevSynapses[j].权重字段;
-                            if (prevSynapses[j].模型字段 != 突触.modelType.Fixed)
+                            if (prevSynapses[j].模型字段 != 突触.模型类型.Fixed)
                                 theWeight = 0;
                             theNeuronArray.获取神经元(prevSynapses[j].目标神经元字段).添加突触(
                                 oldestNeuron.id, theWeight, prevSynapses[j].模型字段);
@@ -169,13 +169,13 @@ namespace BrainSimulator.Modules
                             if ((MainWindow.此神经元数组.Generation % 36) == 0)
                 {
                     waitingForInput = maxTries; //countdown tries to read
-                    nRdOut.当前更改 = 1;
+                    nRdOut.currentCharge = 1;
                     nRdOut.更新();
                 }
                 if (waitingForInput > 1 && (MainWindow.此神经元数组.Generation % 6) == 0)
                 {
                     waitingForInput--;
-                    nRdOut.当前更改 = 1;
+                    nRdOut.currentCharge = 1;
                     nRdOut.更新();
                 }
             }
@@ -269,11 +269,11 @@ namespace BrainSimulator.Modules
                         for (int j = 0; j < mv.Height; j++)
                         {
                             神经元 nTarget = mv.GetNeuronAt(0, j);
-                            nSource.添加突触(nTarget.id, 0f, 突触.modelType.Hebbian2);
+                            nSource.添加突触(nTarget.id, 0f, 突触.模型类型.Hebbian2);
                             MainWindow.此神经元数组.获取神经元位置(nSource.id, out int col, out int row);
                             while (MainWindow.此神经元数组.GetNeuron(col, ++row).标签名 != "")
                             {
-                                MainWindow.此神经元数组.GetNeuron(col, row).添加突触(nTarget.id, 0f, 突触.modelType.Hebbian2);
+                                MainWindow.此神经元数组.GetNeuron(col, row).添加突触(nTarget.id, 0f, 突触.模型类型.Hebbian2);
                             }
                         }
                     }
@@ -301,7 +301,7 @@ namespace BrainSimulator.Modules
             }
 
             if (GetNeuron("P0") is 神经元 nP0)
-                GetTargetWeights(nP0.synapsesFrom.Count(x => x.模型字段 == 突触.modelType.Hebbian2) / 2);
+                GetTargetWeights(nP0.synapsesFrom.Count(x => x.模型字段 == 突触.模型类型.Hebbian2) / 2);
             MainWindow.Update();
         }
 

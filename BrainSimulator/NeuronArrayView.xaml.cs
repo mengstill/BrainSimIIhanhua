@@ -319,7 +319,7 @@ namespace BrainSimulator
                                 }
 
                                 NeuronOnScreen neuronScreenCache = null;
-                                if ((n.是否使用 || n.标签名 != "" || n.当前更改 != 0 || n.最后更改 != 0) && (l is Ellipse || l is Rectangle))
+                                if ((n.是否使用 || n.标签名 != "" || n.currentCharge != 0 || n.lastCharge != 0) && (l is Ellipse || l is Rectangle))
                                 {
                                     neuronScreenCache = new NeuronOnScreen(neuronID, l, -10, lbl);
                                 }
@@ -343,7 +343,7 @@ namespace BrainSimulator
                                                 else
                                                     allSynapsesCanvas.Children.Add(l1);
                                                 synapseCount++;
-                                                if (neuronScreenCache != null && s.模型字段 != 突触.modelType.Fixed)
+                                                if (neuronScreenCache != null && s.模型字段 != 突触.模型类型.Fixed)
                                                 {
                                                     if (neuronScreenCache.synapsesOnScreen == null)
                                                         neuronScreenCache.synapsesOnScreen = new List<NeuronOnScreen.synapseOnScreen>();
@@ -437,9 +437,9 @@ namespace BrainSimulator
                         for (int i = 0; i < neuronColumn.Count; i++)
                         {
                             int nosIndex = i + begin;
-                            if (nosIndex < neuronsOnScreen.Count && neuronColumn[i].最后更改 != neuronsOnScreen[nosIndex].prevValue)
+                            if (nosIndex < neuronsOnScreen.Count && neuronColumn[i].lastCharge != neuronsOnScreen[nosIndex].prevValue)
                             {
-                                neuronsOnScreen[nosIndex].prevValue = neuronColumn[i].最后更改;
+                                neuronsOnScreen[nosIndex].prevValue = neuronColumn[i].lastCharge;
                                 if (neuronsOnScreen[nosIndex].graphic is Shape e)
                                 {
                                     e.Fill = 神经元视图.GetNeuronColor(neuronColumn[i]);
@@ -494,7 +494,7 @@ namespace BrainSimulator
                     }
                     if (a.graphic is Shape e)
                     {
-                        float x = n.最后更改;
+                        float x = n.lastCharge;
                         SolidColorBrush newColor = null;
                         if (x != a.prevValue)
                         {
@@ -502,7 +502,7 @@ namespace BrainSimulator
 
                             newColor = 神经元视图.GetNeuronColor(n);
                             e.Fill = newColor;
-                            if (n.最后更改 != 0 && e.Fill.Opacity != 1)
+                            if (n.lastCharge != 0 && e.Fill.Opacity != 1)
                                 e.Fill.Opacity = 1;
                         }
 

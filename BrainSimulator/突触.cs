@@ -12,18 +12,19 @@ namespace BrainSimulator
         public int TargetNeuron { get; set; }
         public float Weight { get; set; }
         public bool IsHebbian { get; set; }
-        public 突触.modelType Model { get; set; } = 突触.modelType.Fixed;
+        public 突触.模型类型 Model { get; set; } = 突触.模型类型.Fixed;
     }
 
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public class 突触
     {
-        public enum modelType { Fixed, Binary, Hebbian1, Hebbian2 };
+        public enum 模型类型 { Fixed, Binary, Hebbian1, Hebbian2 };
 
         public int 目标神经元字段;
+        public 神经元 神经元;
         public float 权重字段;
-        public modelType 模型字段 = modelType.Fixed;
+        public 模型类型 模型字段 = 模型类型.Fixed;
 
         //this is only used in SynapseView but is here so you can add the tooltip when you add a synapse type and 
         //the tooltip will automatically appear in the synapse type selector combobox
@@ -41,7 +42,7 @@ namespace BrainSimulator
             目标神经元字段 = -1;
             权重字段 = 1;
         }
-        public 突触(int targetNeuronIn, float weightIn, modelType modelIn)
+        public 突触(int targetNeuronIn, float weightIn, 模型类型 modelIn)
         {
             目标神经元字段 = targetNeuronIn;
             权重字段 = weightIn;
@@ -62,7 +63,7 @@ namespace BrainSimulator
 
         public 突触参数 转突触参数()
         {
-            if (模型字段 == modelType.Hebbian1)
+            if (模型字段 == 模型类型.Hebbian1)
             {
                 return new 突触参数()
                 {
@@ -81,6 +82,15 @@ namespace BrainSimulator
                     Weight = 权重
                 };
             }
+        }
+
+        public 神经元 获取目标神经元()
+	    {
+		    return 神经元;
+	    }
+        public void 设置目标神经元(神经元 神经元)
+        {
+            this.神经元 = 神经元;
         }
     }
 }

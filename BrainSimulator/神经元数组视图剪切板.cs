@@ -18,7 +18,7 @@ namespace BrainSimulator
             //public string outerNeuronName;
             public int outerNeuronID;
             public float weight;
-            public 突触.modelType model;
+            public 突触.模型类型 model;
         }
         List<BoundarySynapse> boundarySynapsesOut = new List<BoundarySynapse>();
         List<BoundarySynapse> boundarySynapsesIn = new List<BoundarySynapse>();
@@ -531,7 +531,7 @@ namespace BrainSimulator
             n.清空();
         }
 
-        public void StepAndRepeat(int source, int target, float weight, 突触.modelType model)
+        public void StepAndRepeat(int source, int target, float weight, 突触.模型类型 model)
         {
             int distance = target - source;
             theSelection.枚举选择的神经元();
@@ -558,7 +558,7 @@ namespace BrainSimulator
                 {
                     int targetNeuron = neuronsInSelection[rand.Next(neuronsInSelection.Count)];
                     float weight = (rand.Next(521) / 1000f) - .2605f;
-                    n.撤销与添加突触(targetNeuron, weight, 突触.modelType.Fixed);
+                    n.撤销与添加突触(targetNeuron, weight, 突触.模型类型.Fixed);
                 }
             }
             MainWindow.thisWindow.设置程序(100, "");
@@ -579,7 +579,7 @@ namespace BrainSimulator
                 {
                     if (n.id != n1.id)
                     {
-                        n.撤销与添加突触(n1.id, -1, 突触.modelType.Fixed);
+                        n.撤销与添加突触(n1.id, -1, 突触.模型类型.Fixed);
                     }
                 }
             }

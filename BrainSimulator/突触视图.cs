@@ -27,7 +27,7 @@ namespace BrainSimulator
         public static readonly DependencyProperty WeightValProperty =
                 DependencyProperty.Register("WeightVal", typeof(float), typeof(Shape));
         public static readonly DependencyProperty ModelProperty =
-                DependencyProperty.Register("ModelVal", typeof(突触.modelType), typeof(Shape));
+                DependencyProperty.Register("ModelVal", typeof(突触.模型类型), typeof(Shape));
 
 
 
@@ -60,7 +60,7 @@ namespace BrainSimulator
 
             return l;
         }
-        public static Shape GetSynapseShape(Point p1, Point p2, 突触.modelType model)
+        public static Shape GetSynapseShape(Point p1, Point p2, 突触.模型类型 model)
         {
             //returns a line from the source to the destination (with a link arrow at larger zooms
             //unless the source and destination are the same in which it returns an arc
@@ -76,7 +76,7 @@ namespace BrainSimulator
                 if (dp.显示突触箭头())
                 {
                     Vector offset = new Vector(dp.神经元图示大小 / 2, dp.神经元图示大小 / 2);
-                    s = DrawLinkArrow(p1 + offset, p2 + offset, model != 突触.modelType.Fixed);
+                    s = DrawLinkArrow(p1 + offset, p2 + offset, model != 突触.模型类型.Fixed);
                 }
             }
             else
@@ -201,9 +201,9 @@ namespace BrainSimulator
                 Width = 100,
                 Name = "Model"
             };
-            for (int index = 0; index < Enum.GetValues(typeof(突触.modelType)).Length; index++)
+            for (int index = 0; index < Enum.GetValues(typeof(突触.模型类型)).Length; index++)
             {
-                突触.modelType model = (突触.modelType)index;
+                突触.模型类型 model = (突触.模型类型)index;
                 cb.Items.Add(new ListBoxItem()
                 {
                     Content = model.ToString(),
@@ -410,11 +410,11 @@ namespace BrainSimulator
                     }
                 }
                 cc = 跨语言接口.FindByName(cm, "Model");
-                突触.modelType newModel = 突触.modelType.Fixed;
+                突触.模型类型 newModel = 突触.模型类型.Fixed;
                 if (cc is ComboBox cb0)
                 {
                     ListBoxItem lbi = (ListBoxItem)cb0.SelectedItem;
-                    newModel = (突触.modelType)System.Enum.Parse(typeof(突触.modelType), lbi.Content.ToString());
+                    newModel = (突触.模型类型)System.Enum.Parse(typeof(突触.模型类型), lbi.Content.ToString());
                     theNeuronArrayView.末尾突触模型 = newModel;
                 }
 
@@ -457,7 +457,7 @@ namespace BrainSimulator
                 (int)cm.GetValue(SourceIDProperty),
                 (int)cm.GetValue(TargetIDProperty),
                 (float)cm.GetValue(WeightValProperty),
-                突触.modelType.Fixed); //TODO: handle hebbian/model
+                突触.模型类型.Fixed); //TODO: handle hebbian/model
         }
 
         public static void DeleteSynapse_Click(object sender, RoutedEventArgs e)
