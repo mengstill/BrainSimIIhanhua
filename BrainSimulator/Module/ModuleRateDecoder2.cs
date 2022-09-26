@@ -89,11 +89,11 @@ namespace BrainSimulator.Modules
             for (int i = 0; i < levelCount; i++)
             {
                 神经元 ni = mv.GetNeuronAt(0, i + 1);
-                ni.模型 = 神经元.模型类型.LIF;
-                ni.泄露率 = theLeakRate;
+                ni.模型 = 神经元.模型类.LIF;
+                ni.泄露率属性 = theLeakRate;
                 神经元 ni1 = mv.GetNeuronAt(1, i + 1);
-                ni1.模型 = 神经元.模型类型.LIF;
-                ni1.泄露率 = theLeakRate;
+                ni1.模型 = 神经元.模型类.LIF;
+                ni1.泄露率属性 = theLeakRate;
                 神经元 nm = mv.GetNeuronAt(2, i + 1);
                 神经元 no = mv.GetNeuronAt(3, i + 1);
                 no.标签名 = "O" + i;

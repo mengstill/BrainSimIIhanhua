@@ -45,16 +45,15 @@ namespace BrainSimulator
             //copy the neurons
             foreach (int nID in neuronsToCopy)
             {
-                int destId = 获取剪切板Id(X1o, Y1o, nID);
+                神经元 destId = 获取剪切板神经元(X1o, Y1o, nID);
                 //copy the source neuron to the clipboard
-                神经元 sourceNeuron = MainWindow.此神经元数组.获取神经元(nID);
-                神经元 destNeuron = sourceNeuron.Clone();
+                神经元 destNeuron = destId.Clone();
                 destNeuron.所有者 = myClipBoard;
-                destNeuron.Id = destId;
-                destNeuron.标签名 = sourceNeuron.标签名;
-                destNeuron.ToolTip= sourceNeuron.ToolTip;
-                destNeuron.显示突触 = sourceNeuron.显示突触;
-                myClipBoard.SetNeuron(destId, destNeuron);
+                destNeuron.Id = destId.Id;
+                destNeuron.标签名 = destId.标签名;
+                destNeuron.ToolTip= destId.ToolTip;
+                destNeuron.显示突触 = destId.显示突触;
+                myClipBoard.SetNeuron(destId.Id, destNeuron);
             }
 
             //copy the synapses (this is two-pass so we make sure all neurons exist prior to copying
@@ -66,16 +65,16 @@ namespace BrainSimulator
                     sourceNeuron.synapses = 神经元客户端.GetSynapses(sourceNeuron.id);
                 }
 
-                int destId = 获取剪切板Id(X1o, Y1o, nID);
-                神经元 destNeuron = myClipBoard.获取神经元(destId);
-                destNeuron.所有者 = myClipBoard;
+                神经元 destId = 获取剪切板神经元(X1o, Y1o, nID);
+                //神经元 destNeuron = myClipBoard.获取神经元(destId);
+                destId.所有者 = myClipBoard;
                 if (sourceNeuron.突触列表 != null)
                     foreach (突触 s in sourceNeuron.突触列表)
                     {
                         //only copy synapses with both ends in the selection
                         if (neuronsToCopy.Contains(s.目前神经元))
                         {
-                            destNeuron.添加突触(获取剪切板Id(X1o, Y1o, s.目前神经元), s.权重, s.模型字段);
+                            destId.添加突触(获取剪切板神经元(X1o, Y1o, s.目前神经元), s.权重, s.模型字段);
                         }
                         else
                         {
@@ -84,7 +83,7 @@ namespace BrainSimulator
                             {
                                 boundarySynapsesOut.Add(new BoundarySynapse
                                 {
-                                    innerNeuronID = destNeuron.id,
+                                    innerNeuronID = destId.id,
                                     outerNeuronID = s.目标神经元字段,
                                     weight = s.权重字段,
                                     model = s.模型字段
@@ -102,7 +101,7 @@ namespace BrainSimulator
                             {
                                 boundarySynapsesIn.Add(new BoundarySynapse
                                 {
-                                    innerNeuronID = destNeuron.id,
+                                    innerNeuronID = destId.id,
                                     outerNeuronID = s.目标神经元字段,
                                     weight = s.权重字段,
                                     model = s.模型字段
@@ -119,7 +118,7 @@ namespace BrainSimulator
                 {
                     模块视图 newMV = new 模块视图()
                     {
-                        FirstNeuron = 获取剪切板Id(X1o, Y1o, mv.FirstNeuron),
+                        FirstNeuron = 获取剪切板神经元(X1o, Y1o, mv.FirstNeuron).id,
                         TheModule = mv.TheModule,
                         Color = mv.Color,
                         Height = mv.Height,
@@ -134,21 +133,21 @@ namespace BrainSimulator
             xml文件.保存(myClipBoard, "剪切板");
         }
 
-        private int 获取剪切板Id(int X1o, int Y1o, int nID)
+        private 神经元 获取剪切板神经元(int X1o, int Y1o, int nID)
         {
             //get the row & col in the neuronArray
             MainWindow.此神经元数组.获取神经元位置(nID, out int col, out int row);
             //get the destID in the clipboard
             int destId = MainWindow.myClipBoard.获取神经元索引(col - X1o, row - Y1o);
-            return destId;
+            return MainWindow.此神经元数组.获取神经元(destId);
         }
 
-        private int 获取神经元数组ID(int nID)
+        private 神经元 获取神经元数组神经元(int nID)
         {
             MainWindow.myClipBoard.获取神经元位置(nID, out int col, out int row);
             MainWindow.此神经元数组.获取神经元位置(targetNeuronIndex, out int targetCol, out int targetRow);
             int destId = MainWindow.此神经元数组.获取神经元索引(col + targetCol, row + targetRow);
-            return destId;
+            return MainWindow.此神经元数组.获取神经元(destId);
         }
 
 
@@ -203,7 +202,7 @@ namespace BrainSimulator
             {
                 if (myClipBoard.获取神经元(i,true) != null)
                 {
-                    targetNeurons.Add(获取神经元数组ID(i));
+                    targetNeurons.Add(获取神经元数组神经元(i).id);
                 }
             }
 
@@ -228,7 +227,7 @@ namespace BrainSimulator
             {
                 if (myClipBoard.获取神经元(i) != null)
                 {
-                    int destID = 获取神经元数组ID(i);
+                    int destID = 获取神经元数组神经元(i).id;
                     MainWindow.此神经元数组.获取神经元(destID).添加撤销信息();
                     神经元 n = myClipBoard.获取完整的神经元(i,true);
                     n.所有者 = myClipBoard;
@@ -260,7 +259,7 @@ namespace BrainSimulator
                     foreach (突触 s in n.突触列表)
                     {
                         MainWindow.此神经元数组.获取神经元(destID).
-                            撤销与添加突触(获取神经元数组ID(s.目前神经元), s.权重, s.模型字段);
+                            撤销与添加突触(获取神经元数组神经元(s.目前神经元).id, s.权重, s.模型字段);
                     }
                 }
             }
@@ -269,14 +268,14 @@ namespace BrainSimulator
             //处理边界突触
             foreach (BoundarySynapse b in boundarySynapsesOut)
             {
-                int sourceID = 获取神经元数组ID(b.innerNeuronID);
+                int sourceID = 获取神经元数组神经元(b.innerNeuronID).id;
                 神经元 targetNeuron = MainWindow.此神经元数组.获取神经元(b.outerNeuronID);
                 if (targetNeuron != null)
                     MainWindow.此神经元数组.获取神经元(sourceID).撤销与添加突触(targetNeuron.id, b.weight, b.model);
             }
             foreach (BoundarySynapse b in boundarySynapsesIn)
             {
-                int targetID = 获取神经元数组ID(b.innerNeuronID);
+                int targetID = 获取神经元数组神经元(b.innerNeuronID).id;
                 神经元 sourceNeuron = MainWindow.此神经元数组.获取神经元(b.outerNeuronID);
                 if (sourceNeuron != null)
                     sourceNeuron.撤销与添加突触(targetID, b.weight, b.model);
@@ -288,7 +287,7 @@ namespace BrainSimulator
             {
                 模块视图 newMV = new 模块视图()
                 {
-                    FirstNeuron = 获取神经元数组ID(mv.FirstNeuron),
+                    FirstNeuron = 获取神经元数组神经元(mv.FirstNeuron).id,
                     TheModule = mv.TheModule,
                     Color = mv.Color,
                     Height = mv.Height,
@@ -357,7 +356,7 @@ namespace BrainSimulator
                 n.添加撤销信息();
                 n.CurrentCharge = 0;
                 n.LastCharge = 0;
-                n.模型 = 神经元.模型类型.IF;
+                n.模型 = 神经元.模型类.IF;
 
                 n.标签名 = "";
                 n.ToolTip = "";
@@ -501,10 +500,10 @@ namespace BrainSimulator
                 else
                 {
                     if (s.目标神经元字段 != n.id)
-                        nNewLocation.添加突触(s.目标神经元字段, s.权重字段, s.模型字段);
+                        nNewLocation.添加突触(s.神经元, s.权重字段, s.模型字段);
                     else
-                        nNewLocation.添加突触(nNewLocation.id, s.权重字段, s.模型字段);
-                    n.删除突触(n.synapses[k].目标神经元字段);
+                        nNewLocation.添加突触(nNewLocation, s.权重字段, s.模型字段);
+                    n.删除突触(n.synapses[k].神经元);
                 }
             }
 
@@ -523,7 +522,7 @@ namespace BrainSimulator
                         }
                         else
                         {
-                            sourceNeuron.添加突触(nNewLocation.id, reverseSynapse.权重字段, reverseSynapse.模型字段);
+                            sourceNeuron.添加突触(nNewLocation, reverseSynapse.权重字段, reverseSynapse.模型字段);
                         }
                 }
             }

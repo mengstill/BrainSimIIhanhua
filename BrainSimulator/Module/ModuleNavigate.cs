@@ -176,7 +176,7 @@ namespace BrainSimulator.Modules
                 if (n1 == null && currentTargetReached != null)
                 {
                     n1 = AddLabel(currentTargetReached.Label + " ");
-                    n1.模型 = 神经元.模型类型.Color;
+                    n1.模型 = 神经元.模型类.Color;
                     n1.SetValueInt((int)currentTargetReached.V);
                     mv.GetNeuronLocation(n1, out int X, out int Y);
                     神经元 n2 = mv.GetNeuronAt(X + 1, Y);
@@ -261,7 +261,7 @@ namespace BrainSimulator.Modules
             //check for a goal selection
             foreach (神经元 n in mv.Neurons)
             {
-                if (n.Fired() && n.标签名.IndexOf("c") == 0 && n.模型 == 神经元.模型类型.IF)
+                if (n.Fired() && n.标签名.IndexOf("c") == 0 && n.模型 == 神经元.模型类.IF)
                 {
                     Thing newTarget = UKS.Labeled(n.标签名);
                     if (newTarget == currentTarget)

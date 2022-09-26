@@ -73,11 +73,11 @@ namespace BrainSimulator.Modules
                                     神经元 nSource = MainWindow.此神经元数组.获取神经元(s.目前神经元);
                                     if (nSource.LastFired > MainWindow.此神经元数组.Generation - 4)
                                     {
-                                        nSource.添加突触(n.id, (s.权重字段 + targetWeightPos) / 2, s.模型字段);
+                                        nSource.添加突触(n, (s.权重字段 + targetWeightPos) / 2, s.模型字段);
                                     }
                                     else
                                     {
-                                        nSource.添加突触(n.id, (s.权重字段 + targetWeightNeg) / 2, s.模型字段);
+                                        nSource.添加突触(n, (s.权重字段 + targetWeightNeg) / 2, s.模型字段);
                                     }
                                 }
                             }
@@ -147,7 +147,7 @@ namespace BrainSimulator.Modules
                             if (prevSynapses[j].模型字段 != 突触.模型类型.Fixed)
                                 theWeight = 0;
                             theNeuronArray.获取神经元(prevSynapses[j].目标神经元字段).添加突触(
-                                oldestNeuron.id, theWeight, prevSynapses[j].模型字段);
+                                oldestNeuron, theWeight, prevSynapses[j].模型字段);
                         }
                     }
                 }
@@ -269,11 +269,11 @@ namespace BrainSimulator.Modules
                         for (int j = 0; j < mv.Height; j++)
                         {
                             神经元 nTarget = mv.GetNeuronAt(0, j);
-                            nSource.添加突触(nTarget.id, 0f, 突触.模型类型.Hebbian2);
+                            nSource.添加突触(nTarget, 0f, 突触.模型类型.Hebbian2);
                             MainWindow.此神经元数组.获取神经元位置(nSource.id, out int col, out int row);
                             while (MainWindow.此神经元数组.GetNeuron(col, ++row).标签名 != "")
                             {
-                                MainWindow.此神经元数组.GetNeuron(col, row).添加突触(nTarget.id, 0f, 突触.模型类型.Hebbian2);
+                                MainWindow.此神经元数组.GetNeuron(col, row).添加突触(nTarget, 0f, 突触.模型类型.Hebbian2);
                             }
                         }
                     }

@@ -169,7 +169,7 @@ namespace BrainSimulator.Modules
         {
             foreach (神经元 n in mv.Neurons)
             {
-                n.模型 = 神经元.模型类型.Color;
+                n.模型 = 神经元.模型类.Color;
                 n.SetValue(0);
             }
         }

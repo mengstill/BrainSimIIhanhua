@@ -107,9 +107,9 @@ namespace BrainSimulator
             sp.Children.Add(new Label { Content = "Model: ", Padding = new Thickness(0) });
             ComboBox cb = new ComboBox()
             { Width = 80, Name = "Model" };
-            for (int index = 0; index < Enum.GetValues(typeof(神经元.模型类型)).Length; index++)
+            for (int index = 0; index < Enum.GetValues(typeof(神经元.模型类)).Length; index++)
             {
-                神经元.模型类型 model = (神经元.模型类型)index;
+                神经元.模型类 model = (神经元.模型类)index;
                 cb.Items.Add(new ListBoxItem()
                 {
                     Content = model.ToString(),
@@ -129,7 +129,7 @@ namespace BrainSimulator
             MenuItem mi = new MenuItem();
             CheckBox cbEnableNeuron = new CheckBox
             {
-                IsChecked = (n.泄露率 > 0) || float.IsPositiveInfinity(1.0f / n.泄露率),
+                IsChecked = (n.泄露率属性 > 0) || float.IsPositiveInfinity(1.0f / n.泄露率属性),
                 Content = "Enabled",
                 Name = "Enabled",
             };
@@ -247,7 +247,7 @@ namespace BrainSimulator
         }
 
         //This creates or updates the portion of the context menu content which depends on the model type
-        private static void SetCustomCMItems(ContextMenu cm, 神经元 n, 神经元.模型类型 newModel)
+        private static void SetCustomCMItems(ContextMenu cm, 神经元 n, 神经元.模型类 newModel)
         {
             //find first seperator;
             int insertPosition = 0;
@@ -263,7 +263,7 @@ namespace BrainSimulator
             }
 
             //The charge value formatted based on the model
-            if (newModel == 神经元.模型类型.Color)
+            if (newModel == 神经元.模型类.Color)
             {
                 StackPanel sp = new StackPanel { Orientation = Orientation.Horizontal, Margin = new Thickness(0, 3, 3, 3) };
                 sp.Children.Add(new Label { Content = "Content: " });
@@ -287,7 +287,7 @@ namespace BrainSimulator
                 cm.Items.Insert(insertPosition + 1, new MenuItem { Header = sp, StaysOpenOnClick = true });
 
             }
-            else if (newModel == 神经元.模型类型.FloatValue)
+            else if (newModel == 神经元.模型类.FloatValue)
             {
                 cm.Items.Insert(insertPosition,
                     跨语言接口.CreateComboBoxMenuItem("CurrentCharge", n.lastCharge, currentChargeValues, floatValueFormatString, "Content: ", 80, ComboBox_ContentChanged));
@@ -298,14 +298,14 @@ namespace BrainSimulator
                     跨语言接口.CreateComboBoxMenuItem("CurrentCharge", n.lastCharge, currentChargeValues, floatFormatString, "Charge: ", 80, ComboBox_ContentChanged));
             }
 
-            if (newModel == 神经元.模型类型.LIF)
+            if (newModel == 神经元.模型类.LIF)
             {
                 cm.Items.Insert(insertPosition + 1,
-                    跨语言接口.CreateComboBoxMenuItem("LeakRate", Math.Abs(n.泄露率), leakRateValues, floatFormatString, "Leak Rate: ", 80, ComboBox_ContentChanged));
+                    跨语言接口.CreateComboBoxMenuItem("LeakRate", Math.Abs(n.泄露率属性), leakRateValues, floatFormatString, "Leak Rate: ", 80, ComboBox_ContentChanged));
                 cm.Items.Insert(insertPosition + 2,
                     跨语言接口.CreateComboBoxMenuItem("AxonDelay", n.突触延迟, axonDelayValues, intFormatString, "AxonDelay: ", 80, ComboBox_ContentChanged));
             }
-            else if (newModel == 神经元.模型类型.Always)
+            else if (newModel == 神经元.模型类.Always)
             {
                 StackPanel sp = new StackPanel { Orientation = Orientation.Horizontal, Margin = new Thickness(0, 3, 3, 3) };
                 sp.Children.Add(new Label { Content = "Period: " });
@@ -316,19 +316,19 @@ namespace BrainSimulator
                 sp.Children.Add(sl);
                 cm.Items.Insert(insertPosition + 1, new MenuItem { Header = sp, StaysOpenOnClick = true });
             }
-            else if (newModel == 神经元.模型类型.Random)
+            else if (newModel == 神经元.模型类.Random)
             {
                 cm.Items.Insert(insertPosition + 1,
                     跨语言接口.CreateComboBoxMenuItem("AxonDelay", n.突触延迟, meanValues, intFormatString, "Mean: ", 80, ComboBox_ContentChanged));
                 cm.Items.Insert(insertPosition + 2,
-                    跨语言接口.CreateComboBoxMenuItem("LeakRate", Math.Abs(n.泄露率), stdDevValues, floatFormatString, "Std Dev: ", 80, ComboBox_ContentChanged));
+                    跨语言接口.CreateComboBoxMenuItem("LeakRate", Math.Abs(n.泄露率属性), stdDevValues, floatFormatString, "Std Dev: ", 80, ComboBox_ContentChanged));
             }
-            else if (newModel == 神经元.模型类型.Burst)
+            else if (newModel == 神经元.模型类.Burst)
             {
                 cm.Items.Insert(insertPosition + 1,
                     跨语言接口.CreateComboBoxMenuItem("AxonDelay", n.突触延迟, alwaysDelayValues, intFormatString, "Count: ", 80, ComboBox_ContentChanged));
                 cm.Items.Insert(insertPosition + 2,
-                    跨语言接口.CreateComboBoxMenuItem("LeakRate", Math.Abs(n.泄露率), axonDelayValues, intFormatString, "Rate: ", 80, ComboBox_ContentChanged));
+                    跨语言接口.CreateComboBoxMenuItem("LeakRate", Math.Abs(n.泄露率属性), axonDelayValues, intFormatString, "Rate: ", 80, ComboBox_ContentChanged));
             }
         }
 
@@ -484,8 +484,8 @@ namespace BrainSimulator
                     ContextMenu cm = mi.Parent as ContextMenu;
                     ComboBox cb1 = (ComboBox)跨语言接口.FindByName(cm, "Model");
                     ListBoxItem lbi = (ListBoxItem)cb1.SelectedItem;
-                    神经元.模型类型 nm = (神经元.模型类型)System.Enum.Parse(typeof(神经元.模型类型), lbi.Content.ToString());
-                    if (nm == 神经元.模型类型.Color) validation = "Hex";
+                    神经元.模型类 nm = (神经元.模型类)System.Enum.Parse(typeof(神经元.模型类), lbi.Content.ToString());
+                    if (nm == 神经元.模型类.Color) validation = "Hex";
                     跨语言接口.ValidateInput(cb, 0, 1, validation);
                 }
             }
@@ -556,7 +556,7 @@ namespace BrainSimulator
                 if (cc is ComboBox cb0)
                 {
                     ListBoxItem lbi = (ListBoxItem)cb0.SelectedItem;
-                    神经元.模型类型 nm = (神经元.模型类型)System.Enum.Parse(typeof(神经元.模型类型), lbi.Content.ToString());
+                    神经元.模型类 nm = (神经元.模型类)System.Enum.Parse(typeof(神经元.模型类), lbi.Content.ToString());
                     if (modelChanged)
                     {
                         n.模型字段 = nm;
@@ -567,7 +567,7 @@ namespace BrainSimulator
                 cc = 跨语言接口.FindByName(cm, "CurrentCharge");
                 if (cc is ComboBox cbb1)
                 {
-                    if (n.模型字段 == 神经元.模型类型.Color)
+                    if (n.模型字段 == 神经元.模型类.Color)
                     {
                         try
                         {
@@ -602,19 +602,19 @@ namespace BrainSimulator
                     float.TryParse(tb2.Text, out float leakRate);
                     if (leakRateChanged)
                     {
-                        n.泄露率 = leakRate;
+                        n.泄露率属性 = leakRate;
                         if (applyToAll)
                             SetValueInSelectedNeurons(n, "leakRate");
-                        if (n.模型字段 == 神经元.模型类型.LIF)
+                        if (n.模型字段 == 神经元.模型类.LIF)
                             跨语言接口.AddToValues(leakRate, leakRateValues);
-                        if (n.模型字段 == 神经元.模型类型.Random)
+                        if (n.模型字段 == 神经元.模型类.Random)
                             跨语言接口.AddToValues(leakRate, stdDevValues);
-                        if (n.模型字段 == 神经元.模型类型.Burst)
+                        if (n.模型字段 == 神经元.模型类.Burst)
                             跨语言接口.AddToValues(leakRate, axonDelayValues);
                     }
                 }
                 else
-                    n.泄露率 = 0;
+                    n.泄露率属性 = 0;
                 cc = 跨语言接口.FindByName(cm, "AxonDelay");
                 if (cc is ComboBox tb3)
                 {
@@ -624,11 +624,11 @@ namespace BrainSimulator
                         n.突触延迟 = axonDelay;
                         if (applyToAll)
                             SetValueInSelectedNeurons(n, "axonDelay");
-                        if (n.模型字段 == 神经元.模型类型.Random)
+                        if (n.模型字段 == 神经元.模型类.Random)
                             跨语言接口.AddToValues(axonDelay, meanValues);
-                        else if (n.模型字段 == 神经元.模型类型.Always)
+                        else if (n.模型字段 == 神经元.模型类.Always)
                             跨语言接口.AddToValues(axonDelay, alwaysDelayValues);
-                        else if (n.模型字段 == 神经元.模型类型.Burst)
+                        else if (n.模型字段 == 神经元.模型类.Burst)
                             跨语言接口.AddToValues(axonDelay, alwaysDelayValues);
                         else
                             跨语言接口.AddToValues(axonDelay, axonDelayValues);
@@ -657,9 +657,9 @@ namespace BrainSimulator
                     if (enabledChanged)
                     {
                         if (cb1.IsChecked == true)
-                            n.泄露率 = Math.Abs(n.泄露率);
+                            n.泄露率属性 = Math.Abs(n.泄露率属性);
                         else
-                            n.泄露率 = Math.Abs(n.泄露率) * -1.0f;
+                            n.泄露率属性 = Math.Abs(n.泄露率属性) * -1.0f;
 
                         if (applyToAll)
                             SetValueInSelectedNeurons(n, "enable");
@@ -796,7 +796,7 @@ namespace BrainSimulator
             ContextMenu cm = mi.Parent as ContextMenu;
             int neuronID = (int)cm.GetValue(NeuronIDProperty);
             ListBoxItem lbi = (ListBoxItem)cb.SelectedItem;
-            神经元.模型类型 nm = (神经元.模型类型)System.Enum.Parse(typeof(神经元.模型类型), lbi.Content.ToString());
+            神经元.模型类 nm = (神经元.模型类)System.Enum.Parse(typeof(神经元.模型类), lbi.Content.ToString());
 
             神经元 n = MainWindow.此神经元数组.获取神经元(neuronID);
             SetCustomCMItems(cm, n, nm);
@@ -828,7 +828,7 @@ namespace BrainSimulator
                     switch (property)
                     {
                         case "currentCharge":
-                            if (n.模型字段 == 神经元.模型类型.Color)
+                            if (n.模型字段 == 神经元.模型类.Color)
                                 n1.SetValueInt(n.LastChargeInt);
                             else
                             {
@@ -837,10 +837,10 @@ namespace BrainSimulator
                             }
                             break;
                         case "clear": n1.撤销并清空(); break;
-                        case "leakRate": n1.泄露率 = n.泄露率; break;
+                        case "leakRate": n1.泄露率属性 = n.泄露率属性; break;
                         case "axonDelay": n1.突触延迟 = n.突触延迟; break;
                         case "model": n1.模型字段 = n.模型字段; break;
-                        case "enable": n1.泄露率 = n.泄露率; break;
+                        case "enable": n1.泄露率属性 = n.泄露率属性; break;
                         case "history":
                             n1.RecordHistory = n.RecordHistory;
                             break;

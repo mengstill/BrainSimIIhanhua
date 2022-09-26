@@ -178,31 +178,31 @@ namespace BrainSimulator.Modules
             for (int i = 1; i < mv.Height; i++)
                 for (int j = 0; j < mv.Width; j++)
                 {
-                    mv.GetNeuronAt(j, i).模型 = 神经元.模型类型.Color;
+                    mv.GetNeuronAt(j, i).模型 = 神经元.模型类.Color;
                 }
             神经元 n1 = mv.GetNeuronAt(0, 0);
-            n1.模型 = 神经元.模型类型.IF;
+            n1.模型 = 神经元.模型类.IF;
             n1.标签名 = "Enable";
             n1.添加突触(n1.id, 1);
             n1.SetValue(1);
 
             n1 = mv.GetNeuronAt(1, 0);
-            n1.模型 = 神经元.模型类型.FloatValue;
+            n1.模型 = 神经元.模型类.FloatValue;
             n1.标签名 = "X";
             n1.SetValue(0);
 
             n1 = mv.GetNeuronAt(2, 0);
-            n1.模型 = 神经元.模型类型.FloatValue;
+            n1.模型 = 神经元.模型类.FloatValue;
             n1.标签名 = "Y";
             n1.SetValue(0);
 
             n1 = mv.GetNeuronAt(3, 0);
-            n1.模型 = 神经元.模型类型.FloatValue;
+            n1.模型 = 神经元.模型类.FloatValue;
             n1.标签名 = "Scale";
             n1.SetValue(0);
 
             n1 = mv.GetNeuronAt(4, 0);
-            n1.模型 = 神经元.模型类型.FloatValue;
+            n1.模型 = 神经元.模型类.FloatValue;
             n1.标签名 = "Rot";
             n1.SetValue(0);
 

@@ -234,15 +234,15 @@ namespace BrainSimulator
             神经元 n = 获取神经元(s.source);
             if (s.新突触) //the synapse was added so delete it
             {
-                n.删除突触(s.target);
+                n.删除突触(获取神经元(s.target));
             }
             else if (s.删除突触) //the synapse was deleted so add it back
             {
-                n.添加突触(s.target, s.权重, s.模块);
+                n.添加突触(获取神经元(s.target), s.权重, s.模块);
             }
             else //weight/type changed 
             {
-                n.添加突触(s.target, s.权重, s.模块);
+                n.添加突触(获取神经元(s.target), s.权重, s.模块);
             }
             n.更新();
         }

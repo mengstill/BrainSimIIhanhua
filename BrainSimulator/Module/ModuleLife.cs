@@ -44,10 +44,10 @@ namespace BrainSimulator.Modules
                     神经元 dieNeuron = mv.GetNeuronAt(x, y + 1);
                     if (dieNeuron == null) continue;
                     dieNeuron.标签名 = "-";
-                    liveNeuron.模型 = 神经元.模型类型.LIF;
-                    dieNeuron.模型 = 神经元.模型类型.LIF;
-                    liveNeuron.泄露率 = 1;
-                    dieNeuron.泄露率 = 1;
+                    liveNeuron.模型 = 神经元.模型类.LIF;
+                    dieNeuron.模型 = 神经元.模型类.LIF;
+                    liveNeuron.泄露率属性 = 1;
+                    dieNeuron.泄露率属性 = 1;
                     //three internal synapses
                     try { liveNeuron.添加突触(valueNeuron.Id, 1); } catch { }
                     try

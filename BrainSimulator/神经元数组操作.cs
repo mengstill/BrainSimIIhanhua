@@ -23,7 +23,7 @@ namespace BrainSimulator
                 SetNeuronCurrentCharge(i, n.currentCharge);
                 SetNeuronLastCharge(i, n.lastCharge);
                 设置神经元标签(i,ref n.标签);
-                SetNeuronLeakRate(i, n.泄露率);
+                SetNeuronLeakRate(i, n.泄露率属性);
                 设置神经元模型(i, (int)n.模型字段);
                 SetNeuronAxonDelay(i, n.突触延迟);
             }
@@ -42,8 +42,8 @@ namespace BrainSimulator
                 retVal.LastCharge = GetNeuronLastCharge(i);
                 retVal.是否使用 = 获取神经元是否使用中(i);
                 retVal.标签 = 获取神经元标签(i);
-                retVal.模型字段 = (神经元.模型类型)获取神经元模型(i);
-                retVal.泄露率 = GetNeuronLeakRate(i);
+                retVal.模型字段 = (神经元.模型类)获取神经元模型(i);
+                retVal.泄露率属性 = GetNeuronLeakRate(i);
                 retVal.突触延迟 = GetNeuronAxonDelay(i);
                 return retVal;
             }
@@ -77,7 +77,7 @@ namespace BrainSimulator
                 retVal.lastCharge = n.lastCharge;
                 retVal.lastFired = n.lastFired;
                 retVal.是否使用 = n.是否使用;
-                retVal.泄露率 = n.泄露率;
+                retVal.泄露率属性 = n.泄露率属性;
                 retVal.模型字段 = n.模型字段;
                 retVal.突触延迟 = n.突触延迟;
 

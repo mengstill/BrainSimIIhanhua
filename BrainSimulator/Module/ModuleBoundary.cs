@@ -355,7 +355,7 @@ namespace BrainSimulator.Modules
         {
             Init();
             foreach (神经元 n in mv.Neurons)
-                n.模型 = 神经元.模型类型.FloatValue;
+                n.模型 = 神经元.模型类.FloatValue;
         }
 
         //the following can be used to massage public data to be different in the xml file

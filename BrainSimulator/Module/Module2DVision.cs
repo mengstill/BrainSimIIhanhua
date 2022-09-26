@@ -451,8 +451,8 @@ namespace BrainSimulator.Modules
             ClearNeurons();
             for (int i = 0; i < mv.Width; i++)
             {
-                mv.GetNeuronAt(i, 0).模型 = 神经元.模型类型.Color;
-                mv.GetNeuronAt(i, 1).模型 = 神经元.模型类型.Color;
+                mv.GetNeuronAt(i, 0).模型 = 神经元.模型类.Color;
+                mv.GetNeuronAt(i, 1).模型 = 神经元.模型类.Color;
             }
             mv.GetNeuronAt(0, 0).标签名 = "Left";
             mv.GetNeuronAt(0, 1).标签名 = "Right";

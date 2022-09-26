@@ -78,8 +78,8 @@ namespace BrainSimulator.Modules
                 ni.清空();
                 神经元 no = mv.GetNeuronAt(3, i + 1);
                 no.清空();
-                no.模型字段 = 神经元.模型类型.LIF;
-                no.泄露率 = 0.13f;
+                no.模型字段 = 神经元.模型类.LIF;
+                no.泄露率属性 = 0.13f;
                 神经元 noP = mv.GetNeuronAt(4, i + 1);
                 noP.清空();
                 神经元 noN = mv.GetNeuronAt(5, i + 1);
@@ -94,11 +94,11 @@ namespace BrainSimulator.Modules
             for (int i = 0; i < levelCount; i++)
             {
                 神经元 ni = mv.GetNeuronAt(0, i + 1);
-                ni.模型 = 神经元.模型类型.LIF;
-                ni.泄露率 = theLeakRate;
+                ni.模型 = 神经元.模型类.LIF;
+                ni.泄露率属性 = theLeakRate;
                 神经元 ni1 = mv.GetNeuronAt(1, i + 1);
-                ni1.模型 = 神经元.模型类型.LIF;
-                ni1.泄露率 = theLeakRate;
+                ni1.模型 = 神经元.模型类.LIF;
+                ni1.泄露率属性 = theLeakRate;
                 神经元 nm = mv.GetNeuronAt(2, i + 1);
                 神经元 no = mv.GetNeuronAt(3, i + 1);
                 神经元 noP = mv.GetNeuronAt(4, i + 1);

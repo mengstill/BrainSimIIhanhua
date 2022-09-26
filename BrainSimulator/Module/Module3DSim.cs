@@ -41,7 +41,7 @@ namespace BrainSimulator.Modules
         public override void Initialize()
         {
             for (int i = 0; i < mv.NeuronCount; i++)
-                mv.GetNeuronAt(i).模型 = 神经元.模型类型.Color;
+                mv.GetNeuronAt(i).模型 = 神经元.模型类.Color;
             SetNeuronValues();
         }
         void SetNeuronValues()

@@ -166,7 +166,7 @@ namespace BrainSimulator
             command += (int)n.模型字段 + " ";
             command += n.currentCharge + " ";
             command += n.lastCharge + " ";
-            command += n.泄露率 + " ";
+            command += n.泄露率属性 + " ";
             command += n.突触延迟 + " ";
             广播(command);
         }
@@ -262,7 +262,7 @@ namespace BrainSimulator
                     神经元 n = new 神经元();
                     int.TryParse(commands[1], out n.id);
                     int.TryParse(commands[2], out int tempModel);
-                    n.模型字段 = (神经元.模型类型)tempModel;
+                    n.模型字段 = (神经元.模型类)tempModel;
                     float.TryParse(commands[3], out n.lastCharge);
                     float.TryParse(commands[4], out n.泄露率);
                     int.TryParse(commands[5], out n.突触延迟);
@@ -277,7 +277,7 @@ namespace BrainSimulator
                         n = new 神经元();
                         int.TryParse(commands[i], out n.id);
                         int.TryParse(commands[i + 1], out tempModel);
-                        n.模型字段 = (神经元.模型类型)tempModel;
+                        n.模型字段 = (神经元.模型类)tempModel;
                         float.TryParse(commands[i + 2], out n.lastCharge);
                         float.TryParse(commands[i + 3], out n.泄露率);
                         int.TryParse(commands[i + 4], out n.突触延迟);

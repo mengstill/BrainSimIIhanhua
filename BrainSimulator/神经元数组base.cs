@@ -10,7 +10,7 @@ namespace BrainSimulator
     {
         int 数组大小 = 0;
         int 线程总数 = 124;
-        List<神经元> 神经元数组;
+        public static List<神经元> 神经元数组 = new();
         long 激活数量 = 0;
         long 循环数 = 0;
         public static int refractoryDelay;
@@ -42,7 +42,7 @@ namespace BrainSimulator
         public 神经元数组base()
         {
         }
-        public void Inttiallize(int 此大小, 神经元.模型类型 模型)
+        public void Inttiallize(int 此大小, 神经元.模型类 模型)
         {
             数组大小 = 此大小;
             int expandedSize = 数组大小;
@@ -80,14 +80,17 @@ namespace BrainSimulator
         public long 获取突触总数()
         {
             long count = 0;
-            //parallel_for(0, 线程总数, [&](int value) {
-            //    int start=0, end=0;
-            //    GetBounds(value,ref start,ref end);
-            //    for (int i = start; i < end; i++)
-            //    {
-            //        count += (long)获取神经元(i).获取突触数量(); ;
-            //    }
-
+            Parallel.For(0, 线程总数, 
+            (int value) =>
+                {
+                    int start = 0, end = 0;
+                    GetBounds(value, ref start, ref end);
+                    for (int i = start; i < end; i++)
+                    {
+                        count += (long)获取神经元(i).获取突触数量(); ;
+                    }
+                } 
+            );
             return count;
         }
         public long 获取使用中神经元数量()
@@ -368,17 +371,17 @@ namespace BrainSimulator
         public void 设置神经元模型(int i, int model)
         {
             神经元 n = 获取神经元(i);
-            n.模型 = (神经元.模型类型)model;
+            n.模型 = (神经元.模型类)model;
         }
         public float GetNeuronLeakRate(int i) 
         {
             神经元 n = 获取神经元(i);
-            return n.泄露率;
+            return n.泄露率属性;
         }
         public void SetNeuronLeakRate(int i, float value) 
         {
             神经元 n = 获取神经元(i);
-            n.泄露率=value;
+            n.泄露率属性=value;
         }
         public int GetNeuronAxonDelay(int i)
         {

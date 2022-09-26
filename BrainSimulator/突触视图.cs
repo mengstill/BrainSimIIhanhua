@@ -297,7 +297,7 @@ namespace BrainSimulator
                 var focussedControl = FocusManager.GetFocusedElement(cm);
                 if (focussedControl.GetType() != typeof(TextBox))
                 {
-                    MainWindow.此神经元数组.获取神经元((int)cm.GetValue(SourceIDProperty)).删除突触((int)cm.GetValue(TargetIDProperty));
+                    MainWindow.此神经元数组.获取神经元((int)cm.GetValue(SourceIDProperty)).删除突触(神经元数组base.神经元数组[(int)cm.GetValue(TargetIDProperty)]);
                     MainWindow.Update();
                     cmCancelled = true;
                     cm.IsOpen = false;

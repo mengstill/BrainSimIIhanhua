@@ -79,18 +79,18 @@ namespace BrainSimulator
             神经元 n = MainWindow.此神经元数组.获取神经元(mouseDownNeuronIndex);
             if (n != null)
             {
-                if (n.模型 == 神经元.模型类型.Random || n.模型字段 == 神经元.模型类型.Always)
+                if (n.模型 == 神经元.模型类.Random || n.模型字段 == 神经元.模型类.Always)
                 {
-                    if (n.泄露率 < 0)
-                        n.泄露率 = -n.泄露率;
+                    if (n.泄露率属性 < 0)
+                        n.泄露率属性 = -n.泄露率属性;
                     else
                     {
                         n.CurrentCharge = 0;
                         n.LastCharge = 0;
-                        n.泄露率 = -n.泄露率;
+                        n.泄露率属性 = -n.泄露率属性;
                     }
                 }
-                else if (n.模型 != 神经元.模型类型.Color)
+                else if (n.模型 != 神经元.模型类.Color)
                 {
                     if (n.LastCharge < .99)
                     {
@@ -156,7 +156,7 @@ namespace BrainSimulator
             末尾突触权重 = (float)theShape.GetValue(突触视图.WeightValProperty);
             末尾突触模型 = (突触.模型类型)theShape.GetValue(突触视图.ModelProperty);
             神经元 n = MainWindow.此神经元数组.获取神经元(source);
-            n.删除突触(target);
+            n.删除突触(神经元数组base.神经元数组[target]);
             mouseDownNeuronIndex = source;
             currentOperation = CurrentOperation.draggingSynapse;
             Canvas parentCanvas = (Canvas)theShape.Parent;

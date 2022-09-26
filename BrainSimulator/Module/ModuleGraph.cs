@@ -53,7 +53,7 @@ namespace BrainSimulator.Modules
             if (name == "") name = ".";
             mv.GetNeuronAt(0, newRow).标签名 = name;
             if (name != "." )
-                mv.GetNeuronAt(Array.IndexOf(cols, "say"), newRow).添加突触(GetSpokenWord(name).Id, 1, 突触.模型类型.Fixed);
+                mv.GetNeuronAt(Array.IndexOf(cols, "say"), newRow).添加突触(GetSpokenWord(name), 1, 突触.模型类型.Fixed);
 
             if (parentRow != -1)
             {
@@ -66,15 +66,15 @@ namespace BrainSimulator.Modules
             //add any attributes
             for (int i = 0; attribs != null && i < attribs.Length; i++)
             {
-                mv.GetNeuronAt("'1'").添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "match"), newRow).Id, -(attribs.Length - 1), 突触.模型类型.Fixed);
+                mv.GetNeuronAt("'1'").添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "match"), newRow), -(attribs.Length - 1), 突触.模型类型.Fixed);
                 for (int j = 0; j < mv.Height; j++)
                 {
                     if (mv.GetNeuronAt(0, j).标签名 == attribs[i])
                     {
-                        mv.GetNeuronAt(Array.IndexOf(cols, "attrib"), newRow).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "alt"), j).Id, 1, 突触.模型类型.Fixed);
-                        mv.GetNeuronAt(Array.IndexOf(cols, "allAttr"), j).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "match"), newRow).Id, 1, 突触.模型类型.Fixed);
-                        mv.GetNeuronAt(Array.IndexOf(cols, "anyAttr"), j).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "thing"), newRow).Id, 1, 突触.模型类型.Fixed);
-                        mv.GetNeuronAt(Array.IndexOf(cols, "attrib"), j).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "alt"), newRow).Id, 1, 突触.模型类型.Fixed);
+                        mv.GetNeuronAt(Array.IndexOf(cols, "attrib"), newRow).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "alt"), j), 1, 突触.模型类型.Fixed);
+                        mv.GetNeuronAt(Array.IndexOf(cols, "allAttr"), j).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "match"), newRow), 1, 突触.模型类型.Fixed);
+                        mv.GetNeuronAt(Array.IndexOf(cols, "anyAttr"), j).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "thing"), newRow), 1, 突触.模型类型.Fixed);
+                        mv.GetNeuronAt(Array.IndexOf(cols, "attrib"), j).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "alt"), newRow), 1, 突触.模型类型.Fixed);
 
                         break;
                     }
@@ -99,38 +99,38 @@ namespace BrainSimulator.Modules
                     {
                         //handle searching for a sequence
                         //the initial entry
-                        mv.GetNeuronAt(Array.IndexOf(cols, "in"), j).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "match"), curRow).Id, 1, 突触.模型类型.Fixed);
-                        mv.GetNeuronAt(Array.IndexOf(cols, "in"), curRow).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "match"), curRow).Id, -1, 突触.模型类型.Fixed);
-                        mv.GetNeuronAt(Array.IndexOf(cols, "match"), curRow).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "in"), curRow).Id, 1, 突触.模型类型.Fixed);
+                        mv.GetNeuronAt(Array.IndexOf(cols, "in"), j).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "match"), curRow), 1, 突触.模型类型.Fixed);
+                        mv.GetNeuronAt(Array.IndexOf(cols, "in"), curRow).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "match"), curRow), -1, 突触.模型类型.Fixed);
+                        mv.GetNeuronAt(Array.IndexOf(cols, "match"), curRow).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "in"), curRow), 1, 突触.模型类型.Fixed);
 
                         //subsequent entries
                         if (prevRow >= 0)
-                            mv.GetNeuronAt(Array.IndexOf(cols, "thing"), j).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "nMtch"), prevRow).Id, 1, 突触.模型类型.Fixed);
-                        mv.GetNeuronAt("nMtch").添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "in"), curRow).Id, -1, 突触.模型类型.Fixed);
-                        mv.GetNeuronAt(Array.IndexOf(cols, "thing"), curRow).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "nMtch"), curRow).Id, 1, 突触.模型类型.Fixed);
-                        mv.GetNeuronAt("'1'").添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "nMtch"), curRow).Id, -1, 突触.模型类型.Fixed);
+                            mv.GetNeuronAt(Array.IndexOf(cols, "thing"), j).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "nMtch"), prevRow), 1, 突触.模型类型.Fixed);
+                        mv.GetNeuronAt("nMtch").添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "in"), curRow), -1, 突触.模型类型.Fixed);
+                        mv.GetNeuronAt(Array.IndexOf(cols, "thing"), curRow).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "nMtch"), curRow), 1, 突触.模型类型.Fixed);
+                        mv.GetNeuronAt("'1'").添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "nMtch"), curRow), -1, 突触.模型类型.Fixed);
 
-                        mv.GetNeuronAt(Array.IndexOf(cols, "nMtch"), curRow).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "in"), curRow).Id, -1, 突触.模型类型.Fixed);
-                        mv.GetNeuronAt(Array.IndexOf(cols, "thing"), curRow).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "head"), curRow).Id, 1, 突触.模型类型.Fixed);
-                        mv.GetNeuronAt(Array.IndexOf(cols, "head"), curRow).添加突触(nBeginning.Id, 1, 突触.模型类型.Fixed);
-                        mv.GetNeuronAt(Array.IndexOf(cols, "attrib"), curRow).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "alt"), j).Id, 1, 突触.模型类型.Fixed);
+                        mv.GetNeuronAt(Array.IndexOf(cols, "nMtch"), curRow).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "in"), curRow), -1, 突触.模型类型.Fixed);
+                        mv.GetNeuronAt(Array.IndexOf(cols, "thing"), curRow).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "head"), curRow), 1, 突触.模型类型.Fixed);
+                        mv.GetNeuronAt(Array.IndexOf(cols, "head"), curRow).添加突触(nBeginning, 1, 突触.模型类型.Fixed);
+                        mv.GetNeuronAt(Array.IndexOf(cols, "attrib"), curRow).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "alt"), j), 1, 突触.模型类型.Fixed);
 
                         if (i != 0)
-                            mv.GetNeuronAt(Array.IndexOf(cols, "head"), curRow).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "in"), curRow).Id, -1, 突触.模型类型.Fixed);
+                            mv.GetNeuronAt(Array.IndexOf(cols, "head"), curRow).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "in"), curRow), -1, 突触.模型类型.Fixed);
 
                         if (i < sequenceItems.Length - 1)
                         {
                             //handle playing a sequence
-                            mv.GetNeuronAt(Array.IndexOf(cols, "next"), curRow).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "thing"), nextRow).Id, 1, 突触.模型类型.Fixed);
-                            mv.GetNeuronAt(Array.IndexOf(cols, "next"), curRow).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "in"), nextRow).Id, 1, 突触.模型类型.Fixed);
+                            mv.GetNeuronAt(Array.IndexOf(cols, "next"), curRow).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "thing"), nextRow), 1, 突触.模型类型.Fixed);
+                            mv.GetNeuronAt(Array.IndexOf(cols, "next"), curRow).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "in"), nextRow), 1, 突触.模型类型.Fixed);
 
                             //handle searching
-                            mv.GetNeuronAt(Array.IndexOf(cols, "nMtch"), curRow).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "in"), nextRow).Id, 1, 突触.模型类型.Fixed);
+                            mv.GetNeuronAt(Array.IndexOf(cols, "nMtch"), curRow).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "in"), nextRow), 1, 突触.模型类型.Fixed);
                         }
                         else
                         {
                             //stop the playback
-                            mv.GetNeuronAt(Array.IndexOf(cols, "next"), curRow).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "next"), 0).Id, -1, 突触.模型类型.Fixed);
+                            mv.GetNeuronAt(Array.IndexOf(cols, "next"), curRow).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "next"), 0), -1, 突触.模型类型.Fixed);
 
                             //searching...last element needs to match for "head" to work
                         }
@@ -428,7 +428,7 @@ namespace BrainSimulator.Modules
             ClearNeurons();
             神经元 n0 = mv.GetNeuronAt(1, 1);
             n0.标签名 = "'1'";
-            n0.添加突触(n0.Id, 1, 突触.模型类型.Fixed);
+            n0.添加突触(n0, 1, 突触.模型类型.Fixed);
             n0.SetValue(1);
             mv.GetNeuronAt(0, 1).标签名 = "clr";
             for (int i = 0; i < cols.Length; i++)
@@ -449,11 +449,11 @@ namespace BrainSimulator.Modules
                 {
                     神经元 n = mv.GetNeuronAt(i, 0);
                     神经元 n1 = mv.GetNeuronAt(i, 1);
-                    n.添加突触(n1.Id, -1, 突触.模型类型.Fixed);
-                    n0.添加突触(n1.Id, 1, 突触.模型类型.Fixed);
+                    n.添加突触(n1, -1, 突触.模型类型.Fixed);
+                    n0.添加突触(n1, 1, 突触.模型类型.Fixed);
                     for (int j = 2; j < mv.Height; j++)
                     {
-                        n1.添加突触(mv.GetNeuronAt(i, j).Id, -1, 突触.模型类型.Fixed);
+                        n1.添加突触(mv.GetNeuronAt(i, j), -1, 突触.模型类型.Fixed);
                     }
                 }
             }
@@ -461,45 +461,45 @@ namespace BrainSimulator.Modules
             神经元 nClr = mv.GetNeuronAt("clr");
             for (int j = 2; j < mv.Height; j++)
             {
-                nClr.添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "in"), j).Id, -1, 突触.模型类型.Fixed);
+                nClr.添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "in"), j), -1, 突触.模型类型.Fixed);
             }
-            mv.GetNeuronAt("recur").添加突触(nClr.Id, 1, 突触.模型类型.Fixed);
+            mv.GetNeuronAt("recur").添加突触(nClr, 1, 突触.模型类型.Fixed);
 
             //put in all the horizontal synapses
             for (int j = 2; j < mv.Height; j++)
             {
-                mv.GetNeuronAt(Array.IndexOf(cols, "in"), j).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "in"), j).Id, 1, 突触.模型类型.Fixed);
-                mv.GetNeuronAt(Array.IndexOf(cols, "in"), j).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "thing"), j).Id, 10, 突触.模型类型.Fixed);
-                mv.GetNeuronAt(Array.IndexOf(cols, "thing"), j).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "this"), j).Id, 1, 突触.模型类型.Fixed);
-                mv.GetNeuronAt(Array.IndexOf(cols, "thing"), j).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "attrib"), j).Id, 1, 突触.模型类型.Fixed);
-                mv.GetNeuronAt(Array.IndexOf(cols, "thing"), j).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "anyAttr"), j).Id, 1, 突触.模型类型.Fixed);
-                mv.GetNeuronAt(Array.IndexOf(cols, "thing"), j).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "allAttr"), j).Id, 1, 突触.模型类型.Fixed);
-                mv.GetNeuronAt(Array.IndexOf(cols, "thing"), j).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "parent"), j).Id, 1, 突触.模型类型.Fixed);
-                mv.GetNeuronAt(Array.IndexOf(cols, "thing"), j).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "child"), j).Id, 1, 突触.模型类型.Fixed);
-                mv.GetNeuronAt(Array.IndexOf(cols, "thing"), j).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "next"), j).Id, 1, 突触.模型类型.Fixed);
+                mv.GetNeuronAt(Array.IndexOf(cols, "in"), j).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "in"), j), 1, 突触.模型类型.Fixed);
+                mv.GetNeuronAt(Array.IndexOf(cols, "in"), j).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "thing"), j), 10, 突触.模型类型.Fixed);
+                mv.GetNeuronAt(Array.IndexOf(cols, "thing"), j).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "this"), j), 1, 突触.模型类型.Fixed);
+                mv.GetNeuronAt(Array.IndexOf(cols, "thing"), j).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "attrib"), j), 1, 突触.模型类型.Fixed);
+                mv.GetNeuronAt(Array.IndexOf(cols, "thing"), j).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "anyAttr"), j), 1, 突触.模型类型.Fixed);
+                mv.GetNeuronAt(Array.IndexOf(cols, "thing"), j).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "allAttr"), j), 1, 突触.模型类型.Fixed);
+                mv.GetNeuronAt(Array.IndexOf(cols, "thing"), j).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "parent"), j), 1, 突触.模型类型.Fixed);
+                mv.GetNeuronAt(Array.IndexOf(cols, "thing"), j).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "child"), j), 1, 突触.模型类型.Fixed);
+                mv.GetNeuronAt(Array.IndexOf(cols, "thing"), j).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "next"), j), 1, 突触.模型类型.Fixed);
 
 
-                mv.GetNeuronAt(Array.IndexOf(cols, "this"), j).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "out"), j).Id, 1, 突触.模型类型.Fixed);
-                mv.GetNeuronAt(Array.IndexOf(cols, "alt"), j).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "out"), j).Id, 1, 突触.模型类型.Fixed);
+                mv.GetNeuronAt(Array.IndexOf(cols, "this"), j).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "out"), j), 1, 突触.模型类型.Fixed);
+                mv.GetNeuronAt(Array.IndexOf(cols, "alt"), j).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "out"), j), 1, 突触.模型类型.Fixed);
                 //na.GetNeuronAt(Array.IndexOf(cols, "out"), j).AddSynapse(na.GetNeuronAt(Array.IndexOf(cols, "in"), j).Id, -1, false);
-                mv.GetNeuronAt(Array.IndexOf(cols, "out"), j).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "recur"), j).Id, 1, 突触.模型类型.Fixed);
-                mv.GetNeuronAt(Array.IndexOf(cols, "recur"), j).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "in"), j).Id, 2, 突触.模型类型.Fixed); //2 because the out is suppressing
-                mv.GetNeuronAt(Array.IndexOf(cols, "match"), j).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "thing"), j).Id, 1, 突触.模型类型.Fixed);
+                mv.GetNeuronAt(Array.IndexOf(cols, "out"), j).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "recur"), j), 1, 突触.模型类型.Fixed);
+                mv.GetNeuronAt(Array.IndexOf(cols, "recur"), j).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "in"), j), 2, 突触.模型类型.Fixed); //2 because the out is suppressing
+                mv.GetNeuronAt(Array.IndexOf(cols, "match"), j).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "thing"), j), 1, 突触.模型类型.Fixed);
 
 
 
-                mv.GetNeuronAt(Array.IndexOf(cols, "out"), j).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "say"), j).Id, 1, 突触.模型类型.Fixed);
-                mv.GetNeuronAt(Array.IndexOf(cols, "out"), j).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "0"), j).Id, 1, 突触.模型类型.Fixed);
-                mv.GetNeuronAt(Array.IndexOf(cols, "0"), j).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "say"), j).Id, -1, 突触.模型类型.Fixed);
+                mv.GetNeuronAt(Array.IndexOf(cols, "out"), j).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "say"), j), 1, 突触.模型类型.Fixed);
+                mv.GetNeuronAt(Array.IndexOf(cols, "out"), j).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "0"), j), 1, 突触.模型类型.Fixed);
+                mv.GetNeuronAt(Array.IndexOf(cols, "0"), j).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "say"), j), -1, 突触.模型类型.Fixed);
 
-                mv.GetNeuronAt(Array.IndexOf(cols, "next"), j).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "in"), j).Id, -1, 突触.模型类型.Fixed);
-                mv.GetNeuronAt(Array.IndexOf(cols, "next"), j).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "thing"), j).Id, -30, 突触.模型类型.Fixed);
+                mv.GetNeuronAt(Array.IndexOf(cols, "next"), j).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "in"), j), -1, 突触.模型类型.Fixed);
+                mv.GetNeuronAt(Array.IndexOf(cols, "next"), j).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "thing"), j), -30, 突触.模型类型.Fixed);
             }
             //make som coluimns into an always-fire
-            mv.GetNeuronAt(Array.IndexOf(cols, "next"), 0).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "next"), 0).Id, 1, 突触.模型类型.Fixed);
-            mv.GetNeuronAt(Array.IndexOf(cols, "say"), 0).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "say"), 0).Id, 1, 突触.模型类型.Fixed);
-            mv.GetNeuronAt(Array.IndexOf(cols, "attrib"), 0).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "attrib"), 0).Id, 1, 突触.模型类型.Fixed);
-            mv.GetNeuronAt(Array.IndexOf(cols, "match"), 0).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "match"), 0).Id, 1, 突触.模型类型.Fixed);
+            mv.GetNeuronAt(Array.IndexOf(cols, "next"), 0).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "next"), 0), 1, 突触.模型类型.Fixed);
+            mv.GetNeuronAt(Array.IndexOf(cols, "say"), 0).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "say"), 0), 1, 突触.模型类型.Fixed);
+            mv.GetNeuronAt(Array.IndexOf(cols, "attrib"), 0).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "attrib"), 0), 1, 突触.模型类型.Fixed);
+            mv.GetNeuronAt(Array.IndexOf(cols, "match"), 0).添加突触(mv.GetNeuronAt(Array.IndexOf(cols, "match"), 0), 1, 突触.模型类型.Fixed);
 
             //na.GetNeuronAt(0, 2).Label = "Attribute";
             //na.GetNeuronAt(0, 3).Label = "Thing";

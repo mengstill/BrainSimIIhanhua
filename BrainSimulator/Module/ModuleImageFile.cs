@@ -219,7 +219,7 @@ namespace BrainSimulator.Modules
             if (mv == null) return;
             foreach (神经元 n in mv.Neurons)
             {
-                n.模型 = 神经元.模型类型.Color;
+                n.模型 = 神经元.模型类.Color;
                 n.LastChargeInt = 0;
             }
             fileList.Clear();
@@ -233,7 +233,7 @@ namespace BrainSimulator.Modules
             Init();
             foreach (神经元 n in mv.Neurons)
             {
-                n.模型 = 神经元.模型类型.Color;
+                n.模型 = 神经元.模型类.Color;
                 n.LastChargeInt = 0;
             }
 

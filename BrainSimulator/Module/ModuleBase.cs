@@ -345,7 +345,7 @@ namespace BrainSimulator.Modules
                 神经元 n = naModule.GetNeuronAt(neuronLabel);
                 if (n != null)
                 {
-                    if (n.模型 == 神经元.模型类型.FloatValue)
+                    if (n.模型 == 神经元.模型类.FloatValue)
                         retVal = n.CurrentCharge;
                     else
                         retVal = n.LastCharge;
@@ -551,7 +551,7 @@ namespace BrainSimulator.Modules
             {
                 n.删除所有突触(true,deleteIncoming);
                 n.标签名 = "";
-                n.模型 = 神经元.模型类型.IF;
+                n.模型 = 神经元.模型类.IF;
                 n.SetValue(0);
                 n.LastCharge = 0;
             }

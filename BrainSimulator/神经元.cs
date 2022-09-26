@@ -13,7 +13,7 @@ namespace BrainSimulator
     public class 神经元参数
     {
         public string Label { get; set; }
-        public 神经元.模型类型 Model { get; set; }
+        public 神经元.模型类 Model { get; set; }
         public float LeakRate { get; set; }
         public int AxonDelay { get; set; }
         public float LastCharge { get; set; }
@@ -27,7 +27,7 @@ namespace BrainSimulator
         {
             Label = 神经元.标签名;
             Model = 神经元.模型字段;
-            LeakRate = 神经元.泄露率;
+            LeakRate = 神经元.泄露率属性;
             AxonDelay = 神经元.突触延迟;
             LastCharge = 神经元.LastCharge;
             LastChargeInt = 神经元.LastChargeInt;
@@ -44,9 +44,9 @@ namespace BrainSimulator
         {
             神经元.标签名 = Label;
             神经元.模型字段 = Model;
-            神经元.泄露率 = LeakRate;
+            神经元.泄露率属性 = LeakRate;
             神经元.突触延迟 = AxonDelay;
-            if(神经元.模型字段 != 神经元.模型类型.Color)
+            if(神经元.模型字段 != 神经元.模型类.Color)
             {
                 神经元.LastCharge = LastCharge;
                 神经元.currentCharge = LastCharge;
@@ -80,7 +80,7 @@ namespace BrainSimulator
 
         public int 突触延迟 = 0;
         int 突触计数 = 0;
-        public 神经元.模型类型 模型字段;
+        public 神经元.模型类 模型字段;
         public int dummy; //TODO :Don't know why this is here, it is not required for alignment
                           //TODO : 不知道为什么会在这里，不需要对齐
         int nextFiring = 0; //仅用于随机模型和连续模型
@@ -154,12 +154,12 @@ namespace BrainSimulator
         public void SetValue(float value)
         {
             currentCharge = value;
-            if (模型字段 == 模型类型.FloatValue)
+            if (模型字段 == 模型类.FloatValue)
                 lastCharge = value;
             更新();
         }
 
-        public enum 模型类型 { IF, Color, FloatValue, LIF, Random, Burst, Always };
+        public enum 模型类 { IF, Color, FloatValue, LIF, Random, Burst, Always };
 
         public int Id { get => id; set => id = value; }
 
@@ -265,14 +265,15 @@ namespace BrainSimulator
                     MainWindow.神经元数组视图.移除突触显示(id);
             }
         }
-        public float 泄露率 { get => 泄露率; set { 泄露率 = value; 更新(); } }
+        public float 泄露率;
+        public float 泄露率属性 { get => 泄露率; set { 泄露率 = value; 更新(); } }
         public int AxonDelay
         {
             get => 突触延迟;
             set { 突触延迟 = value; 更新(); }
         }
 
-        public 模型类型 模型 { get => (神经元.模型类型)模型字段; set { 模型字段 = (模型类型)value; 更新(); } }
+        public 模型类 模型 { get => (神经元.模型类)模型字段; set { 模型字段 = (模型类)value; 更新(); } }
 
         public void 更新()
         {
@@ -293,11 +294,11 @@ namespace BrainSimulator
         public void Reset()
         {
             标签名 = "";
-            模型字段 = 模型类型.IF;
+            模型字段 = 模型类.IF;
             SetValue(0);
         }
 
-        public void 添加突触(神经元 n, float weight, 突触.模型类型 model, bool noBackPtr)
+        public void 添加突触(神经元 n, float weight, 突触.模型类型 model, bool noBackPtr=false)
         {
             lock (锁) 
             {
@@ -409,7 +410,7 @@ namespace BrainSimulator
             if (s != null)
                 MainWindow.此神经元数组.添加突触撤销(id, targetNeuron, s.权重字段, s.模型字段, false, true);
 
-            删除突触(targetNeuron);
+            删除突触(神经元数组base.神经元数组[targetNeuron]);
         }
         public void 删除突触(神经元 n)
         {
@@ -445,6 +446,8 @@ namespace BrainSimulator
                 }
             }
         }
+
+
 
         public 突触 查找突触(int targetNeuron)
         {
@@ -484,7 +487,7 @@ namespace BrainSimulator
             n.ToolTip = this.ToolTip;
             n.lastCharge = this.lastCharge;
             n.currentCharge = this.currentCharge;
-            n.泄露率 = this.泄露率;
+            n.泄露率属性 = this.泄露率属性;
             n.突触延迟 = this.突触延迟;
             n.模型字段 = this.模型字段;
             n.RecordHistory = this.RecordHistory;
@@ -498,7 +501,7 @@ namespace BrainSimulator
             n.标签 = this.标签;
             n.lastCharge = this.lastCharge;
             n.currentCharge = this.currentCharge;
-            n.泄露率 = this.泄露率;
+            n.泄露率属性 = this.泄露率属性;
             n.突触延迟 = this.突触延迟;
             n.模型字段 = this.模型字段;
             n.RecordHistory = this.RecordHistory;
@@ -525,8 +528,8 @@ namespace BrainSimulator
             ToolTip = "";
             currentCharge = 0;
             lastCharge = 0;
-            模型字段 = 模型类型.IF;
-            泄露率 = 0.1f;
+            模型字段 = 模型类.IF;
+            泄露率属性 = 0.1f;
             AxonDelay = 0;
             删除所有突触();
             MainWindow.此神经元数组.设置所有神经元(this);
@@ -619,34 +622,34 @@ namespace BrainSimulator
         }
         public bool Fire1(long cycle)
         {
-            if (泄露率 < 0f) return false;
-            if (模型 == 模型类型.Color)
+            if (泄露率属性 < 0f) return false;
+            if (模型 == 模型类.Color)
             {
                 神经元数组base.添加神经元到激活列表组(id);
                 return true;
             }
             //if (model == modelType::FloatValue) return false;
-            if (模型 == 模型类型.Always)
+            if (模型 == 模型类.Always)
             {
                 nextFiring--;
-                if (泄露率 >= 0 && nextFiring <= 0) //泄漏率是标准偏差
+                if (泄露率属性 >= 0 && nextFiring <= 0) //泄漏率是标准偏差
                 {
                     currentCharge = currentCharge + threshold;
                 }
-                if (泄露率 >= 0) //负泄漏率表示“禁用”
+                if (泄露率属性 >= 0) //负泄漏率表示“禁用”
                     神经元数组base.添加神经元到激活列表组(id);
             }
-            if (模型 == 模型类型.Random)
+            if (模型 == 模型类.Random)
             {
                 nextFiring--;
-                if (泄露率 >= 0 && nextFiring <= 0) //泄漏率是标准偏差
+                if (泄露率属性 >= 0 && nextFiring <= 0) //泄漏率是标准偏差
                 {
                     currentCharge = currentCharge + threshold;
                 }
-                if (泄露率 >= 0) //负泄漏率表示“禁用”
+                if (泄露率属性 >= 0) //负泄漏率表示“禁用”
                     神经元数组base.添加神经元到激活列表组(id);
             }
-            if (模型 == 模型类型.Burst)
+            if (模型 == 模型类.Burst)
             {
                 if (currentCharge < 0)
                 {
@@ -661,7 +664,7 @@ namespace BrainSimulator
                         突触计数--;
                         currentCharge = currentCharge + threshold;
                         if (突触计数 > 0)
-                            nextFiring = (int)泄露率;
+                            nextFiring = (int)泄露率属性;
                     }
                     神经元数组base.添加神经元到激活列表组(id);
                 }
@@ -676,14 +679,14 @@ namespace BrainSimulator
             }
 
             //check for firing
-            if (模型 != 模型类型.FloatValue && currentCharge < 0) currentCharge = 0;
+            if (模型 != 模型类.FloatValue && currentCharge < 0) currentCharge = 0;
             if (currentCharge != lastCharge)
             {
                 lastCharge = currentCharge;
                 神经元数组base.添加神经元到激活列表组(id);
             }
 
-            if (模型 == 模型类型.LIF && 突触计数 != 0)
+            if (模型 == 模型类.LIF && 突触计数 != 0)
             {
                 突触计数 = 突触计数 >> 1;
                 神经元数组base.添加神经元到激活列表组(id);
@@ -695,7 +698,7 @@ namespace BrainSimulator
 
             if (currentCharge >= threshold)
             {
-                if (模型 == 模型类型.LIF && 突触延迟 != 0)
+                if (模型 == 模型类.LIF && 突触延迟 != 0)
                 {
                     突触计数 |= (1 << 突触延迟);
                     lastFired = cycle;
@@ -703,68 +706,69 @@ namespace BrainSimulator
                     神经元数组base.添加神经元到激活列表组(id);
                     return false;
                 }
-                if (模型 == 模型类型.Burst && 突触计数 < 0)
+                if (模型 == 模型类.Burst && 突触计数 < 0)
                 {
-                    nextFiring = (int)泄露率;
+                    nextFiring = (int)泄露率属性;
                     if (nextFiring < 1) nextFiring = 1;
                     突触计数 = 突触延迟 - 1;
                 }
-                if (模型 == 模型类型.Always)
+                if (模型 == 模型类.Always)
                 {
                     nextFiring = 突触延迟;
                 }
-                if (模型 == 模型类型.Random)
+                if (模型 == 模型类.Random)
                 {
-                    double newNormal = rand_normal((double)突触延迟, (double)泄露率);
+                    double newNormal = rand_normal((double)突触延迟, (double)泄露率属性);
                     if (newNormal < 1) newNormal = 1;
                     nextFiring = (int)newNormal;
                 }
-                if (模型 != 模型类型.FloatValue)
+                if (模型 != 模型类.FloatValue)
                     currentCharge = 0;
                 lastFired = cycle;
                 return true;
             }
-            if (模型 == 模型类型.LIF)
+            if (模型 == 模型类.LIF)
             {
-                currentCharge = currentCharge * (1 - 泄露率);
+                currentCharge = currentCharge * (1 - 泄露率属性);
                 神经元数组base.添加神经元到激活列表组(id);
             }
             return false;
         }
         public void Fire2()
         {
-            if (模型 == 模型类型.FloatValue) return;
-            if (模型 == 模型类型.Color && lastCharge != 0)
+            if (模型 == 模型类.FloatValue) return;
+            if (模型 == 模型类.Color && lastCharge != 0)
                 return;
-            else if (模型 != 模型类型.Color && lastCharge < threshold && (突触计数 & 0x1) == 0)
+            else if (模型 != 模型类.Color && lastCharge < threshold && (突触计数 & 0x1) == 0)
                 return; //did the neuron fire?
             神经元数组base.添加神经元到激活列表组(id);
             if (synapses != null)
             {
-                //while (vectorLock.exchange(1) == 1) { } //prevent the vector of synapses from changing while we're looking at it
-                for (int i = 0; i < synapses.Count; i++) //process all the synapses sourced by this neuron
+                lock (锁)
                 {
-                    突触 s = synapses[i];
-                    神经元 nTarget = s.获取目标神经元();
-                    //if (((long)nTarget >> 63) != 0) //does this synapse go to another server
-                    //{
-                    //    神经元数组base.remoteQueue.push(s);
-                    //}
+                    for (int i = 0; i < synapses.Count; i++) //process all the synapses sourced by this neuron
+                    {
+                        突触 s = synapses[i];
+                        神经元 nTarget = s.获取目标神经元();
+                        //if (((long)nTarget >> 63) != 0) //does this synapse go to another server
+                        //{
+                        //    神经元数组base.remoteQueue.push(s);
+                        //}
 
-                    //else
-                    //{   //nTarget->currentCharge += s.GetWeight(); //not supported until C++20
-                    //    auto current = nTarget->currentCharge.load(std::memory_order_relaxed);
-                    //    float desired = current + s.权重;
-                    //    while (!nTarget->currentCharge.compare_exchange_weak(current, desired))
-                    //    {
-                    //        current = nTarget->currentCharge.load(std::memory_order_relaxed);
-                    //        desired = current + s.权重;
-                    //    }
+                        //else
+                        //{   //nTarget->currentCharge += s.GetWeight(); //not supported until C++20
+                        //    auto current = nTarget->currentCharge.load(std::memory_order_relaxed);
+                        //    float desired = current + s.权重;
+                        //    while (!nTarget->currentCharge.compare_exchange_weak(current, desired))
+                        //    {
+                        //        current = nTarget->currentCharge.load(std::memory_order_relaxed);
+                        //        desired = current + s.权重;
+                        //    }
 
-                    //    神经元列表Base::添加神经元到激活列表组(nTarget->id);
-                    //}
+                        //    神经元列表Base::添加神经元到激活列表组(nTarget->id);
+                        //}
+                    }
                 }
-                //vectorLock = 0;
             }
         }
         //const int ranges1 = 7;
@@ -784,8 +788,8 @@ namespace BrainSimulator
 
         public void Fire3()
         {
-            if (模型 == 模型类型.FloatValue) return;
-            if (模型 == 模型类型.Color && lastCharge != 0)
+            if (模型 == 模型类.FloatValue) return;
+            if (模型 == 模型类.Color && lastCharge != 0)
                 return;
             if (synapses != null)
             {
@@ -819,57 +823,60 @@ namespace BrainSimulator
             {
                 int numHebbian = 0;
                 int numPosHebbian = 0;
-                //while (vectorLock.exchange(1) == 1) { } //prevent the vector of synapses from changing while we're looking at it
-                for (int i = 0; i < synapsesFrom.Count; i++) //process all the synapses sourced by this neuron
+                lock (锁)
                 {
-                    突触 s = synapsesFrom[i];
-                    if (s.模型字段 != 突触.模型类型.Fixed)
+                    for (int i = 0; i < synapsesFrom.Count; i++) //process all the synapses sourced by this neuron
                     {
-                        numHebbian++;
-                        if (s.权重 >= 0) numPosHebbian++;
-                    }
-                }
-                for (int i = 0; i < synapsesFrom.Count; i++) //process all the synapses sourced by this neuron
-                {
-                    突触 s = synapsesFrom[i];
-                    if (s.模型字段 == 突触.模型类型.Hebbian2 || s.模型字段 == 突触.模型类型.Binary)
-                    {
-                        神经元 nTarget = s.获取目标神经元();
-                        //did this neuron fire coincident or just after the target (the source since these are FROM synapses)
-                        float weight = s.权重;
-                        int delay = 0;
-                        if (s.模型字段 == 突触.模型类型.Hebbian2) delay = 6;
-
-                        if (s.模型字段 == 突触.模型类型.Hebbian2 ||
-                            s.模型字段 == 突触.模型类型.Binary)
+                        突触 s = synapsesFrom[i];
+                        if (s.模型字段 != 突触.模型类型.Fixed)
                         {
-                            if (nTarget.lastFired >= lastFired - delay)
+                            numHebbian++;
+                            if (s.权重 >= 0) numPosHebbian++;
+                        }
+                    }
+                    for (int i = 0; i < synapsesFrom.Count; i++) //process all the synapses sourced by this neuron
+                    {
+                        突触 s = synapsesFrom[i];
+                        if (s.模型字段 == 突触.模型类型.Hebbian2 || s.模型字段 == 突触.模型类型.Binary)
+                        {
+                            神经元 nTarget = s.获取目标神经元();
+                            //did this neuron fire coincident or just after the target (the source since these are FROM synapses)
+                            float weight = s.权重;
+                            int delay = 0;
+                            if (s.模型字段 == 突触.模型类型.Hebbian2) delay = 6;
+
+                            if (s.模型字段 == 突触.模型类型.Hebbian2 ||
+                                s.模型字段 == 突触.模型类型.Binary)
                             {
-                                //strengthen the synapse
-                                weight = 新建赫布权重(weight, .1f, s.模型字段, numHebbian);
-                            }
-                            else
-                            {
-                                //weaken the synapse
-                                weight = 新建赫布权重(weight, -.1f, s.模型字段, numHebbian);
-                            }
-                            //update the synapse in "From"
-                            synapsesFrom[i].权重=weight;
-                            //update the synapse in "To"
-                            for (int b = 0; b < nTarget.synapses.Count; b++)
-                            {
-                                if (nTarget.synapses[b].获取目标神经元() == this)
+                                if (nTarget.lastFired >= lastFired - delay)
                                 {
-                                    //while (nTarget->vectorLock.exchange(1) == 1) { }
-                                    nTarget.synapses[b].权重=weight;
-                                    //nTarget->vectorLock = 0;
+                                    //strengthen the synapse
+                                    weight = 新建赫布权重(weight, .1f, s.模型字段, numHebbian);
+                                }
+                                else
+                                {
+                                    //weaken the synapse
+                                    weight = 新建赫布权重(weight, -.1f, s.模型字段, numHebbian);
+                                }
+                                //update the synapse in "From"
+                                synapsesFrom[i].权重 = weight;
+                                //update the synapse in "To"
+                                for (int b = 0; b < nTarget.synapses.Count; b++)
+                                {
+                                    if (nTarget.synapses[b].获取目标神经元() == this)
+                                    {
+                                        lock (nTarget.锁)
+                                        {
+                                            nTarget.synapses[b].权重 = weight;
+                                        }
+
+                                    }
                                 }
                             }
-                        }
 
+                        }
                     }
                 }
-                //vectorLock = 0; 
             }
         }
 
@@ -936,6 +943,11 @@ namespace BrainSimulator
         public List<突触> 获取突触数组()
         {
             return synapses;
+        }
+
+        public int 获取突触数量()
+        {
+            return synapses.Count;
         }
     }
 }

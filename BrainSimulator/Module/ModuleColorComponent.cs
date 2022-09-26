@@ -70,13 +70,13 @@ namespace BrainSimulator.Modules
             if (nB == null) return;
             if (nI == null) return;
             nR.AxonDelay = (int)r;
-            nR.泄露率 = variation;
+            nR.泄露率属性 = variation;
             nG.AxonDelay = (int)g;
-            nG.泄露率 = variation;
+            nG.泄露率属性 = variation;
             nB.AxonDelay = (int)b;
-            nB.泄露率 = variation;
+            nB.泄露率属性 = variation;
             nI.AxonDelay = (int)i;
-            nI.泄露率 = variation;
+            nI.泄露率属性 = variation;
         }
 
         //fill this method in with code which will execute once
@@ -88,11 +88,11 @@ namespace BrainSimulator.Modules
             mv.GetNeuronAt(0, 2).标签名 = "Grn";
             mv.GetNeuronAt(0, 3).标签名 = "Red";
             mv.GetNeuronAt(0, 4).标签名 = "Int";
-            mv.GetNeuronAt(0, 0).模型 = 神经元.模型类型.Color;
-            mv.GetNeuronAt(0, 1).模型 = 神经元.模型类型.Random;
-            mv.GetNeuronAt(0, 2).模型 = 神经元.模型类型.Random;
-            mv.GetNeuronAt(0, 3).模型 = 神经元.模型类型.Random;
-            mv.GetNeuronAt(0, 4).模型 = 神经元.模型类型.Random;
+            mv.GetNeuronAt(0, 0).模型 = 神经元.模型类.Color;
+            mv.GetNeuronAt(0, 1).模型 = 神经元.模型类.Random;
+            mv.GetNeuronAt(0, 2).模型 = 神经元.模型类.Random;
+            mv.GetNeuronAt(0, 3).模型 = 神经元.模型类.Random;
+            mv.GetNeuronAt(0, 4).模型 = 神经元.模型类.Random;
         }
 
         public override MenuItem CustomContextMenuItems()
