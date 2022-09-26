@@ -26,6 +26,7 @@ namespace NeuronEngine
 		突触Base s;
 		int count = 0;
 		while (remoteQueue.try_pop(s) && count++ < 90) //splits up long strings for transmission
+														//拆分长字符串以进行传输
 		{
 			retVal += std::to_string(-(long long)s.获取目标神经元()) + " ";
 			retVal += std::to_string((float)s.获取权重()) + " ";

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,25 +16,23 @@ namespace BrainSimulator
         long 循环数 = 0;
         public static int refractoryDelay;
 
-        //Concurrency::concurrent_queue<突触Base> 神经元列表Base::remoteQueue;
-        //Concurrency::concurrent_queue<神经元Base*> 神经元列表Base::fire2Queue;
+        public static ConcurrentQueue<突触> remoteQueue;
+        public static ConcurrentQueue<神经元> fire2Queue;
         static List<ulong> 激活列表1;
         static List<ulong> 激活列表2;
 
         public string GetRemoteFiringString()
         {
-            //string retVal("");
-            //突触 s = new 突触();
-            //int count = 0;
-            //while (remoteQueue.try_pop(s) && count++ < 90) //splits up long strings for transmission
-            //{
-            //    retVal += std::to_string(-(long long)s.获取目标神经元()) +" ";
-            //    retVal += std::to_string((float)s.获取权重()) + " ";
-            //    retVal += std::to_string((int)s.获取模型()) + " ";
-            //}
-            //return retVal;
-
-            return "";
+            string retVal = "";
+            突触 s = new 突触();
+            int count = 0;
+            while (remoteQueue.TryDequeue(out s) && count++ < 90) //splits up long strings for transmission
+            {
+                retVal += s.获取目标神经元().id +" ";
+                retVal += ((float)s.权重) + " ";
+                retVal += ((int)s.模型字段) + " ";
+            }
+            return retVal;
         }
         public 突触 GetRemoteFiringSynapse()
         {
@@ -49,23 +48,23 @@ namespace BrainSimulator
             if (expandedSize % 64 != 0)
                 expandedSize = ((expandedSize / 64) + 1) * 64;
             数组大小 = expandedSize;
-            //神经元数组.reserve(expandedSize);
-            //for (int i = 0; i < expandedSize; i++)
-            //{
-            //    神经元结构 n(i);
-            //    //n.SetModel(NeuronBase::modelType::LIF);  /for testing
-            //    神经元数组.push_back(n);
-            //}
-            //激活列表1.reserve(expandedSize / 64);
-            //激活列表2.reserve(expandedSize / 64);
+            神经元数组.Capacity=expandedSize;
+            for (int i = 0; i < expandedSize; i++)
+            {
+                神经元 n = new(i);
+                //n.SetModel(NeuronBase::modelType::LIF);  /for testing
+                神经元数组.Add(n);
+            }
+            激活列表1.Capacity = expandedSize / 64;
+            激活列表2.Capacity = expandedSize / 64;
 
-            //int fireListCount = expandedSize / 64;
-            //for (int i = 0; i < fireListCount; i++)
-            //{
-            //    激活列表1.push_back(0xffffffffffffffff);
-            //    激活列表2.push_back(0);
+            int fireListCount = expandedSize / 64;
+            for (int i = 0; i < fireListCount; i++)
+            {
+                激活列表1.Add(0xffffffffffffffff);
+                激活列表2.Add(0);
 
-            //}
+            }
         }
         public long 获取次代() { return 循环数; }
         public void 设置次代(long i) { 循环数 = i; }
@@ -96,15 +95,15 @@ namespace BrainSimulator
         public long 获取使用中神经元数量()
         {
             long count = 0;
-            //parallel_for(0, 线程总数, [&](int value) {
-            //    int start, end;
-            //    GetBounds(value, start, end);
-            //    for (int i = start; i < end; i++)
-            //    {
-            //        if (获取神经元(i)->GetInUse())
-            //            count++;
-            //    }
-            //});
+            Parallel.For(0, 线程总数, (int value)=> {
+                int start = 0, end = 0;
+                GetBounds(value,ref start,ref end);
+                for (int i = start; i < end; i++)
+                {
+                    if (获取神经元(i).是否使用)
+                        count++;
+                }
+            });
             return count;
         }
         public void GetBounds(int taskID, ref int start, ref int end)

@@ -275,6 +275,13 @@ namespace BrainSimulator
 
         public 模型类 模型 { get => (神经元.模型类)模型字段; set { 模型字段 = (模型类)value; 更新(); } }
 
+
+        public 神经元(int id)
+        {
+            泄露率 = 0.1f;
+            nextFiring = 0;
+            this.id = id;
+        }
         public void 更新()
         {
             所有者数组.设置所有神经元(this);
@@ -589,36 +596,36 @@ namespace BrainSimulator
             }
         alreadyInList:;
         }
+        static double n2 = 0.0;
+        static int n2_cached = 0;
+        static Random 随机器 = new();
         double rand_normal(double mean, double stddev)
         {
-            //static double n2 = 0.0;
-            //static int n2_cached = 0;
-            //if (!n2_cached)
-            //{
-            //    double x, y, r;
-            //    do
-            //    {
-            //        x = 2.0 * rand() / RAND_MAX - 1;
-            //        y = 2.0 * rand() / RAND_MAX - 1;
 
-            //        r = x * x + y * y;
-            //    } while (r == 0.0 || r > 1.0);
-            //    {
-            //        double d = sqrt(-2.0 * log(r) / r);
-            //        double n1 = x * d;
-            //        n2 = y * d;
-            //        double result = n1 * stddev + mean;
-            //        n2_cached = 1;
-            //        return result;
-            //    }
-            //}
-            //else
-            //{
-            //    n2_cached = 0;
-            //    return n2 * stddev + mean;
-            //}
+            if (n2_cached<=0)
+            {
+                double x, y, r;
+                do
+                {
+                    x = 2.0 * 随机器.NextDouble() - 1;
+                    y = 2.0 * 随机器.NextDouble() - 1;
 
-            return 0;
+                    r = x * x + y * y;
+                } while (r == 0.0 || r > 1.0);
+                {
+                    double d = Math.Sqrt(-2.0 * Math.Log(r) / r);
+                    double n1 = x * d;
+                    n2 = y * d;
+                    double result = n1 * stddev + mean;
+                    n2_cached = 1;
+                    return result;
+                }
+            }
+            else
+            {
+                n2_cached = 0;
+                return n2 * stddev + mean;
+            }
         }
         public bool Fire1(long cycle)
         {
@@ -750,43 +757,47 @@ namespace BrainSimulator
                     {
                         突触 s = synapses[i];
                         神经元 nTarget = s.获取目标神经元();
-                        //if (((long)nTarget >> 63) != 0) //does this synapse go to another server
-                        //{
-                        //    神经元数组base.remoteQueue.push(s);
-                        //}
+                        if (((long)nTarget.id >> 63) != 0) //does this synapse go to another server
+                        {
+                            神经元数组base.remoteQueue.Enqueue(s);
+                        }
 
-                        //else
-                        //{   //nTarget->currentCharge += s.GetWeight(); //not supported until C++20
-                        //    auto current = nTarget->currentCharge.load(std::memory_order_relaxed);
-                        //    float desired = current + s.权重;
-                        //    while (!nTarget->currentCharge.compare_exchange_weak(current, desired))
-                        //    {
-                        //        current = nTarget->currentCharge.load(std::memory_order_relaxed);
-                        //        desired = current + s.权重;
-                        //    }
+                        else
+                        {
+                            lock (锁)
+                            {
+                                var current = nTarget.currentCharge;
+                                float desired = current + s.权重;
+                                while (System.Threading.Interlocked.CompareExchange(ref currentCharge,current, desired)<=0)
+                                {
+                                    current = nTarget.currentCharge;
+                                    desired = current + s.权重;
+                                }
+                            }
 
-                        //    神经元列表Base::添加神经元到激活列表组(nTarget->id);
-                        //}
+
+                            神经元数组base.添加神经元到激活列表组(nTarget.id);
+                        }
                     }
                 }
             }
         }
-        //const int ranges1 = 7;
-        //unsafe fixed double cutoffs1[ranges1] = { 1, .5, .34, .25, .2, .15, 0 };
-        //unsafe fixed double posIncr1[ranges1] = { 0, .1, .05, .025, .01, .012, .01 };
-        //unsafe fixed double negIncr1[ranges1] = { -.01, -.1, -.017, -.00625, -.002, -.002, -.001 };
+    const int ranges1 = 7;
+    double[] cutoffs1 = { 1, .5, .34, .25, .2, .15, 0 };
+    double[] posIncr1 = { 0, .1, .05, .025, .01, .012, .01 };
+    double[] negIncr1 = { -.01, -.1, -.017, -.00625, -.002, -.002, -.001 };
 
-        ////play with this for experimentation
-        //const int ranges2 = 7;
-        //unsafe fixed double cutoffs2[ranges2] = { .5, .25, .1, 0, -.1, -.25, -1 };
-        //unsafe fixed double posIncr2[ranges2] = { .2, .1, .05, .05, .05, .1, .5 };
-        ////	double negIncr2[ranges2] = { -.5, -.1, -.05, -.05,  -.05, -.1,  -.2 };
-        //unsafe fixed double negIncr2[ranges2] = { -.25, -.05, -.025, -.025, -.025, -.05, -.1 };
-        ////	double negIncr2[ranges2] = { -.125, -.025, -.0125, -.0125,  -.0125, -.025,  -.05 };
+//play with this for experimentation
+const int ranges2 = 7;
+    double[] cutoffs2 = { .5, .25, .1, 0, -.1, -.25, -1 };
+    double[] posIncr2 = { .2, .1, .05, .05, .05, .1, .5 };
+//	double negIncr2[ranges2] = { -.5, -.1, -.05, -.05,  -.05, -.1,  -.2 };
+    double[] negIncr2 = { -.25, -.05, -.025, -.025, -.025, -.05, -.1 };
+//	double negIncr2[ranges2] = { -.125, -.025, -.0125, -.0125,  -.0125, -.025,  -.05 };
 
 
 
-        public void Fire3()
+public void Fire3()
         {
             if (模型 == 模型类.FloatValue) return;
             if (模型 == 模型类.Color && lastCharge != 0)
@@ -893,19 +904,19 @@ namespace BrainSimulator
             {
                 int i = 0;
                 y = weight;
-                //for (i = 0; i < ranges1; i++)
-                //{
-                //    if (y >= cutoffs1[i])
-                //    {
-                //        if (offset > 0)
-                //            y += (float)posIncr1[i];
-                //        else
-                //            y += (float)negIncr1[i];
-                //        if (y < 0) y = 0;
-                //        if (y > 1) y = 1;
-                //        break;
-                //    }
-                //}
+                for (i = 0; i < ranges1; i++)
+                {
+                    if (y >= cutoffs1[i])
+                    {
+                        if (offset > 0)
+                            y += (float)posIncr1[i];
+                        else
+                            y += (float)negIncr1[i];
+                        if (y < 0) y = 0;
+                        if (y > 1) y = 1;
+                        break;
+                    }
+                }
             }
             else if (model == 突触.模型类型.Hebbian2)
             {
