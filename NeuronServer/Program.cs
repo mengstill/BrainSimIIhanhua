@@ -178,7 +178,7 @@ namespace NeuronServer
                     Task.Run(() =>
                     {
                         GetSystemTimePreciseAsFileTime(out long start);
-                        byte[] xx = theNeuronArray.GetRemoteFiringSynapses();
+                        byte[] xx = theNeuronArray.GetRemoteFiringSynapses获取远程激活突触();
                         List<Synapse> synapses = ConvertToSynapseList(xx);
                         List<Synapse>[] synapsesForServer = new List<Synapse>[serverList.Count];
                         for (int j = 0; j < synapsesForServer.Length; j++) synapsesForServer[j] = new List<Synapse>();
@@ -229,7 +229,7 @@ namespace NeuronServer
                         string retVal = "Neuron ";
                         retVal += neuronID + " ";
                         retVal += theNeuronArray.获取神经元模型(neuronID) + " ";
-                        retVal += theNeuronArray.GetNeuronLastCharge(neuronID) + " ";
+                        retVal += theNeuronArray.GetNeuronLastCharge获取神经元上一次的脉冲(neuronID) + " ";
                         retVal += theNeuronArray.GetNeuronLeakRate(neuronID) + " ";
                         retVal += theNeuronArray.GetNeuronAxonDelay(neuronID) + " ";
                         retVal += theNeuronArray.获取神经元是否使用中(localID);
@@ -254,7 +254,7 @@ namespace NeuronServer
                             retVal += neuronID + " ";
                             int localID = neuronID - firstNeuron;
                             retVal += theNeuronArray.获取神经元模型(localID) + " ";
-                            retVal += theNeuronArray.GetNeuronLastCharge(localID) + " ";
+                            retVal += theNeuronArray.GetNeuronLastCharge获取神经元上一次的脉冲(localID) + " ";
                             retVal += theNeuronArray.GetNeuronLeakRate(localID) + " ";
                             retVal += theNeuronArray.GetNeuronAxonDelay(localID) + " ";
                             retVal += theNeuronArray.获取神经元是否使用中(localID) + " ";
@@ -275,9 +275,9 @@ namespace NeuronServer
                         float.TryParse(commands[5], out float leakRate);
                         int.TryParse(commands[6], out int axonDelay);
                         theNeuronArray.设置神经元模型(localID, neuronModel);
-                        theNeuronArray.SetNeuronCurrentCharge(localID, currentCharge);
-                        theNeuronArray.SetNeuronLastCharge(localID, lastCharge);
-                        theNeuronArray.SetNeuronLeakRate(localID, leakRate);
+                        theNeuronArray.SetNeuronCurrentCharge设置神经元当前的脉冲(localID, currentCharge);
+                        theNeuronArray.SetNeuronLastCharge设置神经元上一次的脉冲(localID, lastCharge);
+                        theNeuronArray.SetNeuronLeakRate设置神经元释放率(localID, leakRate);
                         theNeuronArray.SetNeuronAxonDelay(localID, axonDelay);
                     }
                     break;

@@ -91,11 +91,11 @@ namespace CsEngineTest
                 if (n != null)
                 {
                     int id = n.Id;
-                    theNeuronArray.SetNeuronCurrentCharge(id, n.CurrentCharge);
+                    theNeuronArray.SetNeuronCurrentCharge设置神经元当前的脉冲(id, n.CurrentCharge);
                     if (n.Label != "")
                         theNeuronArray.设置神经元标签(id, n.Label);
                     if (n.LeakRate != 0.1f)
-                        theNeuronArray.SetNeuronLeakRate(id, n.LeakRate);
+                        theNeuronArray.SetNeuronLeakRate设置神经元释放率(id, n.LeakRate);
                     if (n.Model != modelType.Std)
                         theNeuronArray.设置神经元模型(id, (int)n.Model);
                     foreach (S s in n.Synapses)

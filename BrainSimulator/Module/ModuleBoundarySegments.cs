@@ -199,7 +199,7 @@ namespace BrainSimulator.Modules
                 for (int i = 0; i < naSource.Width; i++)
                 {
                     int index = naSource.GetNeuronIndexAt(i, j);
-                    float lastCharge = MainWindow.此神经元数组.GetNeuronLastCharge(index);
+                    float lastCharge = MainWindow.此神经元数组.GetNeuronLastCharge获取神经元上一次的脉冲(index);
                     if (lastCharge > 0.1f)
                     {
                         firingPoints.Add(new Point(i, j));

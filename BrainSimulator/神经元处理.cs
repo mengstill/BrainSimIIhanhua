@@ -35,10 +35,10 @@ namespace BrainSimulator
             else
             {
                 int i = n.id;
-                SetNeuronCurrentCharge(i, n.当前更改);
-                SetNeuronLastCharge(i, n.最后更改);
+                SetNeuronCurrentCharge设置神经元当前的脉冲(i, n.当前更改);
+                SetNeuronLastCharge设置神经元上一次的脉冲(i, n.最后更改);
                 设置神经元标签(i, n.标签);
-                SetNeuronLeakRate(i, n.leakRate泄露速度);
+                SetNeuronLeakRate设置神经元释放率(i, n.leakRate泄露速度);
                 设置神经元模型(i, (int)n.模型字段);
                 SetNeuronAxonDelay(i, n.突触延迟);
             }
@@ -54,11 +54,11 @@ namespace BrainSimulator
             {
                 神经元 retVal = new 神经元();
                 retVal.id = i;
-                retVal.LastCharge = GetNeuronLastCharge(i);
+                retVal.LastCharge = GetNeuronLastCharge获取神经元上一次的脉冲(i);
                 retVal.是否使用 = 获取神经元是否使用中(i);
                 retVal.标签 = 获取神经元标签(i);
                 retVal.模型字段 = (神经元.模型类型)获取神经元模型(i);
-                retVal.leakRate泄露速度 = GetNeuronLeakRate(i);
+                retVal.leakRate泄露速度 = GetNeuronLeakRate获取神经元释放率(i);
                 retVal.突触延迟 = GetNeuronAxonDelay(i);
                 return retVal;
             }
@@ -111,7 +111,7 @@ namespace BrainSimulator
         }
         public List<突触> 从列表中获取突触(int i)
         {
-            return 变换为突触列表(GetSynapsesFrom(i));
+            return 变换为突触列表(GetSynapsesFrom获取突触源(i));
         }
         List<突触> 变换为突触列表(byte[] input)
         {

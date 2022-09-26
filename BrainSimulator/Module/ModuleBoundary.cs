@@ -111,7 +111,7 @@ namespace BrainSimulator.Modules
                 for (int i = 0; i < source.Width; i++)
                 {
                     int index = source.GetNeuronIndexAt(i, j);
-                    neuronValues[i, j] = MainWindow.此神经元数组.GetNeuronLastCharge(index);
+                    neuronValues[i, j] = MainWindow.此神经元数组.GetNeuronLastCharge获取神经元上一次的脉冲(index);
                     neuronValuesI[i, j] = (int)neuronValues[i, j];
                 }
 
@@ -165,7 +165,7 @@ namespace BrainSimulator.Modules
                     int index = mv.GetNeuronIndexAt(i, j);
                     float lastCharge = boundaryValues[i, j];
                     if (cornerValues[i, j] != 0) lastCharge = 0.99f;
-                    MainWindow.此神经元数组.SetNeuronLastCharge(index, lastCharge);
+                    MainWindow.此神经元数组.SetNeuronLastCharge设置神经元上一次的脉冲(index, lastCharge);
                 }
             }
             //if you want the dlg to update, use the following code whenever any parameter changes

@@ -19,120 +19,120 @@ namespace NeuronEngine
 		}
 		神经元列表Base::~神经元列表Base()
 		{
-			delete theNeuronArray;
+			delete theNeuronArray该神经元列表;
 		}
-		void 神经元列表Base::Initialize(int neuronCount)
+		void 神经元列表Base::Initialize(int 神经元数量)
 		{
-			if (theNeuronArray != NULL)
-				delete theNeuronArray;
-			theNeuronArray = new NeuronEngine::神经元列表Base();
-			theNeuronArray->Initialize(neuronCount);
+			if (theNeuronArray该神经元列表 != NULL)
+				delete theNeuronArray该神经元列表;
+			theNeuronArray该神经元列表 = new NeuronEngine::神经元列表Base();
+			theNeuronArray该神经元列表->Initialize(神经元数量);
 		}
 		void 神经元列表Base::Fire()
 		{
-			theNeuronArray->Fire();
+			theNeuronArray该神经元列表->Fire();
 		}
 		int 神经元列表Base::获取数组大小()
 		{
-			return theNeuronArray->获取数组大小();
+			return theNeuronArray该神经元列表->获取数组大小();
 		}
 		long long 神经元列表Base::获取次代()
 		{
-			return theNeuronArray->获取次代();
+			return theNeuronArray该神经元列表->获取次代();
 		}
 		void 神经元列表Base::设置次代(long long i)
 		{
-			theNeuronArray->设置次代(i);
+			theNeuronArray该神经元列表->设置次代(i);
 		}
 		int 神经元列表Base::获取激活的神经元数量()
 		{
-			return theNeuronArray->获取激活数量();
+			return theNeuronArray该神经元列表->获取激活数量();
 		}
 		void 神经元列表Base::设置线程数量(int theCount)
 		{
-			theNeuronArray->设置线程总数(theCount);
+			theNeuronArray该神经元列表->设置线程总数(theCount);
 		}
 		int 神经元列表Base::获取线程数()
 		{
-			return theNeuronArray->获取线程总数();
+			return theNeuronArray该神经元列表->获取线程总数();
 		}
 		void 神经元列表Base::SetRefractoryDelay(int i)
 		{
-			theNeuronArray->SetRefractoryDelay(i);
+			theNeuronArray该神经元列表->SetRefractoryDelay(i);
 		}
-		int 神经元列表Base::GetRefractoryDelay()
+		int 神经元列表Base::GetRefractoryDelay获取耐火材料延迟()
 		{
-			return theNeuronArray->GetRefractoryDelay();
+			return theNeuronArray该神经元列表->GetRefractoryDelay();
 		}
-		float 神经元列表Base::GetNeuronLastCharge(int i)
+		float 神经元列表Base::GetNeuronLastCharge获取神经元上一次的脉冲(int i)
 		{
-			神经元Base* n = theNeuronArray->获取神经元(i);
+			神经元Base* n = theNeuronArray该神经元列表->获取神经元(i);
 			return n->GetLastCharge();
 		}
-		void 神经元列表Base::SetNeuronLastCharge(int i, float value)
+		void 神经元列表Base::SetNeuronLastCharge设置神经元上一次的脉冲(int i, float value)
 		{
-			神经元Base* n = theNeuronArray->获取神经元(i);
+			神经元Base* n = theNeuronArray该神经元列表->获取神经元(i);
 			n->SetLastCharge(value);
 		}
-		void 神经元列表Base::SetNeuronCurrentCharge(int i, float value)
+		void 神经元列表Base::SetNeuronCurrentCharge设置神经元当前的脉冲(int i, float value)
 		{
-			神经元Base* n = theNeuronArray->获取神经元(i);
+			神经元Base* n = theNeuronArray该神经元列表->获取神经元(i);
 			n->SetCurrentCharge(value);
 		}
-		void 神经元列表Base::AddToNeuronCurrentCharge(int i, float value)
+		void 神经元列表Base::AddToNeuronCurrentCharge加入神经元当前的脉冲(int i, float value)
 		{
-			神经元Base* n = theNeuronArray->获取神经元(i);
+			神经元Base* n = theNeuronArray该神经元列表->获取神经元(i);
 			n->AddToCurrentValue(value);
 		}
-		float 神经元列表Base::GetNeuronLeakRate(int i)
+		float 神经元列表Base::GetNeuronLeakRate获取神经元释放率(int i)
 		{
-			神经元Base* n = theNeuronArray->获取神经元(i);
+			神经元Base* n = theNeuronArray该神经元列表->获取神经元(i);
 			return n->获取泄露率();
 		}
-		void 神经元列表Base::SetNeuronLeakRate(int i, float value)
+		void 神经元列表Base::SetNeuronLeakRate设置神经元释放率(int i, float value)
 		{
-			神经元Base* n = theNeuronArray->获取神经元(i);
+			神经元Base* n = theNeuronArray该神经元列表->获取神经元(i);
 			n->设置泄露率(value);
 		}
 		int 神经元列表Base::GetNeuronAxonDelay(int i)
 		{
-			神经元Base* n = theNeuronArray->获取神经元(i);
+			神经元Base* n = theNeuronArray该神经元列表->获取神经元(i);
 			return n->GetAxonDelay();
 		}
 		void 神经元列表Base::SetNeuronAxonDelay(int i, int value)
 		{
-			神经元Base* n = theNeuronArray->获取神经元(i);
+			神经元Base* n = theNeuronArray该神经元列表->获取神经元(i);
 			n->SetAxonDelay(value);
 		}
 		long long 神经元列表Base::GetNeuronLastFired(int i)
 		{
-			神经元Base* n = theNeuronArray->获取神经元(i);
+			神经元Base* n = theNeuronArray该神经元列表->获取神经元(i);
 			return n->GetLastFired();
 		}
 		int 神经元列表Base::获取神经元模型(int i)
 		{
-			神经元Base* n = theNeuronArray->获取神经元(i);
+			神经元Base* n = theNeuronArray该神经元列表->获取神经元(i);
 			return (int)n->获取模型();
 		}
 		void 神经元列表Base::设置神经元模型(int i, int model)
 		{
-			神经元Base* n = theNeuronArray->获取神经元(i);
+			神经元Base* n = theNeuronArray该神经元列表->获取神经元(i);
 			n->设置模型((神经元Base::modelType) model);
 		}
 		bool 神经元列表Base::获取神经元是否使用中(int i)
 		{
-			神经元Base* n = theNeuronArray->获取神经元(i);
+			神经元Base* n = theNeuronArray该神经元列表->获取神经元(i);
 			return n->GetInUse();
 		}
 		void 神经元列表Base::设置神经元标签(int i, String^ newLabel)
 		{
 			const wchar_t* chars = (const wchar_t*)(Marshal::StringToHGlobalAuto(newLabel)).ToPointer();
-			theNeuronArray->获取神经元(i)->设置标签(chars);
+			theNeuronArray该神经元列表->获取神经元(i)->设置标签(chars);
 			Marshal::FreeHGlobal(IntPtr((void*)chars));
 		}
 		String^ 神经元列表Base::获取神经元标签(int i)
 		{
-			wchar_t* labelChars = theNeuronArray->获取神经元(i)->获取标签();
+			wchar_t* labelChars = theNeuronArray该神经元列表->获取神经元(i)->获取标签();
 			if (labelChars != NULL)
 			{
 				std::wstring label(labelChars);
@@ -145,20 +145,20 @@ namespace NeuronEngine
 				return str;
 			}
 		}
-		String^ 神经元列表Base::GetRemoteFiring()
+		String^ 神经元列表Base::GetRemoteFiring获取远程激活()
 		{
-			std::string remoteFiring = theNeuronArray->GetRemoteFiringString();
+			std::string remoteFiring = theNeuronArray该神经元列表->GetRemoteFiringString();
 			String^ str = gcnew String(remoteFiring.c_str());
 			return str;
 		}
-		cli::array<byte>^ 神经元列表Base::GetRemoteFiringSynapses()
+		cli::array<byte>^ 神经元列表Base::GetRemoteFiringSynapses获取远程激活突触()
 		{
 			std::vector<突触Base> tempVec;
-			突触Base s1 = theNeuronArray->GetRemoteFiringSynapse();
+			突触Base s1 = theNeuronArray该神经元列表->GetRemoteFiringSynapse();
 			while (s1.获取目标神经元() != NULL)
 			{
 				tempVec.push_back(s1);
-				s1 = theNeuronArray->GetRemoteFiringSynapse();
+				s1 = theNeuronArray该神经元列表->GetRemoteFiringSynapse();
 			}
 			return ReturnArray(tempVec);
 		}
@@ -166,53 +166,53 @@ namespace NeuronEngine
 		void 神经元列表Base::添加突触(int src, int dest, float weight, int model, bool noBackPtr)
 		{
 			if (src < 0)return;
-			神经元Base* n = theNeuronArray->获取神经元(src);
+			神经元Base* n = theNeuronArray该神经元列表->获取神经元(src);
 			if (dest < 0)
 				n->添加突触((神经元Base*)(long long)dest, weight, (突触Base::modelType) model, noBackPtr);
 			else
-				n->添加突触(theNeuronArray->获取神经元(dest), weight, (突触Base::modelType)model, noBackPtr);
+				n->添加突触(theNeuronArray该神经元列表->获取神经元(dest), weight, (突触Base::modelType)model, noBackPtr);
 		}
 		void 神经元列表Base::添加输入突触(int src, int dest, float weight, int model)
 		{
 			if (dest < 0)return;
-			神经元Base* n = theNeuronArray->获取神经元(dest);
+			神经元Base* n = theNeuronArray该神经元列表->获取神经元(dest);
 			if (src < 0)
 				n->AddSynapseFrom((神经元Base*)(long long)src, weight, (突触Base::modelType)model);
 			else
-				n->AddSynapseFrom(theNeuronArray->获取神经元(src), weight, (突触Base::modelType)model);
+				n->AddSynapseFrom(theNeuronArray该神经元列表->获取神经元(src), weight, (突触Base::modelType)model);
 		}
 		void 神经元列表Base::删除突触(int src, int dest)
 		{
 			if (src < 0) return;
-			神经元Base* n = theNeuronArray->获取神经元(src);
+			神经元Base* n = theNeuronArray该神经元列表->获取神经元(src);
 			if (dest < 0)
 				n->删除突触((神经元Base*)(long long)dest);
 			else
-				n->删除突触(theNeuronArray->获取神经元(dest));
+				n->删除突触(theNeuronArray该神经元列表->获取神经元(dest));
 		}
 		void 神经元列表Base::删除输入突触(int src, int dest)
 		{
 			if (dest < 0)return;
-			神经元Base* n = theNeuronArray->获取神经元(dest);
+			神经元Base* n = theNeuronArray该神经元列表->获取神经元(dest);
 			if (src < 0)
 				n->删除突触((神经元Base*)(long long)src);
 			else
-				n->删除突触(theNeuronArray->获取神经元(src));
+				n->删除突触(theNeuronArray该神经元列表->获取神经元(src));
 		}
 
 
 		cli::array<byte>^ 神经元列表Base::获取突触数组(int src)
 		{
-			神经元Base* n = theNeuronArray->获取神经元(src);
+			神经元Base* n = theNeuronArray该神经元列表->获取神经元(src);
 			n->GetLock();
 			std::vector<突触Base> tempVec = n->获取突触数组();
 			n->ClearLock();
 			return ReturnArray(tempVec);
 
 		}
-		cli::array<byte>^ 神经元列表Base::GetSynapsesFrom(int src)
+		cli::array<byte>^ 神经元列表Base::GetSynapsesFrom获取突触源(int src)
 		{
-			神经元Base* n = theNeuronArray->获取神经元(src);
+			神经元Base* n = theNeuronArray该神经元列表->获取神经元(src);
 			n->GetLock();
 			std::vector<突触Base> tempVec = n->GetSynapsesFrom();
 			n->ClearLock();
@@ -257,7 +257,7 @@ namespace NeuronEngine
 		};
 		cli::array<byte>^ 神经元列表Base::获取神经元(int src)
 		{
-			神经元Base* n = theNeuronArray->获取神经元(src);
+			神经元Base* n = theNeuronArray该神经元列表->获取神经元(src);
 			const int byteCount = sizeof(Neuron);
 			cli::array<byte>^ tempArr = gcnew cli::array<byte>(byteCount);
 			Neuron n1;
@@ -279,11 +279,11 @@ namespace NeuronEngine
 		}
 		long long 神经元列表Base::获取总突触数()
 		{
-			return theNeuronArray->GetTotalSynapseCount();
+			return theNeuronArray该神经元列表->GetTotalSynapseCount();
 		}
 		long 神经元列表Base::获取使用中的神经元总数()
 		{
-			return theNeuronArray->获取使用中神经元数量();
+			return theNeuronArray该神经元列表->获取使用中神经元数量();
 		}
 	}
 }
